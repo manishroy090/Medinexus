@@ -1,0 +1,27 @@
+{
+  "name": "fastify-typescript",
+  "version": "1.0.0",
+  "main": "index.js",
+  "scripts": {
+    "start-ts": "node --loader ts-node/esm src/index.ts",
+    "dev": "nodemon --watch src --ext ts --exec \"node --loader ts-node/esm src/index.ts\""
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "description": "",
+  "dependencies": {
+    "@fastify/postgres": "^6.0.2",
+    "fastify": "^5.8.2",
+    "pg": "^8.20.0"
+  },
+  "devDependencies": {
+    "@types/node": "^25.5.0",
+    "@types/nodemon": "^1.19.6",
+    "@types/pg": "^8.20.0",
+    "nodemon": "^3.1.14",
+    "ts-node": "^10.9.2",
+    "typescript": "^5.9.3"
+  },
+  "type": "module"
+}
