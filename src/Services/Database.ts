@@ -26,8 +26,7 @@ export class Database {
             const module = await import(pathToFileURL(filePath).href);
             if (typeof module.up === 'function') {
               const table =  await module.up();
-               this.adminClient.query(table);
-                
+               this.adminClient.query(table);    
             }
 
             else {
@@ -36,8 +35,7 @@ export class Database {
 
 
         }
-
-        console.log(files);
+        // console.log(files);
 
         //   console.log(folderPath);
 

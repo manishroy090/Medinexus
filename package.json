@@ -4,7 +4,7 @@
   "main": "index.js",
   "scripts": {
     "start-ts": "node --loader ts-node/esm src/index.ts",
-    "dev": "nodemon --watch src --ext ts --exec \"node --loader ts-node/esm src/index.ts\"",
+    "dev": "nodemon --watch src --ext ts --exec \"node -r ts-node/register src/index.ts\"",
     "welcome": "node --loader ts-node/esm src/scripts/app.ts welcome",
     "developerinfo": "node --loader ts-node/esm src/scripts/app.ts developerinfo",
     "migrate": "node --loader ts-node/esm src/scripts/app.ts migrate",
@@ -25,9 +25,9 @@
     "@types/node": "^25.5.0",
     "@types/nodemon": "^1.19.6",
     "@types/pg": "^8.20.0",
+    "dotenv": "^17.3.1",
     "nodemon": "^3.1.14",
     "ts-node": "^10.9.2",
     "typescript": "^5.9.3"
-  },
-  "type": "module"
+  }
 }
