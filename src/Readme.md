@@ -14,6 +14,10 @@
 - Implemented Custom Script
 
 
+# info Commands
+- npm run developerinfo (to get know about the developer)
+
+
 # Setup
 
 - docker composer up 
