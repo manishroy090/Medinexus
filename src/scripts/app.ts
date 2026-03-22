@@ -1,0 +1,67 @@
+
+import Database from "../Services/Database.js";
+import chalk from "chalk";
+
+class App {
+
+    constructor() {
+        const command = process.argv[2];
+        const params = process.argv[3];
+
+        const datbase = new Database();
+
+        switch (command) {
+            case "welcome":
+                console.log('run welcome script')
+                break;
+            case "developerinfo":
+                console.log(chalk.cyan.bold("\n DEVELOPER PROFILE\n"));
+                console.log(chalk.yellow("👤 Name   : ") + "Manish Ray");
+                console.log(chalk.yellow("📧 Email  : ") + "manishkuyadav090@gmail.com");
+                console.log(chalk.yellow("💻 GitHub : ") + chalk.underline.blue("https://github.com/manishroy090"));
+                console.log("\n" + chalk.gray("────────────────────────────────────\n"));
+
+                break;
+            case "migrate":
+                if (params && params !== 'rollback') {
+                    const tableName = params;
+                    console.log('migrate single table');
+                }
+
+                else if (params == 'rollback') {
+
+                    //This Script will rollback all the table from adminDatabase
+                    datbase.rollbackAdminDb();
+                }
+                else {
+
+                    //THIS SCRIPT WILL RUN TO MIGRATE ALL THE TALBE
+                    datbase.migrateToAdminDb();
+                }
+
+                break;
+            case "seed":
+                if (params) {
+                    const tableName = params;
+                    console.log('seed single table');
+                }
+                else {
+                    console.log('seed all seeder');
+                }
+                break;
+
+
+            default:
+                break;
+        }
+
+        // console.log(params);
+
+        // console.log(command);
+
+    }
+
+
+}
+
+new App();
