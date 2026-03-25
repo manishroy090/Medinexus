@@ -1,6 +1,6 @@
 import { type FastifyInstance } from "fastify";
 import { request } from "https";
-import { AppointmentController } from "../../../controllers/Organization/Hoshpital/Appointment.controller";
+import { AppointmentController } from "../../../controllers/Organization/Hoshpital/Appointment.controller.js";
 
 
 export async function AppointmentRoutes(fastify: FastifyInstance) {

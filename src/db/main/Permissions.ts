@@ -2,13 +2,12 @@ export async function up() {
     return `CREATE TABLE Permissions(
               id SERIAL PRIMARY KEY,
               title VARCHAR(255),
+              role_id BIGINT,
               is_active BOOLEAN,
               created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-             updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+              updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
               deleted_at TIMESTAMP NULL
           )`
-
-
 }
 
 

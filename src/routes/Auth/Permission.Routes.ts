@@ -1,6 +1,6 @@
 import { type FastifyInstance } from "fastify";
 import { request } from "https";
-import { PermissionController } from "../../controllers/Auth/Permission.controller";
+import { PermissionController } from "../../controllers/Auth/Permission.controller.js";
 
 
 export async function PermissionRoutes(fastify: FastifyInstance) {

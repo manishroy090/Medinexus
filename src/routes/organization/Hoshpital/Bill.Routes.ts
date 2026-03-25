@@ -1,7 +1,7 @@
 import { type FastifyInstance } from "fastify";
 import { request } from "https";
 
-import { BillController } from "../../../controllers/Organization/Hoshpital/Bill.controller";
+import { BillController } from "../../../controllers/Organization/Hoshpital/Bill.controller.js";
 
 
 export async function BillRoutes(fastify: FastifyInstance) {

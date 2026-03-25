@@ -1,22 +1,18 @@
 export async function up() {
-    return `CREATE TABLE users(
+    return `CREATE TABLE schemas(
               id SERIAL PRIMARY KEY,
-              role_id VARCHAR(255),
-              name VARCHAR(255),
-              email VARCHAR(255),
-              password  VARCHAR(255),
+              org_id VARCHAR(255),
+              title VARCHAR(255),
               is_active BOOLEAN,
-              email_verified_at TIMESTAMP,
               created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+              CONSTRAINT fk_schemas_orn FOREIGN KEY (org_id) REFERENCES organizations(id),
               updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
               deleted_at TIMESTAMP NULL
           )`
-
-
 }
 
 
 
 export async function down() {
-    return `DROP TABLE users`
+     return `DROP TABLE schemas`
 }

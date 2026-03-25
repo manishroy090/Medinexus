@@ -4,7 +4,7 @@ export class AuthController {
 
     async signup (request:FastifyRequest , reply:FastifyReply){
 
-        reply.send('all okey')
+        reply.send({'names':'Roles'})
 
     }
 

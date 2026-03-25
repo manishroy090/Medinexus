@@ -3,12 +3,12 @@ const fastify = Fastify({ logger: true });
 import fastifyPostgres from '@fastify/postgres';
 import { Result } from 'pg';
 import { Client } from 'pg';
-import { AuthRoutes } from './routes/Auth/Auth.Routes';
-import { PermissionRoutes } from './routes/Auth/Permission.Routes';
+import { AuthRoutes } from './routes/Auth/Auth.Routes.js';
+import { PermissionRoutes } from './routes/Auth/Permission.Routes.js';
 
 //Hoshpital Routes file 
-import { HoshpitalRoutes } from './routes/organization/Hoshpital/Hoshpital.Routes';
-
+import { HoshpitalRoutes } from './routes/organization/Hoshpital/Hoshpital.Routes.js';
+import { RolesRoutes } from './routes/Auth/Roles.Routes.js';
 
 
 
@@ -24,7 +24,7 @@ fastify.register(AuthRoutes,{prefix:'/api/auth'});
 
 //Admin Authorization Routes
 fastify.register(PermissionRoutes,{prefix:'/api/permissions'});
-fastify.register(PermissionRoutes,{prefix:'/api/roles'});
+fastify.register(RolesRoutes,{prefix:'/api/roles'});
 
 
 //Hoshpital Routes

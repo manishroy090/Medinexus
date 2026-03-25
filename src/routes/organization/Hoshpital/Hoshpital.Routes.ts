@@ -1,13 +1,13 @@
 import { type FastifyInstance } from "fastify";
 import { request } from "https";
-import { DepartmentRoutes } from "./Department.Routes";
-import { DoctorRoutes } from "./Doctor.Routes";
-import { AppointmentRoutes } from "./Appointment.Routes";
-import { AdmissionRoutes } from "./Admission.Routes";
-import { BillRoutes } from "./Bill.Routes";
-import { MedicialRecord } from "./MedicialRecord.Routes";
-import { PatientRoutes } from "./Patient.Routes";
-import { MedicinesRoutes } from "./Medicines.Routes";
+import { DepartmentRoutes } from "./Department.Routes.js";
+import { DoctorRoutes } from "./Doctor.Routes.js";
+import { AppointmentRoutes } from "./Appointment.Routes.js";
+import { AdmissionRoutes } from "./Admission.Routes.js";
+import { BillRoutes } from "./Bill.Routes.js";
+import { MedicialRecord } from "./MedicialRecord.Routes.js";
+import { PatientRoutes } from "./Patient.Routes.js";
+import { MedicinesRoutes } from "./Medicines.Routes.js";
 
 
 

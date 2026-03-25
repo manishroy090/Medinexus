@@ -1,5 +1,5 @@
 import {type FastifyInstance } from "fastify";
-import { AuthController } from "../../controllers/Auth/Auth.controller";
+import { AuthController } from "../../controllers/Auth/Auth.controller.js";
 import { request } from "https";
 
 

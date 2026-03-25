@@ -1,6 +1,6 @@
 import { type FastifyInstance } from "fastify";
 import { request } from "https";
-import { MedicalrecordController } from "../../../controllers/Organization/Hoshpital/Medicalrecord.controller";
+import { MedicalrecordController } from "../../../controllers/Organization/Hoshpital/Medicalrecord.controller.js";
 
 
 export async function MedicialRecord(fastify: FastifyInstance) {

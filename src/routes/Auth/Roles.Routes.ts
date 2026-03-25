@@ -1,6 +1,6 @@
 import { type FastifyInstance } from "fastify";
 import { request } from "https";
-import { RoleController } from "../../controllers/Auth/Role.controller";
+import { RoleController } from "../../controllers/Auth/Role.controller.js";
 
 
 export async function RolesRoutes(fastify: FastifyInstance) {

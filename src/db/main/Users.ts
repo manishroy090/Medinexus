@@ -1,8 +1,12 @@
 export async function up() {
-    return `CREATE TABLE organizations (
+    return `CREATE TABLE users(
               id SERIAL PRIMARY KEY,
-              title VARCHAR(255),
+              role_id BIGINT,
+              name VARCHAR(255),
+              email VARCHAR(255),
+              password  VARCHAR(255),
               is_active BOOLEAN,
+              email_verified_at TIMESTAMP,
               created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
               updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
               deleted_at TIMESTAMP NULL
@@ -14,8 +18,5 @@ export async function up() {
 
 
 export async function down() {
-      return `
-    DROP TABLE IF EXISTS tenants;
-    DROP TABLE IF EXISTS organizations;
-  `;
+    return `DROP TABLE users`
 }

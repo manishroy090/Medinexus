@@ -1,6 +1,6 @@
 import { type FastifyInstance } from "fastify";
 import { request } from "https";
-import { DepartmentsController } from "../../../controllers/Organization/Hoshpital/Departments.controller";
+import { DepartmentsController } from "../../../controllers/Organization/Hoshpital/Departments.controller.js";
 
 
 export async function DepartmentRoutes(fastify: FastifyInstance) {
