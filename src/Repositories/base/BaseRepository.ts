@@ -1,49 +1,55 @@
 import { IWrite } from "../interfaces/IWrite";
 import { IRead } from "../interfaces/IRead";
-import Database from "../../Services/Database";
+import Database from "../../Services/Database.js";
 
-export abstract class BaseRepository {
+export abstract class BaseRepository <T> implements IWrite<T> {
 
     public adminClient:any;
 
-
-
-
     constructor() {
-
-
-
-    }
-
-    async init() {
+        console.log('collection');
+        console.log('collection');
+        console.log('collection');
+        console.log('collection');
+        console.log('collection');
+        console.log('collection',this.constructor.name);
         const datbase = new Database();
-        this.adminClient = await datbase.getAdminClient();
+        this.adminClient =  datbase.getAdminClient();
     }
 
-
-    async create() {
-
-    }
-
-
-    async update() {
-
-    }
+    // async init() {
+      
+    // }
 
 
-    async delete() {
+    async create(item: T): Promise<any> {
 
-
-    }
-
-    async find() {
-
+        
+        
 
     }
 
 
-    async findOne() {
+    // async update(): Promise<boolean> {
+    //           return new Promise({'status':0});
 
-    }
+
+    // }
+
+
+    // async delete() {
+
+
+    // }
+
+    // async find() {
+
+
+    // }
+
+
+    // async findOne() {
+
+    // }
 
 }
