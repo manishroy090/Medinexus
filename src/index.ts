@@ -1,8 +1,9 @@
 import Fastify from 'fastify'
-const fastify = Fastify({ logger: true });
 import fastifyPostgres from '@fastify/postgres';
 import { Result } from 'pg';
 import { Client } from 'pg';
+import type {ZodTypeProvider} from 'fastify-type-provider-zod';
+import {serializerCompiler , validatorCompiler} from 'fastify-type-provider-zod';
 import { AuthRoutes } from './routes/Auth/Auth.Routes.js';
 import { PermissionRoutes } from './routes/Auth/Permission.Routes.js';
 
@@ -11,6 +12,32 @@ import { HoshpitalRoutes } from './routes/organization/Hoshpital/Hoshpital.Route
 import { RolesRoutes } from './routes/Auth/Roles.Routes.js';
 
 
+const fastify = Fastify({ logger: true }).withTypeProvider<ZodTypeProvider>();
+
+
+fastify.setValidatorCompiler(validatorCompiler);
+fastify.setSerializerCompiler(serializerCompiler);
+
+
+fastify.setErrorHandler(function(error , request , reply){
+
+     if(Array.isArray((error as any).validation)){
+
+      const validationIssue = (error as any).validation;
+      const errors = validationIssue.map((issue:{instancePath:string,message:string})=>({
+        field:issue.instancePath.substring(1),
+        message:issue.message
+      }));
+
+      reply.status(422).send({
+        message:"Validation_errors",
+        errors
+      });
+
+
+
+     }
+});
 
 
 //Admin Db

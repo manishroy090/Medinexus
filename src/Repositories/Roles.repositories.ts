@@ -15,8 +15,7 @@ export class RolesRepository {
 
 
     async getAllRoles(){
-
-
+        return this.role.all();
     }
 
     async createRole(role:any){
@@ -30,19 +29,14 @@ export class RolesRepository {
 
     async getRole(id:string){
        const result = await this.role.findById(id);
-
-
     }
 
     async updateRole(id:string,body:any){
-        const result = await this.role.update(id,body);
+         const result = await this.role.update(id,body);
     }
 
 
     async deleteRole(id:String){
-
         await this.role.delete(id);
-
-
     }
 }

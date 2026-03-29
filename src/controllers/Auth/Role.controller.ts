@@ -14,49 +14,87 @@ export class RoleController {
 
     async index(request: FastifyRequest, reply: FastifyReply) {
 
-
-        // console.log('request' , request);
-
-        // this.RolesRepository.createRoles(request);
-
         try {
-            reply.send({ 'names': 'Roles' });
+
+            const roles = await this.RolesRepository.getAllRoles();
+            reply.status(200).send({'roles':roles});
+
         } catch (error) {
-            
-
+           
+            reply.status(500).send({'server_error':error})
         }
-
-
     }
 
 
     async create(request: FastifyRequest, reply: FastifyReply) {
+
         const {body} = request;
-        this.RolesRepository.createRole(body);
-        console.log('request' , body);
+        try {
+           const roles =  this.RolesRepository.createRole(body);
+           reply.status(200).send({'roles':roles,'message':'Roles created successfully'});
+            
+        } catch (error) {
+          
+            reply.status(500).send({'server_error':error});
 
-
+        }
+       
     }
 
 
-    async edit(request: FastifyRequest, reply: FastifyReply) {
-        // const {id} = request.params;
-        this.RolesRepository.getRole('1');
+    async edit(request:any, reply:any) {
+
+         const {id} = request.params;
+
+         try {
+
+            const role = this.RolesRepository.getRole(id);
+            reply.status(200).send({"role":role,'message':"Role fetched successfully"});
+             
+         } catch (error) {
+
+             reply.status(500).send({'server_error':error});
+
+         }
+
+
         // console.log('request',request);
        
     }
 
 
-    async update(request: FastifyRequest, reply: FastifyReply) {
+    async update(request:any, reply:any) {
         const {body} = request;
-        this.RolesRepository.updateRole('2',body);
+        const {id} = request.params;
+
+        try {
+            const role =  this.RolesRepository.updateRole(id,body);
+            
+            reply.status(200).send({"role":role,'message':"Role fetched successfully"});
+
+        } catch (error) {
+        
+            reply.status(500).send({'server_error':error});
+
+        }
 
     }
 
 
 
-    async delete(request: FastifyRequest, reply: FastifyReply) {
-        this.RolesRepository.deleteRole('1');
+    async delete(request:any, reply:any) {
+        const {id} = request.params;
+
+
+        try {
+          const role =   this.RolesRepository.deleteRole(id);
+          reply.status(204).send({"role":role,'message':"Role deleted successfully"});
+
+        } catch (error) {
+
+          reply.status(500).send({'server_error':error});
+    
+        }
 
     }
 

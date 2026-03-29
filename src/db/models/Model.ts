@@ -40,27 +40,24 @@ export abstract class Model {
 
 
     async delete(id:string) {
-       const result =  await pool.query(`DELETE FROM ${this.tableName} WHERE id=${1}`);
+       const result =  await pool.query(`DELETE FROM ${this.tableName} WHERE id=${id}`);
        return result;
 
     }
 
 
     async update(id:string,data:any) {
-        const formatedData = new  Map(Object.entries(data));
-
-
-        console.log('data',formatedData)
-
-
-
-     
-
-        const result = await pool.query(`UPDATE ${this.tableName} SET ${formatedData} WHERE id=${id}`);
-
-        return result;
-
-
+        const dataArray = Object.entries(data);
+        let Colmn:any = [];
+        dataArray.map((item, key)=>{
+            const keyName =`${item[0]}`;
+            const value = `'${item[1]}'`;
+            Colmn[key] =  keyName.concat('=',value);
+            // Colmn = keyName.concat("=",value);
+        });
+        const check = Colmn.join();
+        const result = await pool.query(`UPDATE ${this.tableName} SET ${check} WHERE id=${id}`);
+          console.log(result);
 
     }
 
