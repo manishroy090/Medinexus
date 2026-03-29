@@ -30,8 +30,8 @@ export class RoleController {
 
         const {body} = request;
         try {
-           const roles =  this.RolesRepository.createRole(body);
-           reply.status(200).send({'roles':roles,'message':'Roles created successfully'});
+           const role=  this.RolesRepository.createRole(body);
+           reply.status(200).send({'role':role,'message':'Roles created successfully'});
             
         } catch (error) {
           
@@ -70,7 +70,7 @@ export class RoleController {
         try {
             const role =  this.RolesRepository.updateRole(id,body);
             
-            reply.status(200).send({"role":role,'message':"Role fetched successfully"});
+            reply.status(200).send({"role":role,'message':"Role updated successfully"});
 
         } catch (error) {
         
@@ -88,7 +88,7 @@ export class RoleController {
 
         try {
           const role =   this.RolesRepository.deleteRole(id);
-          reply.status(204).send({"role":role,'message':"Role deleted successfully"});
+          reply.status(200).send({"role":role,'message':"Role deleted successfully"});
 
         } catch (error) {
 

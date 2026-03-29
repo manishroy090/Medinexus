@@ -1,4 +1,3 @@
-import { BaseRepository } from "./base/BaseRepository.js";
 // import { Roles } from "../entities/Roles";
 import { Role } from "../db/models/Role.model.js";
 

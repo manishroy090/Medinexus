@@ -1,11 +1,13 @@
 import { type FastifyInstance } from "fastify";
 import { request } from "https";
 import { PermissionController } from "../../controllers/Auth/Permission.controller.js";
+import { PemissionRepository } from "../../Repositories/Permissions.repositories.js";
 
 
 export async function PermissionRoutes(fastify: FastifyInstance) {
 
-    const controller = new PermissionController();
+    const permissionRepo:PemissionRepository = new PemissionRepository();
+    const controller = new PermissionController(permissionRepo);
 
     fastify.get('/', controller.index.bind(controller))
 

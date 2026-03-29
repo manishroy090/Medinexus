@@ -18,7 +18,7 @@ export class Database {
     }
 
     async migrateToAdminDb() {
-        const folderPath = path.join(process.cwd(), 'src', 'db', 'main');
+        const folderPath = path.join(process.cwd(), 'src', 'db', 'migrations','main');
         const files = await fs.readdir(folderPath);
         await this.adminClient.connect();
         for (const file of files) {

@@ -17,7 +17,9 @@ export abstract class Model {
 
     async all() {
         const { rows } = await pool.query(`SELECT * FROM ${this.tableName}`);
-        return rows ;
+        console.log(rows);
+        
+        return rows;
 
     }
 
@@ -26,38 +28,57 @@ export abstract class Model {
         const values = Object.values(item)
             .map(val => typeof val === 'string' ? `'${val}'` : val)
             .join(', ');
-        await pool.query(`INSERT INTO ${this.tableName} (${keys.join(', ')}) VALUES (${values})`);
-       
-    }
 
+        try {
+            await pool.query(`INSERT INTO ${this.tableName} (${keys.join(', ')}) VALUES (${values})`);
 
-    async findById(id:string) {
-      const {rows}  = await pool.query(`SELECT * FROM ${this.tableName}  WHERE id=${id}`);
-      return rows;
-      
+        } catch (error) {
 
-    }
+            console.log('database_error', error);
 
+        }
 
-    async delete(id:string) {
-       const result =  await pool.query(`DELETE FROM ${this.tableName} WHERE id=${id}`);
-       return result;
 
     }
 
 
-    async update(id:string,data:any) {
+    async findById(id: string) {
+
+
+        try {
+            const { rows } = await pool.query(`SELECT * FROM ${this.tableName}  WHERE id=${id}`);
+            return rows;
+
+        } catch (error) {
+
+            console.log('database_error', error)
+
+        }
+
+
+
+    }
+
+
+    async delete(id: string) {
+        const result = await pool.query(`DELETE FROM ${this.tableName} WHERE id=${id}`);
+        return result;
+
+    }
+
+
+    async update(id: string, data: any) {
         const dataArray = Object.entries(data);
-        let Colmn:any = [];
-        dataArray.map((item, key)=>{
-            const keyName =`${item[0]}`;
+        let Colmn: any = [];
+        dataArray.map((item, key) => {
+            const keyName = `${item[0]}`;
             const value = `'${item[1]}'`;
-            Colmn[key] =  keyName.concat('=',value);
+            Colmn[key] = keyName.concat('=', value);
             // Colmn = keyName.concat("=",value);
         });
         const check = Colmn.join();
         const result = await pool.query(`UPDATE ${this.tableName} SET ${check} WHERE id=${id}`);
-          console.log(result);
+        console.log(result);
 
     }
 
