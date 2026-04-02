@@ -18,24 +18,23 @@ export class RolesRepository {
     }
 
     async createRole(role:any){
-        const resut = await this.role.create(role);
-
-        console.log('result',resut);
-        // console.log(this.role.all());
-        
+        const result = await this.role.create(role);
+        return result;
     }
 
 
     async getRole(id:string){
        const result = await this.role.findById(id);
+       return result
     }
 
     async updateRole(id:string,body:any){
          const result = await this.role.update(id,body);
+         return result;
     }
 
 
     async deleteRole(id:String){
-        await this.role.delete(id);
+      return  await this.role.delete(id);
     }
 }

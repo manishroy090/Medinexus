@@ -101,7 +101,7 @@ export class PermissionController {
     const { id } = request.params;
 
     try {
-      const permission = this.PemissionRepository.deletePermission(id);
+      const permission = await this.PemissionRepository.deletePermission(id);
       reply.status(200).send({ 'permission': permission, 'message': "Permission deleted successfully" })
 
 

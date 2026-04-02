@@ -2,6 +2,8 @@ import { Client } from 'pg';
 import fs from 'fs/promises';
 import path from 'path';
 import { pathToFileURL } from 'url';
+import { Config } from '../Constants/App.js';
+
 
 
 
@@ -10,9 +12,15 @@ export class Database {
     adminClient: Client
     // orgClient: Client
 
+    public  mainDBName:any;
+
     constructor() {
+
+
+        this.mainDBName = "Healthcare"
+       
         this.adminClient = new Client({
-            connectionString: `postgres://manish:secret@localhost:5432/UK`
+            connectionString: `postgres://manish:secret@localhost:5432/${this.mainDBName}`
         });
 
     }

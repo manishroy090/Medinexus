@@ -1,6 +1,7 @@
-import { orgType } from "../../Constants/App";
+
+import { table_prefix } from "../../../Constants/App.js"
 export async function up() {
-    return `CREATE TABLE organizations (
+    return `CREATE TABLE ${table_prefix}_organizations (
               id SERIAL PRIMARY KEY,
               name VARCHAR(255),
               user_id Integer,
@@ -23,7 +24,7 @@ export async function up() {
               created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
               updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
               deleted_at TIMESTAMP NULL,
-              CONSTRAINT fk_org_country FOREIGN KEY (country_id) REFERENCES countries(id)
+              CONSTRAINT fk_org_country FOREIGN KEY (country_id) REFERENCES ${table_prefix}_countries(id)
               ON DELETE CASCADE
               ON UPDATE CASCADE)`
 }
@@ -32,7 +33,7 @@ export async function up() {
 
 export async function down() {
       return `
-    DROP TABLE IF EXISTS countries;
-    DROP TABLE IF EXISTS organizations;
+    DROP TABLE IF EXISTS ${table_prefix}_countries;
+    DROP TABLE IF EXISTS ${table_prefix}_organizations;
   `;
 }

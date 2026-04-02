@@ -1,17 +1,22 @@
-import Database from "../../Services/Database.js";
+    import Database from "../../Services/Database.js";
 import { Client } from 'pg';
 import { Pool } from 'pg';
+import { table_prefix } from "../../Constants/App.js";
 
+
+const mainDBName = "Healthcare";
 
 const pool = new Pool({
-    connectionString: `postgres://manish:secret@localhost:5432/UK`
+    connectionString: `postgres://manish:secret@localhost:5432/${mainDBName}`
 });
 export abstract class Model {
 
     private readonly tableName: String;
 
+    private readonly tablePrefix:String = table_prefix;
+
     constructor() {
-        this.tableName = `${this.constructor.name.toLowerCase()}s`;
+        this.tableName = `${this.tablePrefix}_${this.constructor.name.toLowerCase()}s`;
     }
 
 
@@ -30,7 +35,18 @@ export abstract class Model {
             .join(', ');
 
         try {
-            await pool.query(`INSERT INTO ${this.tableName} (${keys.join(', ')}) VALUES (${values})`);
+
+           const query = `INSERT INTO ${this.tableName} (${keys.join(', ')}) VALUES (${values}) RETURNING *`;
+
+           console.log('query');
+           console.log('query');
+           console.log('query');
+
+
+          console.log('query',query);
+           const result = await pool.query(`INSERT INTO ${this.tableName} (${keys.join(', ')}) VALUES (${values}) RETURNING *`);
+
+           return result.rows[0]
 
         } catch (error) {
 
@@ -47,6 +63,7 @@ export abstract class Model {
 
         try {
             const { rows } = await pool.query(`SELECT * FROM ${this.tableName}  WHERE id=${id}`);
+        
             return rows;
 
         } catch (error) {
@@ -61,8 +78,8 @@ export abstract class Model {
 
 
     async delete(id: string) {
-        const result = await pool.query(`DELETE FROM ${this.tableName} WHERE id=${id}`);
-        return result;
+        const result = await pool.query(`DELETE FROM ${this.tableName} WHERE id=${id} RETURNING *`);
+        return result.rows[0];
 
     }
 
@@ -77,8 +94,8 @@ export abstract class Model {
             // Colmn = keyName.concat("=",value);
         });
         const check = Colmn.join();
-        const result = await pool.query(`UPDATE ${this.tableName} SET ${check} WHERE id=${id}`);
-        console.log(result);
+        const result = await pool.query(`UPDATE ${this.tableName} SET ${check} WHERE id=${id} RETURNING *`);
+        return result.rows[0]
 
     }
 

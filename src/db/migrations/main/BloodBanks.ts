@@ -1,5 +1,7 @@
+import { table_prefix } from "../../../Constants/App.js"
+
 export async function up() {
-    return `CREATE TABLE bloodbanks(
+    return `CREATE TABLE ${table_prefix}_bloodbanks(
               id SERIAL PRIMARY KEY,
               title VARCHAR(255),
               is_active BOOLEAN,
@@ -14,5 +16,5 @@ export async function up() {
 
 
 export async function down() {
-      return `DROP TABLE bloodbanks`
+      return `DROP TABLE ${table_prefix}_bloodbanks`
 }

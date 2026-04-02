@@ -30,8 +30,8 @@ export class RoleController {
 
         const {body} = request;
         try {
-           const role=  this.RolesRepository.createRole(body);
-           reply.status(200).send({'role':role,'message':'Roles created successfully'});
+           const role =  await this.RolesRepository.createRole(body);
+           reply.status(200).send({role,'message':'Roles created successfully'});
             
         } catch (error) {
           
@@ -48,8 +48,8 @@ export class RoleController {
 
          try {
 
-            const role = this.RolesRepository.getRole(id);
-            reply.status(200).send({"role":role,'message':"Role fetched successfully"});
+            const role = await this.RolesRepository.getRole(id);
+            reply.status(200).send({role,'message':"Role fetched successfully"});
              
          } catch (error) {
 
@@ -68,9 +68,9 @@ export class RoleController {
         const {id} = request.params;
 
         try {
-            const role =  this.RolesRepository.updateRole(id,body);
+            const role =  await this.RolesRepository.updateRole(id,body);
             
-            reply.status(200).send({"role":role,'message':"Role updated successfully"});
+            reply.status(200).send({role,'message':"Role updated successfully"});
 
         } catch (error) {
         
@@ -87,8 +87,8 @@ export class RoleController {
 
 
         try {
-          const role =   this.RolesRepository.deleteRole(id);
-          reply.status(200).send({"role":role,'message':"Role deleted successfully"});
+          const role =  await this.RolesRepository.deleteRole(id);
+          reply.status(200).send({role,'message':"Role deleted successfully"});
 
         } catch (error) {
 

@@ -20,9 +20,7 @@ fastify.setSerializerCompiler(serializerCompiler);
 
 
 fastify.setErrorHandler(function(error , request , reply){
-
      if(Array.isArray((error as any).validation)){
-
       const validationIssue = (error as any).validation;
       const errors = validationIssue.map((issue:{instancePath:string,message:string})=>({
         field:issue.instancePath.substring(1),
@@ -33,10 +31,8 @@ fastify.setErrorHandler(function(error , request , reply){
         message:"Validation_errors",
         errors
       });
-
-
-
      }
+     
 });
 
 

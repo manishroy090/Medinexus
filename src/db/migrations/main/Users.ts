@@ -1,5 +1,7 @@
+import { table_prefix } from "../../../Constants/App.js"
+
 export async function up() {
-    return `CREATE TABLE users(
+    return `CREATE TABLE ${table_prefix}_users(
               id SERIAL PRIMARY KEY,
               role_id BIGINT,
               name VARCHAR(255),
@@ -18,5 +20,5 @@ export async function up() {
 
 
 export async function down() {
-    return `DROP TABLE users`
+    return `DROP TABLE ${table_prefix}_users`
 }

@@ -1,5 +1,7 @@
+import { table_prefix } from "../../../Constants/App.js"
+
 export async function up() {
-    return `CREATE TABLE  hoshpital(
+    return `CREATE TABLE  ${table_prefix}_hoshpital(
               id SERIAL PRIMARY KEY,
 			  org_id  BIGINT,
               name VARCHAR(255),
@@ -8,7 +10,7 @@ export async function up() {
               created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
               updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
               deleted_at TIMESTAMP NULL,
-              CONSTRAINT fk_hosh_org FOREIGN KEY (org_id) REFERENCES organizations(id)
+              CONSTRAINT fk_hosh_org FOREIGN KEY (org_id) REFERENCES ${table_prefix}_organizations(id)
           )`
 
 
@@ -17,5 +19,5 @@ export async function up() {
 
 
 export async function down() {
-      return `DROP TABLE hoshpital`
+      return `DROP TABLE ${table_prefix}_hoshpital`
 }
