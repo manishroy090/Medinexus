@@ -6,7 +6,7 @@ import { table_prefix } from "../../Constants/App.js";
 
 const mainDBName = "Healthcare";
 
-const pool = new Pool({
+export const pool = new Pool({
     connectionString: `postgres://manish:secret@localhost:5432/${mainDBName}`
 });
 export abstract class Model {
@@ -16,7 +16,14 @@ export abstract class Model {
     private readonly tablePrefix:String = table_prefix;
 
     constructor() {
-        this.tableName = `${this.tablePrefix}_${this.constructor.name.toLowerCase()}s`;
+
+        if(this.constructor.name =="Country"){
+            this.tableName = `${this.tablePrefix}_${"countr".toLowerCase()}ies`;
+        }
+        else{
+            this.tableName = `${this.tablePrefix}_${this.constructor.name.toLowerCase()}s`;
+        }
+
     }
 
 
@@ -59,8 +66,6 @@ export abstract class Model {
 
 
     async findById(id: string) {
-
-
         try {
             const { rows } = await pool.query(`SELECT * FROM ${this.tableName}  WHERE id=${id}`);
         
@@ -71,7 +76,18 @@ export abstract class Model {
             console.log('database_error', error)
 
         }
+    }
 
+
+    async findUserByEmail(email: string){
+
+         try {
+            const { rows } = await pool.query(`SELECT * FROM "${this.tableName}"  WHERE email=$1`,[email]);
+            return rows;
+
+        } catch (error) {
+            console.log('database_error', error)
+        }
 
 
     }
@@ -80,7 +96,6 @@ export abstract class Model {
     async delete(id: string) {
         const result = await pool.query(`DELETE FROM ${this.tableName} WHERE id=${id} RETURNING *`);
         return result.rows[0];
-
     }
 
 
@@ -96,7 +111,6 @@ export abstract class Model {
         const check = Colmn.join();
         const result = await pool.query(`UPDATE ${this.tableName} SET ${check} WHERE id=${id} RETURNING *`);
         return result.rows[0]
-
     }
 
 }
