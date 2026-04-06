@@ -59,15 +59,15 @@ fastify.setErrorHandler(function(error , request , reply){
 
 
 //Authentication Routes
-fastify.register(AuthRoutes,{prefix:'/api/auth'});
+fastify.register(AuthRoutes,{prefix:'/api/v1/auth'});
 
 //Super Admin Authorization Routes
-fastify.register(PermissionRoutes,{prefix:'/api/permissions'});
-fastify.register(RolesRoutes,{prefix:'/api/roles'});
+fastify.register(PermissionRoutes,{prefix:'/api/v1/permissions'});
+fastify.register(RolesRoutes,{prefix:'/api/v1/roles'});
 
 
 //Hoshpital Routes
-fastify.register(HoshpitalRoutes, {prefix:'api/hoshpital'})
+fastify.register(HoshpitalRoutes, {prefix:'api/v1/hoshpital'})
 
 
 //Blood Donation Routes
