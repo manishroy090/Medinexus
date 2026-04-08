@@ -16,9 +16,6 @@ import { Config } from '../Constants/App.js';
 
     constructor(countryName:string) {
 
-        // console.log('clientDatabase',countryName);
-        // this.mainDBName = "uk"
-
         this.countryClient = new Client({
             connectionString: `postgres://manish:secret@localhost:5432/${countryName}`
         });

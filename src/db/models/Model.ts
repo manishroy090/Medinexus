@@ -2,6 +2,7 @@
 import { Client } from 'pg';
 import { Pool } from 'pg';
 import { table_prefix } from "../../Constants/App.js";
+import { check } from "zod";
 
 
 const mainDBName = "Healthcare";
@@ -111,6 +112,38 @@ export abstract class Model {
         const check = Colmn.join();
         const result = await pool.query(`UPDATE ${this.tableName} SET ${check} WHERE id=${id} RETURNING *`);
         return result.rows[0]
+    }
+
+
+    async where(parmfst:any ,parmsec:any=null){
+
+        let conditionQuery:String;
+        if(parmsec!==null){
+            conditionQuery = `${parmfst} = '${parmsec}'`;
+        }
+        else{
+            let Colmn: any = [];
+            parmfst.map((item:any, key:any) => {
+                const keyName = `${item[0]}`;
+                const condition = `${item[1]}`
+                const value = `'${item[2]}'`;
+                Colmn[key] = `${keyName} `.concat(condition , value);
+            // Colmn = keyName.concat("=",value);
+            });
+
+            conditionQuery = Colmn.join("AND ");
+        }
+
+          try {
+              const { rows } = await pool.query(`SELECT  * FROM ${this.tableName}  WHERE ${conditionQuery} LIMIT 1`);
+              return rows[0];
+
+          } catch (error) {
+
+            console.log('ERROR',error);
+            
+          }
+
     }
 
 }

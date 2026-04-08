@@ -5,22 +5,39 @@ import { UsersRepositories } from "../../Repositories/Users.repositories.js";
 import { OrganizationsRepository } from "../../Repositories/Organizations.repositories.js";
 import { Hoshpitalsrepositories } from "../../Repositories/Hoshpitals.repositories.js";
 import OrganizationSchema from "../../Services/OrganizationSchema.js";
+import { TenantRepository } from "../../Repositories/Tenants.repositories.js";
+import { SchemaRepository } from "../../Repositories/Schemas.repositories.js";
+import {Signup } from "../../types/Auth/Hoshpital/Signup.js";
 
 export class AuthController {
 
   private UsersRepositories: UsersRepositories;
   private OrganizationsRepository: OrganizationsRepository;
-  public Hoshpitalsrepositories: Hoshpitalsrepositories;
+  private Hoshpitalsrepositories: Hoshpitalsrepositories;
+  private TenantRepository: TenantRepository;
+  private SchemaRepository:SchemaRepository;
 
 
-  constructor(UsersRepositories: UsersRepositories, OrganizationsRepository: OrganizationsRepository, Hoshpitalsrepositories: Hoshpitalsrepositories) {
+  constructor(
+    UsersRepositories: UsersRepositories, 
+    OrganizationsRepository: OrganizationsRepository,
+    Hoshpitalsrepositories: Hoshpitalsrepositories,
+    TenantRepository:TenantRepository,
+    SchemaRepository:SchemaRepository
+
+    ) {
+
     this.UsersRepositories = UsersRepositories;
     this.OrganizationsRepository = OrganizationsRepository;
     this.Hoshpitalsrepositories = Hoshpitalsrepositories;
+    this.TenantRepository = TenantRepository;
+    this.SchemaRepository = SchemaRepository;
 
   }
 
-  async signup(request: any, reply: any) {
+  async signup(request:any, reply: any) {
+
+   
 
     const { body } = request;
 
@@ -60,23 +77,30 @@ export class AuthController {
     const isDatabaseExists = await request.server.services.db.isCountryDatabaseExists(countryName);
     const orgName = createdOrg?.name.toLowerCase().replaceAll(" ", "");
 
-
+    let  tenantDB :any;
     if (!isDatabaseExists) {
 
-      await request.server.services.db.createCountryDatabase(countryName);
-      
+     await request.server.services.db.createCountryDatabase(countryName);
+     const tenantDb = {country_id:createdOrg?.country_id, db_names:countryName}
+      tenantDB = await this.TenantRepository.createTenant(tenantDb);
     }
-    else {
+    else{
+      tenantDB = await this.TenantRepository.getTenantByDBName(countryName);
 
-      const organizationSchema = new OrganizationSchema(countryName);
+    }
+  
+    
 
-      const isSchemaExists = await organizationSchema.isScheamaExists(orgName);
+     const organizationSchema = new OrganizationSchema(countryName);
+     const isSchemaExists = await organizationSchema.isScheamaExists(orgName);
 
       if (!isSchemaExists) {
         organizationSchema.createSchema(orgName);
+           const Schema = {org_id:createdOrg?.id ,title:createdOrg?.name,tenant_id:tenantDB?.id}
+           const SchemaCreated =  await this.SchemaRepository.createSchema(Schema);
       }
 
-    }
+  
 
 
     if (body?.org_type.toLowerCase() == HOSHPITAL.toLowerCase()) {
@@ -108,6 +132,15 @@ export class AuthController {
 
   }
 
+
+
+  async lang(request:any , reply:any){
+
+  
+
+    reply.status(200).send({'msg':request.multilingual.translate('hello')});
+
+  }
 
 
 

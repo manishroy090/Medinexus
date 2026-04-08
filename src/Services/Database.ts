@@ -5,9 +5,6 @@ import { pathToFileURL } from 'url';
 import { Config } from '../Constants/App.js';
 
 
-
-
-
 export class Database {
     adminClient: Client
     // orgClient: Client
@@ -18,7 +15,7 @@ export class Database {
     constructor() {
 
 
-        this.mainDBName = "uk"
+        this.mainDBName = "Healthcare"
 
         this.adminClient = new Client({
             connectionString: `postgres://manish:secret@localhost:5432/${this.mainDBName}`
@@ -65,14 +62,9 @@ export class Database {
 
 
         await this.adminClient.end();
-        // console.log(files);
-
-        //   console.log(folderPath);
-
     }
 
     async rollbackAdminDb() {
-
         const folderPath = path.join(process.cwd(), 'src', 'db', 'main');
         const files = await fs.readdir(folderPath);
         this.adminClient.connect();
@@ -98,31 +90,17 @@ export class Database {
         const result = await this.adminClient.query(`SELECT 1 FROM pg_database  WHERE datname = $1`, [dbName]);
         return (result.rowCount ?? 0) > 0;
 
-
-        // if (isDatabaseExists?.rowCount != 0) {
-
-        //     return isDatabaseExists?.rowCount;
-        // }
-        // await this.adminClient.query(`CREATE DATABASE Ull`);
-
-
-
-
-
     }
 
 
     async createCountryDatabase(dbName:string) {
         const db = await this.adminClient.query(`CREATE DATABASE ${dbName}`);
-        console.log('db', db);
+        return dbName;
 
     }
 
     async isScheamaExists(countryName:string,schemaName:string) {   
-        
         this.adminClient.end();
-
-        
 
         const result = await this.countryClient.query(
             `SELECT 1 FROM information_schema.schemata WHERE schema_name = $1`,
@@ -130,26 +108,6 @@ export class Database {
         );
 
       return (result.rowCount ?? 0) > 0;
-
-    }
-
-  
-
-
-    async getAdminClient() {
-
-        return this.adminClient = new Client({
-            connectionString: `postgres://manish:secret@localhost:5432/UK`
-        });
-
-    }
-
-
-    async getOrgDB(dbName: String) {
-
-        // this.orgClient = new Client({
-        //     connectionString: `postgres://manish:secret@localhost:5432/${dbName}`
-        // });
 
     }
 

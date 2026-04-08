@@ -58,6 +58,7 @@ fastify.setErrorHandler(function(error , request , reply){
 
 
 
+
 //Authentication Routes
 fastify.register(AuthRoutes,{prefix:'/api/v1/auth'});
 
