@@ -1,4 +1,4 @@
-    import Database from "../../Services/Database.js";
+import Database from "../../Services/Database.js";
 import { Client } from 'pg';
 import { Pool } from 'pg';
 import { table_prefix } from "../../Constants/App.js";
@@ -14,14 +14,14 @@ export abstract class Model {
 
     private readonly tableName: String;
 
-    private readonly tablePrefix:String = table_prefix;
+    private readonly tablePrefix: String = table_prefix;
 
     constructor() {
 
-        if(this.constructor.name =="Country"){
+        if (this.constructor.name == "Country") {
             this.tableName = `${this.tablePrefix}_${"countr".toLowerCase()}ies`;
         }
-        else{
+        else {
             this.tableName = `${this.tablePrefix}_${this.constructor.name.toLowerCase()}s`;
         }
 
@@ -31,32 +31,68 @@ export abstract class Model {
     async all() {
         const { rows } = await pool.query(`SELECT * FROM ${this.tableName}`);
         console.log(rows);
-        
+
         return rows;
 
     }
 
-    async create(item: Object) {
-        const keys = Object.keys(item);
-        const values = Object.values(item)
+    async create(item: any) {
+         let keys:{} ={}; 
+         keys = Object.keys(item);
+         let values:any = undefined;
+         values = Object.values(item)
             .map(val => typeof val === 'string' ? `'${val}'` : val)
             .join(', ');
 
-        console.log('values',values);
+
+        if (item.length > 0) {
+
+            const items = item;
+
+            //   checkkeys = {}; 
+
+
+            keys = Object.keys(item[0]);
+         
+
+            values =[];
+            items.map((item: any) => {
+                const value = Object.values(item)
+               .map(val => typeof val === 'string' ? `'${val}'` : val)
+                 .join(', ');
+
+                values.push(value);
+            })
+
+
+            
+        }
+        console.log(values);
+
+
+        // console.log('debug');
+        //  console.log('debug');
+        //   console.log('debug');
+        //    console.log('debug');
+        //     console.log('debug');
+        //      console.log('debug');
+        // console.log('item',item);
+        // console.log('keys',keys);
+        // console.log('values',values);
 
         try {
 
-           const query = `INSERT INTO ${this.tableName} (${keys.join(', ')}) VALUES (${values}) RETURNING *`;
+            //    const query = `INSERT INTO ${this.tableName} (${keys.join(', ')}) VALUES (${values}) RETURNING *`;
+            //    console.log('query');
 
-           console.log('query');
-           console.log('query');
-           console.log('query');
+            //    console.log('query');
+            //    console.log('query');
 
 
-          console.log('query',query);
-           const result = await pool.query(`INSERT INTO ${this.tableName} (${keys.join(', ')}) VALUES (${values}) RETURNING *`);
+            //   console.log('query',query);
+            // const result = await pool.query(`INSERT INTO ${this.tableName} (${keys.join(', ')}) VALUES (${values}) RETURNING *`);
 
-           return result.rows[0]
+            // return result.rows[0]
 
         } catch (error) {
 
@@ -71,7 +107,7 @@ export abstract class Model {
     async findById(id: string) {
         try {
             const { rows } = await pool.query(`SELECT * FROM ${this.tableName}  WHERE id=${id}`);
-        
+
             return rows;
 
         } catch (error) {
@@ -82,10 +118,10 @@ export abstract class Model {
     }
 
 
-    async findUserByEmail(email: string){
+    async findUserByEmail(email: string) {
 
-         try {
-            const { rows } = await pool.query(`SELECT * FROM "${this.tableName}"  WHERE email=$1`,[email]);
+        try {
+            const { rows } = await pool.query(`SELECT * FROM "${this.tableName}"  WHERE email=$1`, [email]);
             return rows;
 
         } catch (error) {
@@ -117,34 +153,34 @@ export abstract class Model {
     }
 
 
-    async where(parmfst:any ,parmsec:any=null){
+    async where(parmfst: any, parmsec: any = null) {
 
-        let conditionQuery:String;
-        if(parmsec!==null){
+        let conditionQuery: String;
+        if (parmsec !== null) {
             conditionQuery = `${parmfst} = '${parmsec}'`;
         }
-        else{
+        else {
             let Colmn: any = [];
-            parmfst.map((item:any, key:any) => {
+            parmfst.map((item: any, key: any) => {
                 const keyName = `${item[0]}`;
                 const condition = `${item[1]}`
                 const value = `'${item[2]}'`;
-                Colmn[key] = `${keyName} `.concat(condition , value);
-            // Colmn = keyName.concat("=",value);
+                Colmn[key] = `${keyName} `.concat(condition, value);
+                // Colmn = keyName.concat("=",value);
             });
 
             conditionQuery = Colmn.join("AND ");
         }
 
-          try {
-              const { rows } = await pool.query(`SELECT  * FROM ${this.tableName}  WHERE ${conditionQuery} LIMIT 1`);
-              return rows[0];
+        try {
+            const { rows } = await pool.query(`SELECT  * FROM ${this.tableName}  WHERE ${conditionQuery} LIMIT 1`);
+            return rows[0];
 
-          } catch (error) {
+        } catch (error) {
 
-            console.log('ERROR',error);
-            
-          }
+            console.log('ERROR', error);
+
+        }
 
     }
 
