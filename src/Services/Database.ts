@@ -3,6 +3,9 @@ import fs from 'fs/promises';
 import path from 'path';
 import { pathToFileURL } from 'url';
 import { Config } from '../Constants/App.js';
+import { Migrations } from '../db/migrations/Migrations.js';
+
+
 
 
 export class Database {
@@ -11,18 +14,21 @@ export class Database {
     
     public mainDBName: any;
     private countryClient:any;
+    private AdminMigrations:any;
+
 
     constructor() {
 
-
-        this.mainDBName = "Healthcare"
+        this.mainDBName = "healthcare"
 
         this.adminClient = new Client({
             connectionString: `postgres://manish:secret@localhost:5432/${this.mainDBName}`
         });
 
-        this.adminClient.connect();
 
+         this.AdminMigrations = new Migrations();
+
+    
     }
 
     async switchToCountryDB(country:string){
@@ -37,24 +43,34 @@ export class Database {
     }
 
     async migrateToAdminDb() {
+
+    
+        
         const folderPath = path.join(process.cwd(), 'src', 'db', 'migrations', 'main');
-        const files = await fs.readdir(folderPath);
+        // const files = await fs.readdir(folderPath);
+        const files = await this.AdminMigrations.getmainDBMigrations();
         await this.adminClient.connect();
+
+        console.log('files',files); 
+
+     
         for (const file of files) {
-            const filePath = path.join(folderPath, file);
+            const filePath = path.join(folderPath, `${file.name}.ts`);
             const module = await import(pathToFileURL(filePath).href);
             if (typeof module.up === 'function') {
                 const table = await module.up();
 
                 try {
                     await this.adminClient.query(table);
+                    console.log(`${file.name} migration successfull`);
+
                 } catch (error) {
 
-                    console.log(`Migration failed for ${file}`, error)
+                    console.log(`${file.name} migration failed`,error);
                 }
             }
             else {
-                console.log('Refactor your migration File')
+                console.log('Rollback your migration File')
             }
 
 

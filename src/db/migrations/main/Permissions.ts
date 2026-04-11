@@ -1,7 +1,7 @@
 
 import { table_prefix } from "../../../Constants/App.js"
 export async function up() {
-    return `CREATE TABLE ${table_prefix}_Permissions(
+    return `CREATE TABLE ${table_prefix}_permissions(
               id SERIAL PRIMARY KEY,
               title VARCHAR(255),
               role_id BIGINT,

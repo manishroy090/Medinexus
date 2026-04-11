@@ -9,7 +9,7 @@ export async function up() {
               created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
               updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
               deleted_at TIMESTAMP NULL,
-              CONSTRAINT fk_tenant_country FOREIGN KEY (country_id) REFERENCES countries(id)
+              CONSTRAINT fk_tenant_country FOREIGN KEY (country_id) REFERENCES ${table_prefix}_countries(id)
               ON DELETE CASCADE
               ON UPDATE CASCADE
           )`

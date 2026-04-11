@@ -5,7 +5,7 @@ import { table_prefix } from "../../Constants/App.js";
 import { check } from "zod";
 
 
-const mainDBName = "Healthcare";
+const mainDBName = "healthcare";
 
 export const pool = new Pool({
     connectionString: `postgres://manish:secret@localhost:5432/${mainDBName}`
