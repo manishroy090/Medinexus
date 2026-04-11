@@ -100,10 +100,23 @@ export class Database {
 
         }
 
+        this.adminClient.end();
+
+
     }
 
     async isCountryDatabaseExists(dbName:string) {
+        console.log('isdbName',dbName);
+        this.adminClient.connect();
         const result = await this.adminClient.query(`SELECT 1 FROM pg_database  WHERE datname = $1`, [dbName]);
+        console.log('result');
+        console.log('result');
+        console.log('result');
+        console.log('result');
+        console.log('result');
+        console.log('result',result);
+
+        
         return (result.rowCount ?? 0) > 0;
 
     }

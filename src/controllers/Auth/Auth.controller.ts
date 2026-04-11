@@ -76,6 +76,9 @@ export class AuthController {
 
     const isDatabaseExists = await request.server.services.db.isCountryDatabaseExists(countryName);
     const orgName = createdOrg?.name.toLowerCase().replaceAll(" ", "");
+    console.log('query hitted till here');
+
+    console.log('isDatabaseExists',isDatabaseExists);
 
     let  tenantDB :any;
     if (!isDatabaseExists) {

@@ -42,6 +42,8 @@ export abstract class Model {
             .map(val => typeof val === 'string' ? `'${val}'` : val)
             .join(', ');
 
+        console.log('values',values);
+
         try {
 
            const query = `INSERT INTO ${this.tableName} (${keys.join(', ')}) VALUES (${values}) RETURNING *`;

@@ -1,6 +1,8 @@
 
 import Database from "../Services/Database.js";
 import chalk from "chalk";
+import {  Seeder } from "../db/seeder/Seeder.js";
+import { boolean } from "zod";
 
 class App {
 
@@ -9,6 +11,7 @@ class App {
         const params = process.argv[3];
 
         const datbase = new Database();
+        
 
         switch (command) {
             case "welcome":
@@ -42,10 +45,16 @@ class App {
                 break;
             case "seed":
                 if (params) {
-                    const tableName = params;
-                    console.log('seed single table');
+                    const seederName = params;
+                    const seeder = new Seeder(seederName);
+                    const seederExists = seeder.isSeederExists();
+                    if(seederExists){
+                        seeder.SeedIndividualSeeder(seederName)
+
+                    }
                 }
                 else {
+
                     console.log('seed all seeder');
                 }
                 break;
