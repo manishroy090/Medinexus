@@ -23,3 +23,4 @@
 - docker composer up 
 - npm run migrate (To Migrate Admin Db)
 - npm run migrate rollback (To Rollback all the migration of Admin Db)
+- npm run seed <SeederName> (To Seed the individual Seeder)
