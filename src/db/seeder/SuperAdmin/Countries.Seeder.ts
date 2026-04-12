@@ -1,6 +1,6 @@
 
-import { Country } from "../models/Country.js";
-import { countries } from "../../data/countries.js";
+import { Country } from "../../models/Country.js";
+import { countries } from "../../../data/superadmin/countries.js";
 
 export class CountrySeeder  {
 

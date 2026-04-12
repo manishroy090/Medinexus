@@ -1,5 +1,5 @@
-import { CountrySeeder } from "./Countries.Seeder.js";
-import { HoshpitalSeeder } from "./Hoshpital.Seeder.js";
+import { CountrySeeder } from "./SuperAdmin/Countries.Seeder.js";
+import { HoshpitalSeeder } from "./SuperAdmin/Hoshpital.Seeder.js";
 
 
 export class Seeder {
