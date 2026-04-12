@@ -1,7 +1,7 @@
 import { table_prefix } from "../../../Constants/App.js"
 
 export async function up() {
-    return `CREATE TABLE  ${table_prefix}_hoshpital(
+    return `CREATE TABLE  ${table_prefix}_hoshpitals(
               id SERIAL PRIMARY KEY,
 			  org_id  BIGINT,
               name VARCHAR(255),

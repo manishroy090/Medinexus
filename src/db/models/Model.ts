@@ -37,10 +37,11 @@ export abstract class Model {
     }
 
     async create(item: any) {
-         let keys:{} ={}; 
-         keys = Object.keys(item);
-         let values:any = undefined;
-         values = Object.values(item)
+        let keys: any = null;
+        keys = Object.keys(item);
+        let query = '';
+        let values: any = undefined;
+        values = Object.values(item)
             .map(val => typeof val === 'string' ? `'${val}'` : val)
             .join(', ');
 
@@ -53,46 +54,57 @@ export abstract class Model {
 
 
             keys = Object.keys(item[0]);
-         
 
-            values =[];
+
+            values = [];
             items.map((item: any) => {
                 const value = Object.values(item)
-               .map(val => typeof val === 'string' ? `'${val}'` : val)
-                 .join(', ');
+                    .map(val => {
+                        // Handle null/undefined → NULL
+                        if (val === null || val === undefined) {
+                            return 'NULL';
+                        }
 
-                values.push(value);
-            })
+                        // Handle Date object
+                        if (val instanceof Date) {
+                            const formatted = val.toISOString().replace("T", " ").slice(0, 19);
+                            return `'${formatted}'`;
+                        }
+
+                        //  Handle timestamp string
+                        if (typeof val === 'string' && !isNaN(Date.parse(val))) {
+                            const formatted = new Date(val).toISOString().replace("T", " ").slice(0, 19);
+                            return `'${formatted}'`;
+                        }
+
+                        if (typeof val === 'boolean') return val;
+                        if (typeof val === 'number') return val;
+
+                        return `'${val}'`;
+                    })
+                    .join(', ');
+
+                values.push(`(${value})`);
+            });
 
 
-            
+
+             query = `INSERT INTO ${this.tableName} (${keys.join(', ')}) VALUES ${values} RETURNING *`;
         }
-        console.log(values);
+
+        else{
+
+           query = `INSERT INTO ${this.tableName} (${keys.join(', ')}) VALUES (${values}) RETURNING *`;
 
 
-        // console.log('debug');
-        //  console.log('debug');
-        //   console.log('debug');
-        //    console.log('debug');
-        //     console.log('debug');
-        //      console.log('debug');
-        // console.log('item',item);
-        // console.log('keys',keys);
-        // console.log('values',values);
+        }
+        console.log('query', query);
 
         try {
 
-            //    const query = `INSERT INTO ${this.tableName} (${keys.join(', ')}) VALUES (${values}) RETURNING *`;
-            //    console.log('query');
-
-            //    console.log('query');
-            //    console.log('query');
-
-
-            //   console.log('query',query);
-            // const result = await pool.query(`INSERT INTO ${this.tableName} (${keys.join(', ')}) VALUES (${values}) RETURNING *`);
-
-            // return result.rows[0]
+    
+            const result = await pool.query(query);
+            return result.rows[0]
 
         } catch (error) {
 

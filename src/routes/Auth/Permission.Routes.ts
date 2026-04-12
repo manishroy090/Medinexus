@@ -4,6 +4,7 @@ import { PermissionController } from "../../controllers/Auth/Permission.controll
 import { PemissionRepository } from "../../Repositories/Permissions.repositories.js";
 
 
+
 export async function PermissionRoutes(fastify: FastifyInstance) {
 
     const permissionRepo:PemissionRepository = new PemissionRepository();

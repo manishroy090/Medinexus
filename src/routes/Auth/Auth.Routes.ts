@@ -6,6 +6,7 @@ import { Hoshpitalsrepositories } from "../../Repositories/Hoshpitals.repositori
 import { UsersRepositories } from "../../Repositories/Users.repositories.js";
 import { TenantRepository } from "../../Repositories/Tenants.repositories.js";
 import { SchemaRepository } from "../../Repositories/Schemas.repositories.js";
+import { Authentication } from "../../middleware/Authentication.middleware.js";
 
 export async function AuthRoutes(fastify: FastifyInstance){
 
@@ -28,7 +29,7 @@ export async function AuthRoutes(fastify: FastifyInstance){
   fastify.post('/signup', controller.signup.bind(controller))
   fastify.post('/login',controller.login.bind(controller));
 
-  fastify.post('/lang',controller.lang.bind(controller));
+  fastify.post('/lang',{preHandler:[Authentication]},controller.lang.bind(controller));
   
 
 }

@@ -47,6 +47,14 @@ export class AuthController {
     const user = { email, name, 'password': hashPassword };
     const { id } = await this.UsersRepositories.createUser(user);
 
+    console.log('id')
+    console.log('id')
+    console.log('id')
+    console.log('id')
+    console.log('id')
+    console.log('id',id);
+
+
     const { registration_number, emergency_contact, tax_id, website, address_line1, address_line2, city, state, country_id, postal_code, logo, description, continent, established_date, total_beds } = body
     const org = {
       name: name,
@@ -68,6 +76,8 @@ export class AuthController {
       established_date
     }
 
+
+    console.log('org',org);
 
     const createdOrg = await this.OrganizationsRepository.createOrg(org);
     const countryRep = await request.server.repositories.Countriesrep.getCountry(createdOrg?.country_id);
