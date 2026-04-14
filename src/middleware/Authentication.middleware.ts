@@ -16,6 +16,7 @@ export async function Authentication(req: any, reply: any) {
     try {
         const decoded = req.server.jwt.verify(token);
         req.log.info(`Token verified. Foo is ${JSON.stringify(decoded)}`);
+        (req as any).user = decoded;
 
     } catch (error) {
         return reply.status(401).send({

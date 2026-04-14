@@ -1,6 +1,6 @@
 # used Tech Stack
 
--  Node Js
+- Node Js
 - TypeScripts
 - Postgress
 - Fastify

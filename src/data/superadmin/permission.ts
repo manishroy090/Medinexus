@@ -371,5 +371,73 @@ export const Permissions = [
         'created_at': new Date(),
         'updated_at': new Date(),
         'deleted_at': new Date()
+    },
+
+
+
+    //hoshpital roles Permission 
+
+    {
+        'title': "hoshpital.index",
+        'role_id': "2",
+        'is_active': 1,
+        'created_at': new Date(),
+        'updated_at': new Date(),
+        'deleted_at': new Date()
+    },
+
+     {
+        'title': "hoshpital.create",
+        'role_id': "2",
+        'is_active': 1,
+        'created_at': new Date(),
+        'updated_at': new Date(),
+        'deleted_at': new Date()
+    },
+
+     {
+        'title': "hoshpital.edit",
+        'role_id': "2",
+        'is_active': 1,
+        'created_at': new Date(),
+        'updated_at': new Date(),
+        'deleted_at': new Date()
+    },
+     {
+        'title': "hoshpital.update",
+        'role_id': "2",
+        'is_active': 1,
+        'created_at': new Date(),
+        'updated_at': new Date(),
+        'deleted_at': new Date()
+    },
+
+
+
+       {
+        'title': "doctor.index",
+        'role_id': "2",
+        'is_active': 1,
+        'created_at': new Date(),
+        'updated_at': new Date(),
+        'deleted_at': new Date()
+    },
+
+     {
+        'title': "doctor.create",
+        'role_id': "2",
+        'is_active': 1,
+        'created_at': new Date(),
+        'updated_at': new Date(),
+        'deleted_at': new Date()
+    },
+
+     {
+        'title': "doctor.edit",
+        'role_id': "2",
+        'is_active': 1,
+        'created_at': new Date(),
+        'updated_at': new Date(),
+        'deleted_at': new Date()
     }
 ]

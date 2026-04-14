@@ -133,7 +133,7 @@ export class AuthController {
     const user = await this.UsersRepositories.getUserByEmail(email);
     const isMatched = await request.server.bcrypt.compare(password, user.password);
 
-    const token = request.server.jwt.sign({ email });
+    const token = request.server.jwt.sign({ email ,role:"Hoshpital"});
 
     if (!user || !isMatched) {
 
