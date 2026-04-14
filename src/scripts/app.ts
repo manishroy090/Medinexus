@@ -3,6 +3,7 @@ import Database from "../Services/Database.js";
 import chalk from "chalk";
 import {  Seeder } from "../db/seeder/Seeder.js";
 import { boolean } from "zod";
+import { argv } from "node:process";
 
 class App {
 
@@ -10,7 +11,12 @@ class App {
         const command = process.argv[2];
         const params = process.argv[3];
 
-        const datbase = new Database();
+  
+
+        // npm run migrate tenantName schemaname;
+
+
+        const database = new Database();
         
 
         switch (command) {
@@ -26,7 +32,12 @@ class App {
 
                 break;
             case "migrate":
-                if (params && params !== 'rollback') {
+              
+              const tenantName  = process.argv[3];
+              const schemaName = process.argv[4];
+
+              
+                if (params && params !== 'rollback' && !tenantName) {
                     const tableName = params;
                     console.log('migrate single table');
                 }
@@ -34,12 +45,18 @@ class App {
                 else if (params == 'rollback') {
 
                     //This Script will rollback all the table from adminDatabase
-                    datbase.rollbackAdminDb();
+                    database.rollbackAdminDb();
+                }
+                else if(tenantName && schemaName ){
+
+                     database.migrateTenantDBOrgSchema();
+
+
                 }
                 else {
 
                     //THIS SCRIPT WILL RUN TO MIGRATE ALL THE TALBE
-                    datbase.migrateToAdminDb();
+                    database.migrateToAdminDb();
                 }
 
                 break;

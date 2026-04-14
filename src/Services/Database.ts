@@ -3,7 +3,7 @@ import fs from 'fs/promises';
 import path from 'path';
 import { pathToFileURL } from 'url';
 import { Config } from '../Constants/App.js';
-import { Migrations } from '../db/migrations/Migrations.js';
+import { Migrations} from '../db/migrations/Migrations.js';
 
 
 
@@ -14,7 +14,7 @@ export class Database {
     
     public mainDBName: any;
     private countryClient:any;
-    private AdminMigrations:any;
+    private migrations:any;
 
 
     constructor() {
@@ -26,7 +26,7 @@ export class Database {
         });
 
 
-         this.AdminMigrations = new Migrations();
+         this.migrations = new Migrations();
 
     
     }
@@ -48,7 +48,7 @@ export class Database {
         
         const folderPath = path.join(process.cwd(), 'src', 'db', 'migrations', 'main');
         // const files = await fs.readdir(folderPath);
-        const files = await this.AdminMigrations.getmainDBMigrations();
+        const files = await this.migrations.getmainDBMigrations();
         await this.adminClient.connect();
 
         console.log('files',files); 
@@ -78,6 +78,21 @@ export class Database {
 
 
         await this.adminClient.end();
+    }
+
+    async migrateTenantDBOrgSchema(){
+
+      const SchemaName = "Uk";
+      const hoshpital =   await this.migrations.getHoshpitalMigrations();
+      const countriesMigration = hoshpital.find((item:any)=>Object.keys(item).includes(SchemaName));
+
+      
+    //   console.log('countriesMigration',countriesMigration);
+    //   console.log('tenantSchemas',Object.values(countriesMigration)[0]);
+
+    
+
+
     }
 
     async rollbackAdminDb() {
