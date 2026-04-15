@@ -4,6 +4,7 @@ import path from 'path';
 import { pathToFileURL } from 'url';
 import { Config } from '../Constants/App.js';
 import { Migrations} from '../db/migrations/Migrations.js';
+import { Schema } from '../db/models/Schema.js';
 
 
 
@@ -82,15 +83,76 @@ export class Database {
 
     async migrateTenantDBOrgSchema(){
 
-      const SchemaName = "Uk";
+      const SchemaName = "uk";
+      const org = 'greenvallyhospital';
+
       const hoshpital =   await this.migrations.getHoshpitalMigrations();
       const countriesMigration = hoshpital.find((item:any)=>Object.keys(item).includes(SchemaName));
+      const commanMigration = await this.migrations.commanMigration();
+      const tenantSchema =Object.values(countriesMigration)[0] as {name:string}[];
+      const table = [...tenantSchema,...commanMigration];
+      const tenantfolderPath = path.join(process.cwd(),'src','db','migrations','tenant',SchemaName.toLowerCase(),'hoshpital');
+      const commonFolderPath = path.join(process.cwd(),'src','db','migrations','common');
+      const tenantfiles = await fs.readdir(tenantfolderPath);
+      const commanfiles = await fs.readdir(commonFolderPath);
 
+      for( const file of tenantSchema){
+        const filePath = path.join(`${tenantfolderPath}/${file.name}.ts`);
+        const module = await import(pathToFileURL(filePath).href);
+
+        console.log('filepath',filePath);
+
+        // if(typeof module.up === 'function'){
+
+        //     const table = await module.up();
+
+        //     try {
+                
+        //          await this.countryClient.query('BEGIN');
+        //          await this.countryClient.query(`SET search_path TO unitedkingdom`);
+        //          await this.countryClient.query(table);
+        //          await this.countryClient.query('COMMIT');
+
+        //          console.log(`${file.name} migration successfull`);
+
+        //     } catch (error) {
+
+        //        console.log(`${file.name} migration failed` ,error);
+                
+        //     }
+
+
+        // }
+        
       
-       console.log('countriesMigration',countriesMigration);
-       console.log('tenantSchemas',Object.values(countriesMigration)[0]);
+
+      }
+
 
     
+
+    
+
+      
+      console.log('commanfiles',tenantfiles);
+
+
+    //   console.log('tenantfiles',tenantfiles);
+    //   console.log('commanfiles',commanfiles);
+
+
+
+    //   console.log('files',tenantfiles);
+    //   console.log('folderPath',folderPath);
+
+
+
+
+     // console.log('folderPath',folderPath);
+    //   this.switchToCountryDB(SchemaName);
+
+
+
 
 
     }

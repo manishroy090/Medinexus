@@ -5,10 +5,7 @@ export class Migrations {
     private tablePrefix: string;
 
     constructor() {
-
-
         this.tablePrefix = "healthcare";
-
     }
 
 
@@ -50,7 +47,7 @@ export class Migrations {
       return  [
 
             {
-                Uk: [
+                uk: [
                     { name: "doctors" },
                     { name: "patients" },
                     { name: "admission" },
