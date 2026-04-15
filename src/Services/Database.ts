@@ -87,8 +87,8 @@ export class Database {
       const countriesMigration = hoshpital.find((item:any)=>Object.keys(item).includes(SchemaName));
 
       
-    //   console.log('countriesMigration',countriesMigration);
-    //   console.log('tenantSchemas',Object.values(countriesMigration)[0]);
+       console.log('countriesMigration',countriesMigration);
+       console.log('tenantSchemas',Object.values(countriesMigration)[0]);
 
     
 
