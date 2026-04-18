@@ -1,7 +1,7 @@
 import { table_prefix } from "../../../Constants/App.js"
 
-export async function up() {
-    return `CREATE TABLE ${table_prefix}_users(
+export async function up(schemaName:string) {
+    return `CREATE TABLE ${schemaName}.${table_prefix}_users(
               id SERIAL PRIMARY KEY,
               role_id BIGINT,
               name VARCHAR(255),

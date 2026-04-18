@@ -1,7 +1,7 @@
 
 import { table_prefix } from "../../../Constants/App.js"
-export async function up() {
-    return `CREATE TABLE ${table_prefix}_roles(
+export async function up(schemaName:string) {
+    return `CREATE TABLE ${schemaName}.${table_prefix}_roles(
               id SERIAL PRIMARY KEY,
               title VARCHAR(255),
               description TEXT,

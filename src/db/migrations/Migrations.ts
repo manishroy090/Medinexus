@@ -48,14 +48,14 @@ export class Migrations {
 
             {
                 uk: [
-                    { name: "doctors" },
-                    { name: "patients" },
-                    { name: "admission" },
-                    { name: "appointment" },
-                    { name: "bills" },
-                    { name: "doctor_department" },
-                    { name: "medicalrecords" },
-                    { name: "medicines" },
+                    { name: "Doctors" },
+                    { name: "Patients" },
+                    { name: "Admission" },
+                    { name: "Appointment" },
+                    { name: "Bills" },
+                    { name: "DoctorDepartments" },
+                    { name: "MedicalRecords" },
+                    { name: "Medicines" },
                 ]
             }
             ,

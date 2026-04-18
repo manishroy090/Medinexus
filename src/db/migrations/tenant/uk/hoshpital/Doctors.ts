@@ -1,7 +1,9 @@
 import { table_prefix } from "../../../../../Constants/App.js"
 
-export async function up() {
-    return `CREATE TABLE  ${table_prefix}_doctors(
+export async function up(schemaName:String) {
+
+
+    return `CREATE TABLE  ${schemaName}.${table_prefix}_doctors(
               id SERIAL PRIMARY KEY,
               first_name VARCHAR(255),
               last_name VARCHAR(255),
@@ -12,7 +14,7 @@ export async function up() {
               is_active BOOLEAN,
               created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
               updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-              deleted_at TIMESTAMP NULL,
+              deleted_at TIMESTAMP NULL
           )`
 
 

@@ -1,7 +1,7 @@
 import { table_prefix } from "../../../../../Constants/App.js"
 
-export async function up() {
-    return `CREATE TABLE  ${table_prefix}_hoshpitals(
+export async function up(schemaName:String) {
+    return `CREATE TABLE  ${schemaName}.${table_prefix}_medicines(
               id SERIAL PRIMARY KEY,
               bill_id  BIGINT,
               item_name VARCHAR(255),
@@ -11,7 +11,7 @@ export async function up() {
               is_active BOOLEAN,
               created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
               updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-              deleted_at TIMESTAMP NULL,
+              deleted_at TIMESTAMP NULL
           )`
 
 

@@ -96,35 +96,57 @@ export class Database {
       const tenantfiles = await fs.readdir(tenantfolderPath);
       const commanfiles = await fs.readdir(commonFolderPath);
 
+      this.switchToCountryDB('unitedkingdom');
+
       for( const file of tenantSchema){
-        const filePath = path.join(`${tenantfolderPath}/${file.name}.ts`);
+        const filePath = path.join(tenantfolderPath,`${file.name}.ts`);
         const module = await import(pathToFileURL(filePath).href);
 
-        console.log('filepath',filePath);
+           if(typeof module.up === 'function'){
+             const table = await module.up('greenvalleyhospital');
 
-        // if(typeof module.up === 'function'){
-
-        //     const table = await module.up();
-
-        //     try {
+            try {
                 
-        //          await this.countryClient.query('BEGIN');
-        //          await this.countryClient.query(`SET search_path TO unitedkingdom`);
-        //          await this.countryClient.query(table);
-        //          await this.countryClient.query('COMMIT');
+                const countryClient =  await this.countryClient.query(table);
 
-        //          console.log(`${file.name} migration successfull`);
+                console.log('countryClient',countryClient);
+                console.log(`${file.name} migration successfull`);
 
-        //     } catch (error) {
+             } catch (error) {
 
-        //        console.log(`${file.name} migration failed` ,error);
+                 console.log(`${file.name} migration failed` ,error);
                 
-        //     }
-
-
-        // }
+            }
+         }
         
-      
+      }
+
+
+
+      for(const file of  commanMigration){
+
+         const filePath = path.join(commonFolderPath,`${file.name}.ts`);
+         const module = await import(pathToFileURL(filePath).href);
+
+         if(typeof module.up === 'function'){
+               const table = await module.up('greenvalleyhospital');
+               try {
+
+               const countryClient =  await this.countryClient.query(table);
+
+                console.log('countryClient',countryClient);
+                console.log(`${file.name} migration successfull`);
+
+                
+               } catch (error) {
+
+                 console.log(`${file.name} common migration failed` ,error);
+
+                
+               }
+         }
+
+         console.log('filePath',module);
 
       }
 

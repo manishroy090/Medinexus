@@ -11,3 +11,24 @@ export const Config = {
     'AdminDBName':process.env.AdminDBName,
     'ClientDBName':env.ClientDBName
 }
+
+
+
+export const HoshpitalRole =[
+    {name:"Doctors"},
+    {name:"Physicians"},
+    {name:"Nurses"},
+    {name:"Surgeons"},
+    {name:"Anesthesiologists"},
+    {name:"Pharmacists"},
+    {name:"LabTechnicians"},
+    {name:"Radiologists"},
+    {name:"Radiologic_Technologists"},
+    {name:"Sonographers"},
+    {name:"Physiotherapists"},
+    {name:"Occupational_Therapists"},
+    {name:"Hospital_Administrators"},
+    {name:"Receptionists"},
+    {name:"Medical_Records_Staff"},
+    {name:"Billing_Insurance_Staff"}
+]
