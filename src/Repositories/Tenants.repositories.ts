@@ -43,6 +43,7 @@ export class TenantRepository {
 
 
     async deleteTenant(id:String){
-      return  await this.Tenant.delete(id);
+        const result =  await this.Tenant.delete(id);
+        return result ;
     }
 }

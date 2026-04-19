@@ -1,59 +1,159 @@
 import { type FastifyRequest, type FastifyReply } from "fastify";
 import { isatty } from "node:tty";
+import { UsersRepositories } from "../../../Repositories/org/hoshpital/Users.repositories.js";
+import { Doctorrepositories } from "../../../Repositories/org/hoshpital/Doctor.repositories.js";
 
 export class DoctorsController {
 
+    private UsersRepositories: UsersRepositories;
+    private DoctorRepositories: Doctorrepositories;
 
-    async index(request: FastifyRequest, reply: FastifyReply) {
+
+
+    constructor(UsersRepositories: UsersRepositories, Doctorrepositories: Doctorrepositories) {
+
+        this.UsersRepositories = UsersRepositories;
+        this.DoctorRepositories = Doctorrepositories;
 
     }
 
 
-    async create(request:any, reply: any) {
+    async index(request: any, reply: any) {
 
-        const {body} =request;
 
+        try {
+
+            const doctors = await this.DoctorRepositories.getAllDoctor();
+
+            reply.status(200).send({
+                message: "fetched successfully",
+                doctors: doctors
+            })
+
+        } catch (error) {
+
+            reply.status(500).send({
+                message: "Something went wrong"
+            })
+
+        }
+
+
+
+
+
+    }
+
+
+    async create(request: any, reply: any) {
+
+        const { body } = request;
         const {
-                first_name,
-                password 
-               ,last_name
-               ,specialization
-               ,phone
-               ,email
-               ,sub_specialization
-               ,consultation_fee
-               ,medical_license_number
-               ,year_of_exp
-               ,education
-               ,role_id,
-            } = body;
+            first_name,
+            password
+            , last_name
+            , specialization
+            , phone
+            , email
+            , sub_specialization
+            , consultation_fee
+            , medical_license_number
+            , role_id,
+        } = body;
+        
 
-        const user = {role_id,first_name,email,password};
+        const hashPassword = await request.server.bcrypt.hash(password);
+        const user = { role_id, name: first_name, email, 'password':hashPassword};
+        const createdUser = await this.UsersRepositories.createHoshpitalUser(user);
 
-        //insert user here 
+        const doctor = {
+            user_id: createdUser.id,
+            first_name,
+            last_name,
+            specialization,
+            phone,
+            email,
+            sub_specialization,
+            consultation_fee,
+            medical_license_number
+        };
 
 
+        const createdDoctor = this.DoctorRepositories.createDoctor(doctor);
 
-        const doctor = {user_id:' ',first_name ,last_name, specialization,phone,email,sub_specialization,consultation_fee,medical_license_number,year_of_exp,education,previous_work_history};
+        reply.status(201).send({
+            message: "Doctor is created",
+            createdDoctor: createdDoctor,
+        });
 
-        //insert doctor here 
+    }
 
-        console.log('request',body);
+
+    async edit(request: any, reply: any) {
+
+        const { id } = request.params;
+
+        try {
+
+            const doctor = await this.DoctorRepositories.getDoctor(id);
+            reply.status(200).send({
+                message: "Doctor fetched successfully",
+                doctor: doctor
+            });
+
+        } catch (error) {
+
+            reply.status(500).send({
+                message: "Something Went Wrong",
+            });
+
+        }
+
+
+    }
+
+    async update(request: any, reply: any) {
+
+        const { body } = request;
+        const { id } = request.params;
+        try {
+            const doctor = await this.DoctorRepositories.updateDoctor(id, body);
+            reply.status(200).send({
+                message: "Doctor updated successfully",
+                doctor: doctor
+            })
+
+        } catch (error) {
+            reply.status(500).send({
+                message: "Something Went wrong",
+            })
+        }
+
+
 
 
     }
 
 
-    async edit(request: FastifyRequest, reply: FastifyReply) {
+    async delete(request: any, reply: any) {
+        const { body } = request;
+        const { id } = request.params;
 
-    }
+        try {
+            const doctor = await this.DoctorRepositories.deleteDoctor(id);
 
-    async update(request: FastifyRequest, reply: FastifyReply) {
+            reply.status(200).send({
+                message: "Doctor deleted successfully",
+                doctor: doctor
+            })
 
-    }
+        } catch (error) {
 
+            reply.status(500).send({
+                message: "Something Went wrong",
+            })
 
-    async delete(request: FastifyRequest, reply: FastifyReply) {
+        }
 
     }
 
