@@ -11,6 +11,7 @@ import { RolesRoutes } from './routes/Auth/Roles.Routes.js';
 
 //Hoshpital Routes file 
 import { HoshpitalRoutes } from './routes/organization/Hoshpital/Hoshpital.Routes.js';
+import Config from './Constants/Config.js';
 import jwt from '@fastify/jwt'
 
 //Pugins namespace
@@ -31,7 +32,7 @@ fastify.setSerializerCompiler(serializerCompiler);
 
 //implement Plugins here
 fastify.register(fastifyBcrypt,{saltWorkFactor:12});
-fastify.register(jwt,{secret: 'supersecret'});
+fastify.register(jwt,{secret: Config().JWT_SECRET});
 fastify.register(servicesPlugin);
 fastify.register(repositoriesPlugin);
 

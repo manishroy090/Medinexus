@@ -1,7 +1,7 @@
-import { table_prefix } from "../../../Constants/App.js"
+import Config from "../../../Constants/Config"
 
 export async function up(schemaName:string) {
-    return `CREATE TABLE ${schemaName}.${table_prefix}_users(
+    return `CREATE TABLE ${schemaName}.${Config().TABLE_PREFIX}_users(
               id SERIAL PRIMARY KEY,
               role_id BIGINT,
               name VARCHAR(255),
@@ -20,5 +20,5 @@ export async function up(schemaName:string) {
 
 
 export async function down() {
-    return `DROP TABLE ${table_prefix}_users`
+    return `DROP TABLE ${Config().TABLE_PREFIX}_users`
 }

@@ -2,6 +2,7 @@ import { type FastifyRequest, type FastifyReply } from "fastify";
 import { isatty } from "node:tty";
 import { UsersRepositories } from "../../../Repositories/org/hoshpital/Users.repositories.js";
 import { Doctorrepositories } from "../../../Repositories/org/hoshpital/Doctor.repositories.js";
+import  Config from '../../../Constants/Config.js';
 
 export class DoctorsController {
 

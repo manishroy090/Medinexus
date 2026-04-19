@@ -1,7 +1,8 @@
 
-import { table_prefix } from "../../../Constants/App.js"
+import Config from "../../../Constants/Config"
+
 export async function up(schemaName:string) {
-    return `CREATE TABLE ${schemaName}.${table_prefix}_permissions(
+    return `CREATE TABLE ${schemaName}.${Config().TABLE_PREFIX}_permissions(
               id SERIAL PRIMARY KEY,
               title VARCHAR(255),
               role_id BIGINT,
@@ -15,5 +16,5 @@ export async function up(schemaName:string) {
 
 
 export async function down() {
-      return `DROP TABLE ${table_prefix}_Permissions`
+      return `DROP TABLE ${Config().TABLE_PREFIX}_Permissions`
 }

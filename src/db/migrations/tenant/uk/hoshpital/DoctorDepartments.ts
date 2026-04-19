@@ -1,7 +1,6 @@
-import { table_prefix } from "../../../../../Constants/App.js"
-
+import Config from "../../../../../Constants/Config"
 export async function up(schemaName:String) {
-    return `CREATE TABLE  ${schemaName}.${table_prefix}_hoshpitals(
+    return `CREATE TABLE  ${schemaName}.${Config().TABLE_PREFIX}_hoshpitals(
               id SERIAL PRIMARY KEY,
               doctor_id  BIGINT,
               hoshpital_id BIGINT
@@ -14,5 +13,5 @@ export async function up(schemaName:String) {
 
 
 export async function down() {
-      return `DROP TABLE ${table_prefix}_hoshpital`
+      return `DROP TABLE ${Config().TABLE_PREFIX}_hoshpital`
 }

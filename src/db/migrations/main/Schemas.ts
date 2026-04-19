@@ -1,7 +1,7 @@
-import { table_prefix } from "../../../Constants/App.js"
 
+import Config from "../../../Constants/Config"
 export async function up() {
-    return `CREATE TABLE ${table_prefix}_schemas(
+    return `CREATE TABLE ${Config().TABLE_PREFIX}_schemas(
               id SERIAL PRIMARY KEY,
               org_id BIGINT,
               tenant_id BIGINT,
@@ -18,5 +18,5 @@ export async function up() {
 
 
 export async function down() {
-     return `DROP TABLE ${table_prefix}_schemas`
+     return `DROP TABLE ${Config().TABLE_PREFIX}_schemas`
 }

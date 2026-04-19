@@ -1,7 +1,7 @@
-import { table_prefix } from "../../../Constants/App.js"
 
+import Config from "../../../Constants/Config"
 export async function up() {
-    return `CREATE TABLE ${table_prefix}_tenants(
+    return `CREATE TABLE ${Config().TABLE_PREFIX}_tenants(
               id SERIAL PRIMARY KEY,
               country_id BIGINT NOT NULL,
               db_names VARCHAR(255),
@@ -20,5 +20,5 @@ export async function up() {
 
 
 export async function down() {
-    return `DROP TABLE IF EXISTS ${table_prefix}_tenants`
+    return `DROP TABLE IF EXISTS ${Config().TABLE_PREFIX}_tenants`
 }

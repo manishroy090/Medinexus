@@ -1,7 +1,8 @@
-import { table_prefix } from "../../../Constants/App.js"
 
+
+import Config from "../../../Constants/Config"
 export async function up() {
-    return `CREATE TABLE  ${table_prefix}_hoshpitals(
+    return `CREATE TABLE  ${Config().TABLE_PREFIX}_hoshpitals(
               id SERIAL PRIMARY KEY,
 			  org_id  BIGINT,
               name VARCHAR(255),
@@ -19,5 +20,5 @@ export async function up() {
 
 
 export async function down() {
-      return `DROP TABLE ${table_prefix}_hoshpital`
+      return `DROP TABLE ${Config().TABLE_PREFIX}_hoshpital`
 }
