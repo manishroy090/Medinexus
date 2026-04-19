@@ -1,5 +1,5 @@
 
-import Config from "../../../Constants/Config"
+import Config from "../../../Constants/Config.js"
 export async function up() {
     return `CREATE TABLE ${Config().TABLE_PREFIX}_schemas(
               id SERIAL PRIMARY KEY,
@@ -8,8 +8,8 @@ export async function up() {
               title VARCHAR(255),
               is_active BOOLEAN,
               created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-              CONSTRAINT fk_schemas_orn FOREIGN KEY (org_id) REFERENCES ${table_prefix}_organizations(id),
-              CONSTRAINT fk_schemas_ten FOREIGN KEY (tenant_id) REFERENCES ${table_prefix}_tenants(id),
+              CONSTRAINT fk_schemas_orn FOREIGN KEY (org_id) REFERENCES ${Config().TABLE_PREFIX}_organizations(id),
+              CONSTRAINT fk_schemas_ten FOREIGN KEY (tenant_id) REFERENCES ${Config().TABLE_PREFIX}_tenants(id),
               updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
               deleted_at TIMESTAMP NULL
           )`

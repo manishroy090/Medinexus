@@ -1,5 +1,5 @@
 
-import Config from "../../../Constants/Config";
+import Config from "../../../Constants/Config.js";
 export async function up() {
     return `CREATE TABLE ${Config().TABLE_PREFIX}_organizations (
               id SERIAL PRIMARY KEY,
@@ -24,7 +24,7 @@ export async function up() {
               created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
               updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
               deleted_at TIMESTAMP NULL,
-              CONSTRAINT fk_org_country FOREIGN KEY (country_id) REFERENCES ${table_prefix}_countries(id)
+              CONSTRAINT fk_org_country FOREIGN KEY (country_id) REFERENCES ${Config().TABLE_PREFIX}_countries(id)
               ON DELETE CASCADE
               ON UPDATE CASCADE)`
 }

@@ -32,7 +32,7 @@ fastify.setSerializerCompiler(serializerCompiler);
 
 //implement Plugins here
 fastify.register(fastifyBcrypt,{saltWorkFactor:12});
-fastify.register(jwt,{secret: Config().JWT_SECRET});
+fastify.register(jwt,{secret: 'supersecret'});
 fastify.register(servicesPlugin);
 fastify.register(repositoriesPlugin);
 

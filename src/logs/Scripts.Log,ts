@@ -1,0 +1,37 @@
+
+
+import {SystemLogs} from './SystemLogs.js'
+
+export class Scripts extends SystemLogs{
+
+    async  migrationLogs(){
+
+    }
+
+
+    async migrationRollbackLogs(){
+
+    }
+
+
+    async tenantMigrationLogs(){
+
+
+
+    }
+
+
+    async tenantMigrationRollbackLogs(){
+        
+    }
+
+
+    async seedLogs(){
+
+    }
+
+
+    async SeedRollbackLogs(){
+
+    }
+}

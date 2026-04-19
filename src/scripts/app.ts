@@ -5,13 +5,18 @@ import {  Seeder } from "../db/seeder/Seeder.js";
 import { boolean } from "zod";
 import { argv } from "node:process";
 
+
+
 class App {
+
 
     constructor() {
         const command = process.argv[2];
         const params = process.argv[3];
 
   
+        
+
 
         // npm run migrate tenantName schemaname;
 

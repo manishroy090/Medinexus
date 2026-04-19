@@ -21,7 +21,6 @@ export class DoctorsController {
 
     async index(request: any, reply: any) {
 
-
         try {
 
             const doctors = await this.DoctorRepositories.getAllDoctor();

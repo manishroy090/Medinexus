@@ -2,9 +2,11 @@ import { Client } from 'pg';
 import fs from 'fs/promises';
 import path from 'path';
 import { pathToFileURL } from 'url';
-import { Config } from '../Constants/App.js';
 import { Migrations} from '../db/migrations/Migrations.js';
-import { Schema } from '../db/models/Schema.js';
+import Config from '../Constants/Config.js';
+import Scripts from '../logs/'
+
+
 
 
 
@@ -16,11 +18,12 @@ export class Database {
     public mainDBName: any;
     private countryClient:any;
     private migrations:any;
+    private ScriptLogs:any
 
 
     constructor() {
 
-        this.mainDBName = "healthcare"
+        this.mainDBName = Config().mainDatabase.DB_NAME
 
         this.adminClient = new Client({
             connectionString: `postgres://manish:secret@localhost:5432/${this.mainDBName}`
@@ -45,8 +48,7 @@ export class Database {
 
     async migrateToAdminDb() {
 
-    
-        
+   
         const folderPath = path.join(process.cwd(), 'src', 'db', 'migrations', 'main');
         // const files = await fs.readdir(folderPath);
         const files = await this.migrations.getmainDBMigrations();

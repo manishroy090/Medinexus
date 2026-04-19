@@ -1,5 +1,5 @@
 
-import Config from "../../../Constants/Config"
+import Config from "../../../Constants/Config.js"
 export async function up() {
     return `CREATE TABLE ${Config().TABLE_PREFIX}_countries(
               id SERIAL PRIMARY KEY,
