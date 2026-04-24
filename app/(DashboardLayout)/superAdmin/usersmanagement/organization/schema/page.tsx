@@ -16,126 +16,94 @@ const BCrumb = [
   },
 ]
 
- const EmployeesData = [
+ const SchemaName = [
   {
-    "name": {
-      "text": "Alice Johnson",
-      "image": "/images/profile/user-1.jpg"
-    },
-    "position": "Senior Software Engineer",
-    "salary": 120000,
-    "department": "Engineering",
-    "status": "Active",
-
+    organizationName: "City Care Hospital",
+    tenantName: "UintedKingdom",
+    status: "Active",
+    created_at: "2022-01-10T08:30:00Z",
+    updated_at: "2024-03-12T10:15:00Z",
+    deleted_at: ""
   },
   {
-    "name": {
-      "text": "Bob Williams",
-      "image": "/images/profile/user-2.jpg"
-    },
-    "position": "Marketing Manager",
-    "salary": 95000,
-    "department": "Marketing",
-    "status": "Active",
-
+    organizationName: "LifeSaver Blood Bank",
+    tenantName: "USA",
+    status: "Active",
+    created_at: "2021-06-25T09:45:00Z",
+    updated_at: "2023-11-05T14:20:00Z",
+    deleted_at: ""
   },
   {
-    "name": {
-      "text": "Carol Davis",
-      "image": "/images/profile/user-3.jpg"
-    },
-    "position": "HR Specialist",
-    "salary": 70000,
-    "department": "Human Resources",
-    "status": "On Leave",
-
-
+    organizationName: "GreenLeaf Pharmacy",
+    tenantName: "UintedKingdom",
+    status: "Inactive",
+    created_at: "2020-09-18T07:20:00Z",
+    updated_at: "2022-12-01T11:10:00Z",
+    deleted_at: "2023-01-01T00:00:00Z"
   },
   {
-    "name": {
-      "text": "David Brown",
-      "image": "/images/profile/user-4.jpg"
-    },
-    "position": "Product Owner",
-    "salary": 110000,
-    "department": "Product Development",
-    "status": "Active",
-
+    organizationName: "Precision Lab Services",
+    tenantName: "USA",
+    status: "Active",
+    created_at: "2019-03-12T12:00:00Z",
+    updated_at: "2024-01-20T16:45:00Z",
+    deleted_at: ""
   },
   {
-    "name": {
-      "text": "Eve Green",
-      "image": "/images/profile/user-5.jpg"
-    },
-    "position": "Junior Software Engineer",
-    "salary": 80000,
-    "department": "Engineering",
-    "status": "Active",
-
+    organizationName: "Hope Blood Donation Center",
+    tenantName: "Canada",
+    status: "Pending",
+    created_at: "2023-07-01T10:10:00Z",
+    updated_at: "",
+    deleted_at: ""
   },
   {
-    "name": {
-      "text": "Frank White",
-      "image": "/images/profile/user-6.jpg"
-    },
-    "position": "Sales Representative",
-    "salary": 65000,
-    "department": "Sales",
-    "status": "Active",
-
+    organizationName: "Sunrise Medical Center",
+    tenantName: "USA",
+    status: "Active",
+    created_at: "2022-05-14T06:50:00Z",
+    updated_at: "2024-02-18T09:30:00Z",
+    deleted_at: ""
   },
   {
-    "name": {
-      "text": "Grace Black",
-      "image": "/images/profile/user-7.jpg"
-    },
-    "position": "Financial Analyst",
-    "salary": 88000,
-    "department": "Finance",
-    "status": "Active",
-
+    organizationName: "MediQuick Pharmacy",
+    tenantName: "UintedKingdom",
+    status: "Inactive",
+    created_at: "2021-11-03T13:25:00Z",
+    updated_at: "2022-08-19T15:00:00Z",
+    deleted_at: "2022-09-01T00:00:00Z"
   },
   {
-    "name": {
-      "text": "Henry King",
-      "image": "/images/profile/user-8.jpg"
-    },
-    "position": "CEO",
-    "salary": 250000,
-    "department": "Executive",
-    "status": "Active",
-
+    organizationName: "BioTest Laboratory",
+    tenantName: "UintedKingdom",
+    status: "Active",
+    created_at: "2020-02-22T08:00:00Z",
+    updated_at: "2023-10-30T17:40:00Z",
+    deleted_at: ""
   },
   {
-    "name": {
-      "text": "Ivy Lee",
-      "image": "/images/profile/user-9.jpg"
-    },
-    "position": "Data Scientist",
-    "salary": 130000,
-    "department": "Data Analytics",
-    "status": "Active",
-
+    organizationName: "RedDrop Blood Center",
+    tenantName: "USA",
+    status: "Pending",
+    created_at: "2024-01-05T09:00:00Z",
+    updated_at: "",
+    deleted_at: ""
   },
   {
-    "name": {
-      "text": "Jack Miller",
-      "image": "/images/profile/user-10.jpg"
-    },
-    "position": "Customer Support Specialist",
-    "salary": 55000,
-    "department": "Customer Service",
-    "status": "Terminated",
-
-
+    organizationName: "CarePlus Hospital",
+    tenantName: "Europ",
+    status: "Active",
+    created_at: "2018-12-11T07:15:00Z",
+    updated_at: "2024-04-01T12:00:00Z",
+    deleted_at: ""
   }
-]
+];
 
 const page = () => {
   return (
     <>
       <BreadcrumbComp title='Table' items={BCrumb} />
-      <DataTable data={EmployeesData}  />
+      <DataTable data={SchemaName}  />
     </>
   );
 };

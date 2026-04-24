@@ -11,47 +11,39 @@ import CardBox from "../shared/CardBox"
 const TopCards = () => {
 
   const TopCardInfo = [
-    {
-      key: "card1",
-      title: "Organization",
-      desc: "4+",
-      img: "/hrm/hospital.png.svg",
-      bgcolor: "bg-info/10 dark:bg-info/10",
-      textclr: "text-info dark:text-info",
-      url: "/apps/notes"
-    },
+
     {
       key: "card2",
-      title: "Hoshpital",
+      title: "Doctors",
       desc: "+1K",
-      img: "/hrm_image/hospital.png",
+      img: "/hrm_image/doctor.png",
       bgcolor: "bg-success/10 dark:bg-success/10",
       textclr: "text-success dark:text-success",
       url: "/icons/iconify"
     },
     {
       key: "card3",
-      title: "Blood Donation",
+      title: "Nurses",
       desc: "10+",
-      img: "/hrm_image/blood-donation.png",
+      img: "/hrm_image/nurse.png",
       bgcolor: "bg-error/10 dark:bg-error/10",
       textclr: "text-error dark:text-error",
       url: "/apps/blog/post"
     },
     {
       key: "card4",
-      title: "Pharmacy",
+      title: "Staff",
       desc: "8+",
-      img: "/hrm_image/pharmacy.png",
+      img: "/hrm_image/medical-staff.png",
       bgcolor: "bg-secondary/10 dark:bg-secondary/10",
       textclr: "text-primary dark:text-primary",
       url: "/apps/tickets"
     },
     {
       key: "card5",
-      title: "laboratory",
+      title: "Patient",
       desc: "$96k",
-      img: "/hrm_image/laboratory.png",
+      img: "/hrm_image/health-insurance.png",
       bgcolor: "bg-warning/10 dark:bg-warning/10",
       textclr: "text-warning dark:text-warning",
       url: "#product"
@@ -60,27 +52,27 @@ const TopCards = () => {
     
     {
       key: "card7",
-      title: "Clinics",
+      title: "Available Beds",
       desc: "96",
-      img: "/hrm_image/clinic.png",
+      img: "/hrm_image/hospital-bed.png",
       bgcolor: "bg-primary/10 dark:bg-lightprimary",
       textclr: "text-primary dark:text-primary",
       url: "/utilities/table"
     },
     {
       key: "card8",
-      title: "Eye Care Center",
+      title: "ICU Beds",
       desc: "696",
-      img: "/hrm_image/hospital.png",
+      img: "/hrm_image/icu.png",
       bgcolor: "bg-lighterror dark:bg-lighterror",
       textclr: "text-error dark:text-error",
       url: "/apps/blog/post"
     },
         {
       key: "card8",
-      title: "Dental Clinic",
+      title: "Emergency Units",
       desc: "696",
-      img: "/hrm_image/hospital.png",
+      img: "/hrm_image/emergency.png",
       bgcolor: "bg-lighterror dark:bg-lighterror",
       textclr: "text-error dark:text-error",
       url: "/apps/blog/post"
