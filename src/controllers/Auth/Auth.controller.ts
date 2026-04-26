@@ -128,6 +128,11 @@ export class AuthController {
 
   async login(request: any, reply: any) {
 
+    console.log('login is called by frontend ');
+        console.log('login is called by frontend ')
+            console.log('login is called by frontend ')
+
+
     const { body } = request;
     const { email, password } = body;
     const user = await this.UsersRepositories.getUserByEmail(email);

@@ -11,6 +11,6 @@ COPY . .
 RUN npx tsc
 
 
-EXPOSE 3000
+EXPOSE 4000
 
 CMD ["node", "build/index.js"]

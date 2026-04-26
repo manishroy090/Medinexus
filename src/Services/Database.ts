@@ -4,7 +4,7 @@ import path from 'path';
 import { pathToFileURL } from 'url';
 import { Migrations} from '../db/migrations/Migrations.js';
 import Config from '../Constants/Config.js';
-import Scripts from '../logs/'
+// import Scripts from '../logs/'
 
 
 
