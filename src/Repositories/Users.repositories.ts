@@ -26,7 +26,7 @@ export class UsersRepositories{
 
     async getUserByEmail(email:any){
         const resutl = await this.user.findUserByEmail(email);
-        return resutl[0];
+        return resutl[0] ;
     }
 
     

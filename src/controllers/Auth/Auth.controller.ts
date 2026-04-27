@@ -7,7 +7,7 @@ import { Hoshpitalsrepositories } from "../../Repositories/Hoshpitals.repositori
 import OrganizationSchema from "../../Services/OrganizationSchema.js";
 import { TenantRepository } from "../../Repositories/Tenants.repositories.js";
 import { SchemaRepository } from "../../Repositories/Schemas.repositories.js";
-import {Signup } from "../../types/Auth/Hoshpital/Signup.js";
+import { Signup } from "../../types/Auth/Hoshpital/Signup.js";
 
 export class AuthController {
 
@@ -15,17 +15,17 @@ export class AuthController {
   private OrganizationsRepository: OrganizationsRepository;
   private Hoshpitalsrepositories: Hoshpitalsrepositories;
   private TenantRepository: TenantRepository;
-  private SchemaRepository:SchemaRepository;
+  private SchemaRepository: SchemaRepository;
 
 
   constructor(
-    UsersRepositories: UsersRepositories, 
+    UsersRepositories: UsersRepositories,
     OrganizationsRepository: OrganizationsRepository,
     Hoshpitalsrepositories: Hoshpitalsrepositories,
-    TenantRepository:TenantRepository,
-    SchemaRepository:SchemaRepository
+    TenantRepository: TenantRepository,
+    SchemaRepository: SchemaRepository
 
-    ) {
+  ) {
 
     this.UsersRepositories = UsersRepositories;
     this.OrganizationsRepository = OrganizationsRepository;
@@ -35,9 +35,9 @@ export class AuthController {
 
   }
 
-  async signup(request:any, reply: any) {
+  async signup(request: any, reply: any) {
 
-   
+
 
     const { body } = request;
 
@@ -47,19 +47,13 @@ export class AuthController {
     const user = { email, name, 'password': hashPassword };
     const { id } = await this.UsersRepositories.createUser(user);
 
-    console.log('id')
-    console.log('id')
-    console.log('id')
-    console.log('id')
-    console.log('id')
-    console.log('id',id);
 
 
     const { registration_number, emergency_contact, tax_id, website, address_line1, address_line2, city, state, country_id, postal_code, logo, description, continent, established_date, total_beds } = body
     const org = {
       name: name,
       user_id: id,
-      org_type: body.org_type,
+      org_type: "Hoshpital",
       registration_number,
       emergency_contact,
       tax_id,
@@ -70,14 +64,14 @@ export class AuthController {
       state,
       country_id,
       postal_code,
-      logo,
-      description,
-      continent,
+      logo:"",
+      description:null,
+      continent:null,
       established_date
     }
 
 
-    console.log('org',org);
+    console.log('org', org);
 
     const createdOrg = await this.OrganizationsRepository.createOrg(org);
     const countryRep = await request.server.repositories.Countriesrep.getCountry(createdOrg?.country_id);
@@ -88,32 +82,32 @@ export class AuthController {
     const orgName = createdOrg?.name.toLowerCase().replaceAll(" ", "");
     console.log('query hitted till here');
 
-    console.log('isDatabaseExists',isDatabaseExists);
+    console.log('isDatabaseExists', isDatabaseExists);
 
-    let  tenantDB :any;
+    let tenantDB: any;
     if (!isDatabaseExists) {
 
-     await request.server.services.db.createCountryDatabase(countryName);
-     const tenantDb = {country_id:createdOrg?.country_id, db_names:countryName}
+      await request.server.services.db.createCountryDatabase(countryName);
+      const tenantDb = { country_id: createdOrg?.country_id, db_names: countryName }
       tenantDB = await this.TenantRepository.createTenant(tenantDb);
     }
-    else{
+    else {
       tenantDB = await this.TenantRepository.getTenantByDBName(countryName);
 
     }
-  
-    
 
-     const organizationSchema = new OrganizationSchema(countryName);
-     const isSchemaExists = await organizationSchema.isScheamaExists(orgName);
 
-      if (!isSchemaExists) {
-        organizationSchema.createSchema(orgName);
-           const Schema = {org_id:createdOrg?.id ,title:createdOrg?.name,tenant_id:tenantDB?.id}
-           const SchemaCreated =  await this.SchemaRepository.createSchema(Schema);
-      }
 
-  
+    const organizationSchema = new OrganizationSchema(countryName);
+    const isSchemaExists = await organizationSchema.isScheamaExists(orgName);
+
+    if (!isSchemaExists) {
+      organizationSchema.createSchema(orgName);
+      const Schema = { org_id: createdOrg?.id, title: createdOrg?.name, tenant_id: tenantDB?.id }
+      const SchemaCreated = await this.SchemaRepository.createSchema(Schema);
+    }
+
+
 
 
     if (body?.org_type.toLowerCase() == HOSHPITAL.toLowerCase()) {
@@ -128,35 +122,49 @@ export class AuthController {
 
   async login(request: any, reply: any) {
 
-    console.log('login is called by frontend ');
-        console.log('login is called by frontend ')
-            console.log('login is called by frontend ')
+    try {
 
 
-    const { body } = request;
-    const { email, password } = body;
-    const user = await this.UsersRepositories.getUserByEmail(email);
-    const isMatched = await request.server.bcrypt.compare(password, user.password);
+      const { body } = request;
 
-    const token = request.server.jwt.sign({ email ,role:"Hoshpital"});
+      const { email, password } = body;
 
-    if (!user || !isMatched) {
+      
+      const user = await this.UsersRepositories.getUserByEmail(email);
+      
 
-      reply.status(401).send({ 'message': "Invalid email or password" });
+      if(!user){
+         reply.status(401).send({ 'message': "Invalid Credentials" });
+      }
+      
+      const isMatched = await request.server.bcrypt.compare(password, user.password);
+
+      const token = request.server.jwt.sign({ email, role: "Hoshpital" });
+
+      if (!user || !isMatched) {
+
+        reply.status(401).send({ 'message': "Invalid email or password" });
+
+      }
+
+      console.log('token',token);
+      reply.status(200).send({ 'user': user, token: token });
+
+    } catch (error) {
+
+      console.log('error', error);
 
     }
-
-    reply.status(200).send({ 'user': user, token: token });
 
   }
 
 
 
-  async lang(request:any , reply:any){
+  async lang(request: any, reply: any) {
 
-  
 
-    reply.status(200).send({'msg':request.multilingual.translate('hello')});
+
+    reply.status(200).send({ 'msg': request.multilingual.translate('hello') });
 
   }
 

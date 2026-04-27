@@ -1,5 +1,6 @@
 import Fastify from 'fastify'
 import fastifyPostgres from '@fastify/postgres';
+import { ConfigRoutes } from './routes/config/Config.Routes.js';
 
 import type {ZodTypeProvider} from 'fastify-type-provider-zod';
 import {serializerCompiler , validatorCompiler} from 'fastify-type-provider-zod';
@@ -18,10 +19,16 @@ import jwt from '@fastify/jwt'
 import fastifyBcrypt from 'fastify-bcrypt';
 import servicesPlugin  from './plugins/Services.js';
 import repositoriesPlugin from './plugins/repositories.js';
+import cors from '@fastify/cors'
+
 
 
 //make it seprate file and rename it to app
 const fastify = Fastify({ logger: true }).withTypeProvider<ZodTypeProvider>();
+await fastify.register(cors, {
+  // put your options here
+  origin: 'http://localhost:3000'
+})
 
 
 
@@ -62,6 +69,8 @@ fastify.setErrorHandler(function(error , request , reply){
 
 //Authentication Routes
 fastify.register(AuthRoutes,{prefix:'/api/v1/auth'});
+fastify.register(ConfigRoutes,{prefix:'/api/v1/config'});
+
 
 //Super Admin Authorization Routes
 fastify.register(PermissionRoutes,{prefix:'/api/v1/permissions'});

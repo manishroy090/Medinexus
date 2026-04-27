@@ -41,8 +41,9 @@ export abstract class Model {
         keys = Object.keys(item);
         let query = '';
         let values: any = undefined;
+
         values = Object.values(item)
-            .map(val => typeof val === 'string' ? `'${val}'` : val)
+            .map(val => typeof val === 'string' || val === null   ? `'${val}'` :  val)
             .join(', ');
 
 
