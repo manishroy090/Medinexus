@@ -1,16 +1,12 @@
-
-
 import Config from "../../../Constants/Config.js"
 export async function up() {
-    return `CREATE TABLE  ${Config().TABLE_PREFIX}_hoshpitals(
+    return `CREATE TABLE ${Config().TABLE_PREFIX}_orgstatuss(
               id SERIAL PRIMARY KEY,
-			  org_id  BIGINT,
-              total_beds INT,
+              title VARCHAR(255),
               is_active BOOLEAN DEFAULT TRUE,
               created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
               updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-              deleted_at TIMESTAMP NULL,
-              CONSTRAINT fk_hosh_org FOREIGN KEY (org_id) REFERENCES ${Config().TABLE_PREFIX}_organizations(id)
+              deleted_at TIMESTAMP NULL
           )`
 
 
@@ -19,5 +15,5 @@ export async function up() {
 
 
 export async function down() {
-      return `DROP TABLE ${Config().TABLE_PREFIX}_hoshpital`
+    return `DROP TABLE ${Config().TABLE_PREFIX}_orgstatus`
 }

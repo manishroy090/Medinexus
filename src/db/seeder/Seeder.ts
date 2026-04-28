@@ -1,5 +1,6 @@
 import { CountrySeeder } from "./SuperAdmin/Countries.Seeder.js";
 import { HoshpitalSeeder } from "./SuperAdmin/Hoshpital.Seeder.js";
+import { OrgStatusSeeder } from "./SuperAdmin/OrgStatus.Seeder.js";
 
 
 export class Seeder {
@@ -7,12 +8,14 @@ export class Seeder {
 
     private readonly SeedersName: any = [
         'CountrySeeder'
-        , 'HoshpitalSeeder'
+        ,'HoshpitalSeeder',
+        'OrgStatusSeeder'
     ];
 
     private readonly seederMap: any = {
         CountrySeeder: CountrySeeder,
         HoshpitalSeeder: HoshpitalSeeder,
+        OrgStatusSeeder:OrgStatusSeeder
     };
 
 

@@ -3,7 +3,7 @@ import Config from "../../../Constants/Config.js";
 export async function up() {
     return `CREATE TABLE ${Config().TABLE_PREFIX}_organizations (
               id SERIAL PRIMARY KEY,
-              name VARCHAR(255),
+              name VARCHAR(255) UNIQUE,
               user_id Integer,
               org_type VARCHAR(255),
               registration_number VARCHAR(255),
@@ -20,7 +20,8 @@ export async function up() {
               description VARCHAR(255),
               continent VARCHAR(255),
               established_date TIMESTAMP,
-              is_active BOOLEAN,
+              is_active BOOLEAN DEFAULT TRUE,
+              status Integer,
               created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
               updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
               deleted_at TIMESTAMP NULL,

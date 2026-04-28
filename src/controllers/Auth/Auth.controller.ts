@@ -66,6 +66,7 @@ export class AuthController {
       postal_code,
       logo:"",
       description:null,
+      status:2,
       continent:null,
       established_date
     }
@@ -109,12 +110,10 @@ export class AuthController {
 
 
 
-
-    if (body?.org_type.toLowerCase() == HOSHPITAL.toLowerCase()) {
       const { id: org_id } = createdOrg;
       const hoshpital = { org_id, total_beds };
-      const createdHoshpital = this.Hoshpitalsrepositories.createHoshpital(hoshpital);
-    }
+      const createdHoshpital = await this.Hoshpitalsrepositories.createHoshpital(hoshpital);
+      console.log('createdHoshpital',createdHoshpital);
 
 
   }
