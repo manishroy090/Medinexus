@@ -37,14 +37,17 @@ export class AuthController {
 
   async signup(request: any, reply: any) {
 
-
-
     const { body } = request;
-
     const { email, name, password } = body;
-
     const hashPassword = await request.server.bcrypt.hash(password);
     const user = { email, name, 'password': hashPassword };
+    const userExists = await this.UsersRepositories.getUserByEmail(email);
+    if(userExists){
+      
+      reply.status(422).send({"message":"User already exists with this email"});
+      return;
+    }
+
     const { id } = await this.UsersRepositories.createUser(user);
 
 
@@ -64,7 +67,7 @@ export class AuthController {
       state,
       country_id,
       postal_code,
-      logo:"",
+      logo:null,
       description:null,
       status:2,
       continent:null,
@@ -72,7 +75,15 @@ export class AuthController {
     }
 
 
-    console.log('org', org);
+
+    const orgExists = await this.OrganizationsRepository.getOrg(org.name);
+
+    if(orgExists){
+      reply.status(422).send({"message":"Hoshpital Allready Exists"});
+      return;
+
+    }
+
 
     const createdOrg = await this.OrganizationsRepository.createOrg(org);
     const countryRep = await request.server.repositories.Countriesrep.getCountry(createdOrg?.country_id);
@@ -114,6 +125,8 @@ export class AuthController {
       const hoshpital = { org_id, total_beds };
       const createdHoshpital = await this.Hoshpitalsrepositories.createHoshpital(hoshpital);
       console.log('createdHoshpital',createdHoshpital);
+
+      reply.status(200).send({message:"Account created"})
 
 
   }

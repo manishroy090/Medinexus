@@ -19,5 +19,11 @@ export class OrganizationsRepository {
 
     }
 
+
+    async getOrg(orgName:String){
+
+        return await this.organization.where("name",orgName)
+
+    }
     
 }
