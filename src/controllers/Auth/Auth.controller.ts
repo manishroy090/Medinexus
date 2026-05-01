@@ -165,6 +165,7 @@ export class AuthController {
 
       if (!user) {
         reply.status(401).send({ 'message': "Invalid Credentials" });
+        return;
       }
 
       const isMatched = await request.server.bcrypt.compare(password, user.password);
