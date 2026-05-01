@@ -1,5 +1,5 @@
 
-import Config from "../../../../../Constants/Config"
+import Config from "../../../../../Constants/Config.js"
 export async function up(schemaName:String) {
 
 

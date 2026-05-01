@@ -10,6 +10,7 @@ import { Authentication } from "../../middleware/Authentication.middleware.js";
 import { Authorization } from "../../middleware/Authorization.middleware.js";
 import { RequiredPermission } from "../../middleware/RequiredPermission.middleware.js";
 import { HoshpitalOnbardingSchema } from "../../validation/Hoshpitalonbaording-validation.js";
+import { LoginSchema } from "../../validation/Hoshpital_validation/Login-validation.js";
 
 
 
@@ -33,9 +34,9 @@ export async function AuthRoutes(fastify: FastifyInstance){
 
 
   fastify.post('/signup', {schema:{body:HoshpitalOnbardingSchema}},controller.signup.bind(controller))
-  fastify.post('/login',controller.login.bind(controller));
+  fastify.post('/login',{schema:{body:LoginSchema}},controller.login.bind(controller));
 
-  fastify.post('/lang',{preHandler:[Authentication,Authorization,RequiredPermission]},controller.lang.bind(controller));
+  fastify.post('/lang',controller.lang.bind(controller));
   
 
 }

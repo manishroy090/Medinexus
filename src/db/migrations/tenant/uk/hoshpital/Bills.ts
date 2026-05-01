@@ -1,5 +1,5 @@
 
-import Config from "../../../../../Constants/Config"
+import Config from "../../../../../Constants/Config.js"
 export async function up(schemaName:String) {
     return `CREATE TABLE  ${schemaName}.${Config().TABLE_PREFIX}_bills(
               id SERIAL PRIMARY KEY,

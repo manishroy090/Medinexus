@@ -1,7 +1,7 @@
 import { env } from "node:process"
 
 
-export const table_prefix = "test"
+export const table_prefix = "medinexus"
 export const HOSHPITAL = 'HOSHPITAL';
 export const JWT_SECRET = 'supersecret'
 

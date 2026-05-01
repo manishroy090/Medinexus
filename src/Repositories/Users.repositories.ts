@@ -29,5 +29,11 @@ export class UsersRepositories{
         return resutl[0] ;
     }
 
+
+    async getUserByName(name:String){
+        const result = await this.user.where('name',name);
+        return result;
+    }
+
     
 }

@@ -1,11 +1,11 @@
 import Database from "../../Services/Database.js";
 import { Client } from 'pg';
-import { Pool } from 'pg';
+import { Pool  } from 'pg';
 import { table_prefix } from "../../Constants/App.js";
 import { check } from "zod";
 
 
-const mainDBName = "test";
+const mainDBName = "medinexus";
 
 export const pool = new Pool({
     connectionString: `postgres://manish:secret@localhost:5432/${mainDBName}`
@@ -28,10 +28,12 @@ export abstract class Model {
     }
 
 
+    
+
+
     async all() {
         const { rows } = await pool.query(`SELECT * FROM ${this.tableName}`);
-        console.log(rows);
-
+        
         return rows;
 
     }
@@ -195,6 +197,19 @@ export abstract class Model {
 
         }
 
+    }
+
+
+ 
+
+
+    async  transactionStart(){
+        pool.query("BEGIN")
+    }
+
+
+    async transactionCommit(){
+        pool.query("COMMIT")
     }
 
 }

@@ -8,6 +8,8 @@ import OrganizationSchema from "../../Services/OrganizationSchema.js";
 import { TenantRepository } from "../../Repositories/Tenants.repositories.js";
 import { SchemaRepository } from "../../Repositories/Schemas.repositories.js";
 import { Signup } from "../../types/Auth/Hoshpital/Signup.js";
+import { pool } from "../../db/models/Model.js";
+import Database from "../../Services/Database.js";
 
 export class AuthController {
 
@@ -16,6 +18,7 @@ export class AuthController {
   private Hoshpitalsrepositories: Hoshpitalsrepositories;
   private TenantRepository: TenantRepository;
   private SchemaRepository: SchemaRepository;
+  private Database:Database;
 
 
   constructor(
@@ -32,101 +35,116 @@ export class AuthController {
     this.Hoshpitalsrepositories = Hoshpitalsrepositories;
     this.TenantRepository = TenantRepository;
     this.SchemaRepository = SchemaRepository;
+    this.Database = new Database();
 
   }
 
   async signup(request: any, reply: any) {
 
     const { body } = request;
-    const { email, name, password } = body;
-    const hashPassword = await request.server.bcrypt.hash(password);
-    const user = { email, name, 'password': hashPassword };
-    const userExists = await this.UsersRepositories.getUserByEmail(email);
-    if(userExists){
-      
-      reply.status(422).send({"message":"User already exists with this email"});
-      return;
-    }
+    const client = pool.connect();
 
-    const { id } = await this.UsersRepositories.createUser(user);
+    try {
+      const { email, name, password } = body;
+      const hashPassword = await request.server.bcrypt.hash(password);
+      const user = { email, name, 'password': hashPassword };
 
+      (await client).query("BEGIN")
+      const userExists = await this.UsersRepositories.getUserByEmail(email);
+      if (userExists) {
+        (await client).query("ROLLBACK")
+        reply.status(422).send({ "message": "User already exists with this email" });
+        return;
+      }
 
+      const orgExists = await this.UsersRepositories.getUserByName(name);
+      if (orgExists) {
+        (await client).query("ROLLBACK")
+        reply.status(422).send({ "message": "Hoshpital Allready Exists" });
+        return;
 
-    const { registration_number, emergency_contact, tax_id, website, address_line1, address_line2, city, state, country_id, postal_code, logo, description, continent, established_date, total_beds } = body
-    const org = {
-      name: name,
-      user_id: id,
-      org_type: "Hoshpital",
-      registration_number,
-      emergency_contact,
-      tax_id,
-      website,
-      address_line1: address_line1 || '',
-      address_line2,
-      city,
-      state,
-      country_id,
-      postal_code,
-      logo:null,
-      description:null,
-      status:2,
-      continent:null,
-      established_date
-    }
+      }
+
+      const { id } = await this.UsersRepositories.createUser(user);
 
 
 
-    const orgExists = await this.OrganizationsRepository.getOrg(org.name);
-
-    if(orgExists){
-      reply.status(422).send({"message":"Hoshpital Allready Exists"});
-      return;
-
-    }
-
-
-    const createdOrg = await this.OrganizationsRepository.createOrg(org);
-    const countryRep = await request.server.repositories.Countriesrep.getCountry(createdOrg?.country_id);
-    const countryName = countryRep?.title.toLowerCase().replaceAll(" ", "");
-
-
-    const isDatabaseExists = await request.server.services.db.isCountryDatabaseExists(countryName);
-    const orgName = createdOrg?.name.toLowerCase().replaceAll(" ", "");
-    console.log('query hitted till here');
-
-    console.log('isDatabaseExists', isDatabaseExists);
-
-    let tenantDB: any;
-    if (!isDatabaseExists) {
-
-      await request.server.services.db.createCountryDatabase(countryName);
-      const tenantDb = { country_id: createdOrg?.country_id, db_names: countryName }
-      tenantDB = await this.TenantRepository.createTenant(tenantDb);
-    }
-    else {
-      tenantDB = await this.TenantRepository.getTenantByDBName(countryName);
-
-    }
+      const { registration_number, emergency_contact, tax_id, website, address_line1, address_line2, city, state, country_id, postal_code, logo, description, continent, established_date, total_beds } = body
+      const org = {
+        name: name,
+        user_id: id,
+        org_type: "Hoshpital",
+        registration_number,
+        emergency_contact,
+        tax_id,
+        website,
+        address_line1: address_line1 || '',
+        address_line2,
+        city,
+        state,
+        country_id,
+        postal_code,
+        logo: null,
+        description: null,
+        status: 2,
+        continent: null,
+        established_date
+      }
 
 
 
-    const organizationSchema = new OrganizationSchema(countryName);
-    const isSchemaExists = await organizationSchema.isScheamaExists(orgName);
-
-    if (!isSchemaExists) {
-      organizationSchema.createSchema(orgName);
-      const Schema = { org_id: createdOrg?.id, title: createdOrg?.name, tenant_id: tenantDB?.id }
-      const SchemaCreated = await this.SchemaRepository.createSchema(Schema);
-    }
+      const createdOrg = await this.OrganizationsRepository.createOrg(org);
+      const countryRep = await request.server.repositories.Countriesrep.getCountry(createdOrg?.country_id);
+      const countryName = countryRep?.title.toLowerCase().replaceAll(" ", "");
 
 
+      const isDatabaseExists = await request.server.services.db.isCountryDatabaseExists(countryName);
+      const orgName = createdOrg?.name.toLowerCase().replaceAll(" ", "");
+      console.log('query hitted till here');
 
+      console.log('isDatabaseExists', isDatabaseExists);
+
+      let tenantDB: any;
+      if (!isDatabaseExists) {
+
+        await request.server.services.db.createCountryDatabase(countryName);
+        const tenantDb = { country_id: createdOrg?.country_id, db_names: countryName }
+        tenantDB = await this.TenantRepository.createTenant(tenantDb);
+      }
+      else {
+        tenantDB = await this.TenantRepository.getTenantByDBName(countryName);
+
+      }
+
+
+
+      const organizationSchema = new OrganizationSchema(countryName);
+      const isSchemaExists = await organizationSchema.isScheamaExists(orgName);
+
+      if (!isSchemaExists) {
+        organizationSchema.createSchema(orgName);
+        const Schema = { org_id: createdOrg?.id, title: createdOrg?.name, tenant_id: tenantDB?.id }
+        const SchemaCreated = await this.SchemaRepository.createSchema(Schema);
+      }
       const { id: org_id } = createdOrg;
       const hoshpital = { org_id, total_beds };
       const createdHoshpital = await this.Hoshpitalsrepositories.createHoshpital(hoshpital);
-      console.log('createdHoshpital',createdHoshpital);
+       await this.Database.migrateTenantDBOrgSchema(countryName,orgName);
+      const token = request.server.jwt.sign({ email, role: "Hoshpital" });
+      (await client).query("COMMIT")
+      
+       reply.setCookie("ACCESS_TOKEN",token,{
+        httpOnly: true, 
+        sameSite: "lax", 
+        path: "/",
+        maxAge: 60 * 60 * 24 ,
+      }).send({success:true});
 
-      reply.status(200).send({message:"Account created"})
+
+      // reply.status(200).send({ message: "Account created" })
+    } catch (error) {
+
+    }
 
 
   }
@@ -141,26 +159,34 @@ export class AuthController {
 
       const { email, password } = body;
 
-      
-      const user = await this.UsersRepositories.getUserByEmail(email);
-      
 
-      if(!user){
-         reply.status(401).send({ 'message': "Invalid Credentials" });
+      const user = await this.UsersRepositories.getUserByEmail(email);
+
+
+      if (!user) {
+        reply.status(401).send({ 'message': "Invalid Credentials" });
       }
-      
+
       const isMatched = await request.server.bcrypt.compare(password, user.password);
 
       const token = request.server.jwt.sign({ email, role: "Hoshpital" });
 
       if (!user || !isMatched) {
-
-        reply.status(401).send({ 'message': "Invalid email or password" });
+        
+        reply.status(401).send({ 'message': "Invalid Credentials" });
 
       }
 
       console.log('token',token);
-      reply.status(200).send({ 'user': user, token: token });
+
+      reply.setCookie("ACCESS_TOKEN",token,{
+        httpOnly: true, 
+        sameSite: "lax", 
+        path: "/",
+        maxAge: 60 * 60 * 24 ,
+      }).send({success:true});
+
+      // reply.status(200).send({ 'user': user, token: token });
 
     } catch (error) {
 
@@ -176,7 +202,7 @@ export class AuthController {
 
 
 
-    reply.status(200).send({ 'msg': request.multilingual.translate('hello') });
+    // reply.status(200).send({ 'msg': request.multilingual.translate('hello') });
 
   }
 

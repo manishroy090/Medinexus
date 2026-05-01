@@ -19,16 +19,30 @@ import jwt from '@fastify/jwt'
 import fastifyBcrypt from 'fastify-bcrypt';
 import servicesPlugin  from './plugins/Services.js';
 import repositoriesPlugin from './plugins/repositories.js';
-import cors from '@fastify/cors'
+import cors from '@fastify/cors';
+import type { FastifyCookieOptions } from '@fastify/cookie';
+import cookie from '@fastify/cookie';
+
 
 
 
 //make it seprate file and rename it to app
 const fastify = Fastify({ logger: true }).withTypeProvider<ZodTypeProvider>();
+
+
+fastify.register(cookie,{
+  secret: "my-secret",
+   parseOptions: {} 
+} as FastifyCookieOptions)
+
+
 await fastify.register(cors, {
-  // put your options here
-  origin: 'http://localhost:3000'
+  origin: 'http://localhost:3000',
+  credentials: true,
+  methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
 })
+
+
 
 
 

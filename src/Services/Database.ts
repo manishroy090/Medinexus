@@ -83,7 +83,7 @@ export class Database {
         await this.adminClient.end();
     }
 
-    async migrateTenantDBOrgSchema(){
+    async migrateTenantDBOrgSchema(countryName:any,orgName:any){
 
       const SchemaName = "uk";
       const org = 'greenvallyhospital';
@@ -98,24 +98,26 @@ export class Database {
       const tenantfiles = await fs.readdir(tenantfolderPath);
       const commanfiles = await fs.readdir(commonFolderPath);
 
-      this.switchToCountryDB('unitedkingdom');
+      this.switchToCountryDB(countryName);
+
+      
 
       for( const file of tenantSchema){
         const filePath = path.join(tenantfolderPath,`${file.name}.ts`);
         const module = await import(pathToFileURL(filePath).href);
 
+        console.log("filePath",filePath)
+
            if(typeof module.up === 'function'){
-             const table = await module.up('greenvalleyhospital');
+             const table = await module.up(orgName);
 
             try {
                 
                 const countryClient =  await this.countryClient.query(table);
-
                 console.log('countryClient',countryClient);
                 console.log(`${file.name} migration successfull`);
 
              } catch (error) {
-
                  console.log(`${file.name} migration failed` ,error);
                 
             }
@@ -125,13 +127,13 @@ export class Database {
 
 
 
-      for(const file of  commanMigration){
 
+      for(const file of  commanMigration){
          const filePath = path.join(commonFolderPath,`${file.name}.ts`);
          const module = await import(pathToFileURL(filePath).href);
-
+         console.log("modulename",module)
          if(typeof module.up === 'function'){
-               const table = await module.up('greenvalleyhospital');
+               const table = await module.up(orgName);
                try {
 
                const countryClient =  await this.countryClient.query(table);
@@ -147,37 +149,7 @@ export class Database {
                 
                }
          }
-
-         console.log('filePath',module);
-
       }
-
-
-    
-
-    
-
-      
-      console.log('commanfiles',tenantfiles);
-
-
-    //   console.log('tenantfiles',tenantfiles);
-    //   console.log('commanfiles',commanfiles);
-
-
-
-    //   console.log('files',tenantfiles);
-    //   console.log('folderPath',folderPath);
-
-
-
-
-     // console.log('folderPath',folderPath);
-    //   this.switchToCountryDB(SchemaName);
-
-
-
-
 
     }
 
@@ -202,8 +174,6 @@ export class Database {
         }
 
         this.adminClient.end();
-
-
     }
 
     async isCountryDatabaseExists(dbName:string) {

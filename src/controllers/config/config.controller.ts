@@ -13,7 +13,9 @@ export class ConfigController {
 
 
     async getAllCountry(request:any , reply:any) {
+
       const Countries = await this.Countriesrepositories.getAllCountry();
+      console.log("Countries",Countries)
       reply.status(200).send({'message':"country fetched successfully","countries":Countries}) 
     }
 
