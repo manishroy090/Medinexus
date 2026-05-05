@@ -30,16 +30,15 @@ export class RoleController {
 
         const {body} = request;
 
-        console.log("body",body);
-        // try {
-        //    const role =  await this.RolesRepository.createRole(body);
-        //    reply.status(200).send({role,'message':'Roles created successfully'});
+        try {
+           const role =  await this.RolesRepository.createRole(body);
+           reply.status(200).send({role,'message':'Roles created successfully'});
             
-        // } catch (error) {
+        } catch (error) {
           
-        //     reply.status(500).send({'server_error':error});
+            reply.status(500).send({'server_error':error});
 
-        // }
+        }
        
     }
 

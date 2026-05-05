@@ -6,6 +6,8 @@ export async function RequiredPermission(req: any, reply: any) {
 
       const {user} = req;
 
+      console.log("user",user);
+
 
       if(!user){
 
@@ -18,6 +20,8 @@ export async function RequiredPermission(req: any, reply: any) {
 
 
      const hoshpitalPermissions = Permissions.filter((item)=>item.role_id=='2');
+
+     console.log("hoshpitalPermissions",hoshpitalPermissions);
      const permissionsArray = hoshpitalPermissions.map((item)=>item.title);
 
      if(!permissionsArray.includes('permissionsArray')){

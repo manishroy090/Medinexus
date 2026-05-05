@@ -51,6 +51,11 @@ export abstract class Model {
             .join(', ');
 
 
+
+
+
+
+
         if (item.length > 0) {
 
             const items = item;
@@ -78,8 +83,11 @@ export abstract class Model {
 
                         //  Handle timestamp string
                         if (typeof val === 'string' && !isNaN(Date.parse(val))) {
-                            const formatted = new Date(val).toISOString().replace("T", " ").slice(0, 19);
-                            return `'${formatted}'`;
+                        
+                            // const formatted = new Date(val).toISOString().replace("T", " ").slice(0, 19);
+                            // return `'${formatted}'`;
+
+                            return val;
                         }
 
                         if (typeof val === 'boolean') return val;
@@ -98,6 +106,9 @@ export abstract class Model {
         }
 
         else{
+
+          
+
 
            query = `INSERT INTO ${this.tableName} (${keys.join(', ')}) VALUES (${values}) RETURNING *`;
 

@@ -54,7 +54,7 @@ class App {
                 }
                 else if(tenantName && schemaName ){
 
-                     database.migrateTenantDBOrgSchema();
+                    //  database.migrateTenantDBOrgSchema();
 
 
                 }

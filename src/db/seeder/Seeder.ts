@@ -1,6 +1,7 @@
 import { CountrySeeder } from "./SuperAdmin/Countries.Seeder.js";
 import { HoshpitalSeeder } from "./SuperAdmin/Hoshpital.Seeder.js";
 import { OrgStatusSeeder } from "./SuperAdmin/OrgStatus.Seeder.js";
+import { PermissionSeeder } from "./SuperAdmin/Permission.Seeder.js";
 
 
 export class Seeder {
@@ -9,13 +10,15 @@ export class Seeder {
     private readonly SeedersName: any = [
         'CountrySeeder'
         ,'HoshpitalSeeder',
-        'OrgStatusSeeder'
+        'OrgStatusSeeder',
+        'PermissionSeeder'
     ];
 
     private readonly seederMap: any = {
         CountrySeeder: CountrySeeder,
         HoshpitalSeeder: HoshpitalSeeder,
-        OrgStatusSeeder:OrgStatusSeeder
+        OrgStatusSeeder: OrgStatusSeeder,
+        PermissionSeeder: PermissionSeeder
     };
 
 
@@ -42,9 +45,13 @@ export class Seeder {
 
 
 
-    SeedIndividualSeeder = async(seederName:any) => {
-          const seederClass = new this.seederMap[seederName]();
-          await seederClass.run();
+    SeedIndividualSeeder = async (seederName: any) => {
+
+        console.log("individual Seeder method called");
+        const seederClass = new this.seederMap[seederName]();
+
+        console.log()
+        await seederClass.run();
     }
 
 

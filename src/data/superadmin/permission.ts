@@ -6,7 +6,7 @@ export const Permissions = [
     {
         'title': "user.index",
         'role_id': "1",
-        'is_active': 1,
+        'is_active':true,
         'created_at': new Date(),
         'updated_at': new Date(),
         'deleted_at': new Date()
@@ -17,7 +17,7 @@ export const Permissions = [
     {
         'title': "user.create",
         'role_id': "1",
-        'is_active': 1,
+        'is_active': true,
         'created_at': new Date(),
         'updated_at': new Date(),
         'deleted_at': new Date()
@@ -26,7 +26,7 @@ export const Permissions = [
     {
         'title': "user.edit",
         'role_id': "1",
-        'is_active': 1,
+        'is_active': true,
         'created_at': new Date(),
         'updated_at': new Date(),
         'deleted_at': new Date()
@@ -35,7 +35,7 @@ export const Permissions = [
     {
         'title': "user.update",
         'role_id': "1",
-        'is_active': 1,
+        'is_active': true,
         'created_at': new Date(),
         'updated_at': new Date(),
         'deleted_at': new Date()
@@ -45,7 +45,7 @@ export const Permissions = [
     {
         'title': "user.delete",
         'role_id': "1",
-        'is_active': 1,
+        'is_active': true,
         'created_at': new Date(),
         'updated_at': new Date(),
         'deleted_at': new Date()
@@ -56,7 +56,7 @@ export const Permissions = [
     {
         'title': "roles.index",
         'role_id': "1",
-        'is_active': 1,
+        'is_active': true,
         'created_at': new Date(),
         'updated_at': new Date(),
         'deleted_at': new Date()
@@ -65,7 +65,7 @@ export const Permissions = [
      {
         'title': "roles.create",
         'role_id': "1",
-        'is_active': 1,
+        'is_active': true,
         'created_at': new Date(),
         'updated_at': new Date(),
         'deleted_at': new Date()
@@ -74,7 +74,7 @@ export const Permissions = [
      {
         'title': "roles.edit",
         'role_id': "1",
-        'is_active': 1,
+        'is_active': true,
         'created_at': new Date(),
         'updated_at': new Date(),
         'deleted_at': new Date()
@@ -83,7 +83,7 @@ export const Permissions = [
        {
         'title': "roles.update",
         'role_id': "1",
-        'is_active': 1,
+        'is_active': true,
         'created_at': new Date(),
         'updated_at': new Date(),
         'deleted_at': new Date()
@@ -92,7 +92,7 @@ export const Permissions = [
        {
         'title': "roles.delete",
         'role_id': "1",
-        'is_active': 1,
+        'is_active': true,
         'created_at': new Date(),
         'updated_at': new Date(),
         'deleted_at': new Date()
@@ -104,7 +104,7 @@ export const Permissions = [
       {
         'title': "permission.index",
         'role_id': "1",
-        'is_active': 1,
+        'is_active': true,
         'created_at': new Date(),
         'updated_at': new Date(),
         'deleted_at': new Date()
@@ -112,7 +112,7 @@ export const Permissions = [
       {
         'title': "permission.create",
         'role_id': "1",
-        'is_active': 1,
+        'is_active': true,
         'created_at': new Date(),
         'updated_at': new Date(),
         'deleted_at': new Date()
@@ -120,7 +120,7 @@ export const Permissions = [
       {
         'title': "permission.edit",
         'role_id': "1",
-        'is_active': 1,
+        'is_active': true,
         'created_at': new Date(),
         'updated_at': new Date(),
         'deleted_at': new Date()
@@ -128,7 +128,7 @@ export const Permissions = [
      {
         'title': "permission.update",
         'role_id': "1",
-        'is_active': 1,
+        'is_active': true,
         'created_at': new Date(),
         'updated_at': new Date(),
         'deleted_at': new Date()
@@ -136,7 +136,7 @@ export const Permissions = [
      {
         'title': "permission.delete",
         'role_id': "1",
-        'is_active': 1,
+        'is_active': true,
         'created_at': new Date(),
         'updated_at': new Date(),
         'deleted_at': new Date()
@@ -147,7 +147,7 @@ export const Permissions = [
       {
         'title': "country.index",
         'role_id': "1",
-        'is_active': 1,
+        'is_active': true,
         'created_at': new Date(),
         'updated_at': new Date(),
         'deleted_at': new Date()
@@ -155,7 +155,7 @@ export const Permissions = [
      {
         'title': "country.create",
         'role_id': "1",
-        'is_active': 1,
+        'is_active': true,
         'created_at': new Date(),
         'updated_at': new Date(),
         'deleted_at': new Date()
@@ -163,7 +163,7 @@ export const Permissions = [
      {
         'title': "country.edit",
         'role_id': "1",
-        'is_active': 1,
+        'is_active': true,
         'created_at': new Date(),
         'updated_at': new Date(),
         'deleted_at': new Date()
@@ -171,7 +171,7 @@ export const Permissions = [
     {
         'title': "country.update",
         'role_id': "1",
-        'is_active': 1,
+        'is_active': true,
         'created_at': new Date(),
         'updated_at': new Date(),
         'deleted_at': new Date()
@@ -179,7 +179,7 @@ export const Permissions = [
     {
         'title': "country.delete",
         'role_id': "1",
-        'is_active': 1,
+        'is_active': true,
         'created_at': new Date(),
         'updated_at': new Date(),
         'deleted_at': new Date()
@@ -190,7 +190,7 @@ export const Permissions = [
     {
         'title': "org.index",
         'role_id': "1",
-        'is_active': 1,
+        'is_active': true,
         'created_at': new Date(),
         'updated_at': new Date(),
         'deleted_at': new Date()
@@ -201,7 +201,7 @@ export const Permissions = [
     {
         'title': "org.create",
         'role_id': "1",
-        'is_active': 1,
+        'is_active': true,
         'created_at': new Date(),
         'updated_at': new Date(),
         'deleted_at': new Date()
@@ -210,7 +210,7 @@ export const Permissions = [
     {
         'title': "org.edit",
         'role_id': "1",
-        'is_active': 1,
+        'is_active': true,
         'created_at': new Date(),
         'updated_at': new Date(),
         'deleted_at': new Date()
@@ -219,7 +219,7 @@ export const Permissions = [
     {
         'title': "org.update",
         'role_id': "1",
-        'is_active': 1,
+        'is_active': true,
         'created_at': new Date(),
         'updated_at': new Date(),
         'deleted_at': new Date()
@@ -229,7 +229,7 @@ export const Permissions = [
     {
         'title': "org.delete",
         'role_id': "1",
-        'is_active': 1,
+        'is_active': true,
         'created_at': new Date(),
         'updated_at': new Date(),
         'deleted_at': new Date()
@@ -241,7 +241,7 @@ export const Permissions = [
     {
         'title': "tenant.index",
         'role_id': "1",
-        'is_active': 1,
+        'is_active': true,
         'created_at': new Date(),
         'updated_at': new Date(),
         'deleted_at': new Date()
@@ -252,7 +252,7 @@ export const Permissions = [
     {
         'title': "tenant.create",
         'role_id': "1",
-        'is_active': 1,
+        'is_active': true,
         'created_at': new Date(),
         'updated_at': new Date(),
         'deleted_at': new Date()
@@ -261,7 +261,7 @@ export const Permissions = [
     {
         'title': "tenant.edit",
         'role_id': "1",
-        'is_active': 1,
+        'is_active': true,
         'created_at': new Date(),
         'updated_at': new Date(),
         'deleted_at': new Date()
@@ -270,7 +270,7 @@ export const Permissions = [
     {
         'title': "tenant.update",
         'role_id': "1",
-        'is_active': 1,
+        'is_active': true,
         'created_at': new Date(),
         'updated_at': new Date(),
         'deleted_at': new Date()
@@ -280,7 +280,7 @@ export const Permissions = [
     {
         'title': "tenant.delete",
         'role_id': "1",
-        'is_active': 1,
+        'is_active': true,
         'created_at': new Date(),
         'updated_at': new Date(),
         'deleted_at': new Date()
@@ -293,7 +293,7 @@ export const Permissions = [
     {
         'title': "schema.index",
         'role_id': "1",
-        'is_active': 1,
+        'is_active': true,
         'created_at': new Date(),
         'updated_at': new Date(),
         'deleted_at': new Date()
@@ -302,7 +302,7 @@ export const Permissions = [
     {
         'title': "schema.create",
         'role_id': "1",
-        'is_active': 1,
+        'is_active': true,
         'created_at': new Date(),
         'updated_at': new Date(),
         'deleted_at': new Date()
@@ -311,7 +311,7 @@ export const Permissions = [
     {
         'title': "schema.edit",
         'role_id': "1",
-        'is_active': 1,
+        'is_active': true,
         'created_at': new Date(),
         'updated_at': new Date(),
         'deleted_at': new Date()
@@ -319,7 +319,7 @@ export const Permissions = [
     {
         'title': "schema.update",
         'role_id': "1",
-        'is_active': 1,
+        'is_active': true,
         'created_at': new Date(),
         'updated_at': new Date(),
         'deleted_at': new Date()
@@ -328,7 +328,7 @@ export const Permissions = [
     {
         'title': "schema.delete",
         'role_id': "1",
-        'is_active': 1,
+        'is_active': true,
         'created_at': new Date(),
         'updated_at': new Date(),
         'deleted_at': new Date()
@@ -340,7 +340,7 @@ export const Permissions = [
     {
         'title': "hoshpital.create",
         'role_id': "1",
-        'is_active': 1,
+        'is_active': true,
         'created_at': new Date(),
         'updated_at': new Date(),
         'deleted_at': new Date()
@@ -349,7 +349,7 @@ export const Permissions = [
     {
         'title': "hoshpital.edit",
         'role_id': "1",
-        'is_active': 1,
+        'is_active': true,
         'created_at': new Date(),
         'updated_at': new Date(),
         'deleted_at': new Date()
@@ -358,7 +358,7 @@ export const Permissions = [
     {
         'title': "hoshpital.update",
         'role_id': "1",
-        'is_active': 1,
+        'is_active': true,
         'created_at': new Date(),
         'updated_at': new Date(),
         'deleted_at': new Date()
@@ -367,7 +367,7 @@ export const Permissions = [
     {
         'title': "hoshpital.delete",
         'role_id': "1",
-        'is_active': 1,
+        'is_active': true,
         'created_at': new Date(),
         'updated_at': new Date(),
         'deleted_at': new Date()
@@ -380,7 +380,7 @@ export const Permissions = [
     {
         'title': "hoshpital.index",
         'role_id': "2",
-        'is_active': 1,
+        'is_active': true,
         'created_at': new Date(),
         'updated_at': new Date(),
         'deleted_at': new Date()
@@ -389,7 +389,7 @@ export const Permissions = [
      {
         'title': "hoshpital.create",
         'role_id': "2",
-        'is_active': 1,
+        'is_active': true,
         'created_at': new Date(),
         'updated_at': new Date(),
         'deleted_at': new Date()
@@ -398,7 +398,7 @@ export const Permissions = [
      {
         'title': "hoshpital.edit",
         'role_id': "2",
-        'is_active': 1,
+        'is_active': true,
         'created_at': new Date(),
         'updated_at': new Date(),
         'deleted_at': new Date()
@@ -406,7 +406,7 @@ export const Permissions = [
      {
         'title': "hoshpital.update",
         'role_id': "2",
-        'is_active': 1,
+        'is_active': true,
         'created_at': new Date(),
         'updated_at': new Date(),
         'deleted_at': new Date()
@@ -417,7 +417,7 @@ export const Permissions = [
        {
         'title': "doctor.index",
         'role_id': "2",
-        'is_active': 1,
+        'is_active': true,
         'created_at': new Date(),
         'updated_at': new Date(),
         'deleted_at': new Date()
@@ -426,7 +426,7 @@ export const Permissions = [
      {
         'title': "doctor.create",
         'role_id': "2",
-        'is_active': 1,
+        'is_active': true,
         'created_at': new Date(),
         'updated_at': new Date(),
         'deleted_at': new Date()
@@ -435,7 +435,7 @@ export const Permissions = [
      {
         'title': "doctor.edit",
         'role_id': "2",
-        'is_active': 1,
+        'is_active': true,
         'created_at': new Date(),
         'updated_at': new Date(),
         'deleted_at': new Date()
