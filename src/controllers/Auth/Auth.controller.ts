@@ -67,8 +67,6 @@ export class AuthController {
 
       const { id } = await this.UsersRepositories.createUser(user);
 
-
-
       const { registration_number, emergency_contact, tax_id, website, address_line1, address_line2, city, state, country_id, postal_code, logo, description, continent, established_date, total_beds } = body
       const org = {
         name: name,
@@ -163,6 +161,7 @@ export class AuthController {
       const user = await this.UsersRepositories.getUserByEmail(email);
 
 
+
       if (!user) {
         reply.status(401).send({ 'message': "Invalid Credentials" });
         return;
@@ -178,7 +177,9 @@ export class AuthController {
 
       }
 
-      console.log('token',token);
+      const dbDetails = await this.UsersRepositories.getOrgDbDetails(email);
+
+      await this.Database.switchToOrgSchema(dbDetails.country_name.toLowerCase(),dbDetails.user_name);
 
       reply.setCookie("ACCESS_TOKEN",token,{
         httpOnly: true, 

@@ -18,6 +18,8 @@ export abstract class Model {
 
     constructor() {
 
+        const database = new Database();
+
         if (this.constructor.name == "Country") {
             this.tableName = `${this.tablePrefix}_${"countr".toLowerCase()}ies`;
         }
@@ -200,16 +202,5 @@ export abstract class Model {
     }
 
 
- 
-
-
-    async  transactionStart(){
-        pool.query("BEGIN")
-    }
-
-
-    async transactionCommit(){
-        pool.query("COMMIT")
-    }
 
 }

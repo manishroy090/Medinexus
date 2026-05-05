@@ -1,6 +1,6 @@
 import { type FastifyRequest, type FastifyReply } from "fastify";
 import { send } from "node:process";
-import { RolesRepository } from "../../Repositories/Roles.repositories";
+import { RolesRepository } from "../../Repositories/org/hoshpital/Roles.repositories.js";
 
 export class RoleController {
 
@@ -29,15 +29,17 @@ export class RoleController {
     async create(request: FastifyRequest, reply: FastifyReply) {
 
         const {body} = request;
-        try {
-           const role =  await this.RolesRepository.createRole(body);
-           reply.status(200).send({role,'message':'Roles created successfully'});
-            
-        } catch (error) {
-          
-            reply.status(500).send({'server_error':error});
 
-        }
+        console.log("body",body);
+        // try {
+        //    const role =  await this.RolesRepository.createRole(body);
+        //    reply.status(200).send({role,'message':'Roles created successfully'});
+            
+        // } catch (error) {
+          
+        //     reply.status(500).send({'server_error':error});
+
+        // }
        
     }
 

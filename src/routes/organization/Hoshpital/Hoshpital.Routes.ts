@@ -8,10 +8,19 @@ import { BillRoutes } from "./Bill.Routes.js";
 import { MedicialRecord } from "./MedicialRecord.Routes.js";
 import { PatientRoutes } from "./Patient.Routes.js";
 import { MedicinesRoutes } from "./Medicines.Routes.js";
+import { RolesRoutes } from "./Auth/Roles.Routes.js";
+import { PermissionRoutes } from "../../Auth/Permission.Routes.js";
+import { AuthRoutes } from "../../Auth/Auth.Routes.js";
 
 
 
 export async function HoshpitalRoutes(fastify: FastifyInstance) {
+      fastify.register(RolesRoutes, { prefix: '/roles' });
+      fastify.register(PermissionRoutes, { prefix: '/permissions' });
+      // fastify.register(AuthRoutes, { prefix: '/auth' });
+
+
+
     fastify.register(DepartmentRoutes, { prefix: '/departments' });
     fastify.register(DoctorRoutes, { prefix: '/doctors' });
     fastify.register(AppointmentRoutes, { prefix: '/appointment' });

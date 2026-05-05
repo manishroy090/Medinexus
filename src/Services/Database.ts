@@ -2,7 +2,7 @@ import { Client } from 'pg';
 import fs from 'fs/promises';
 import path from 'path';
 import { pathToFileURL } from 'url';
-import { Migrations} from '../db/migrations/Migrations.js';
+import { Migrations } from '../db/migrations/Migrations.js';
 import Config from '../Constants/Config.js';
 // import Scripts from '../logs/'
 
@@ -14,11 +14,11 @@ import Config from '../Constants/Config.js';
 export class Database {
     adminClient: Client
     // orgClient: Client
-    
+
     public mainDBName: any;
-    private countryClient:any;
-    private migrations:any;
-    private ScriptLogs:any
+    private countryClient: any;
+    private migrations: any;
+    private ScriptLogs: any
 
 
     constructor() {
@@ -30,12 +30,12 @@ export class Database {
         });
 
 
-         this.migrations = new Migrations();
+        this.migrations = new Migrations();
 
-    
+
     }
 
-    async switchToCountryDB(country:string){
+    async switchToCountryDB(country: string) {
 
         this.adminClient.end();
 
@@ -48,15 +48,15 @@ export class Database {
 
     async migrateToAdminDb() {
 
-   
+
         const folderPath = path.join(process.cwd(), 'src', 'db', 'migrations', 'main');
         // const files = await fs.readdir(folderPath);
         const files = await this.migrations.getmainDBMigrations();
         await this.adminClient.connect();
 
-        console.log('files',files); 
+        console.log('files', files);
 
-     
+
         for (const file of files) {
             const filePath = path.join(folderPath, `${file.name}.ts`);
             const module = await import(pathToFileURL(filePath).href);
@@ -69,7 +69,7 @@ export class Database {
 
                 } catch (error) {
 
-                    console.log(`${file.name} migration failed`,error);
+                    console.log(`${file.name} migration failed`, error);
                 }
             }
             else {
@@ -83,73 +83,73 @@ export class Database {
         await this.adminClient.end();
     }
 
-    async migrateTenantDBOrgSchema(countryName:any,orgName:any){
+    async migrateTenantDBOrgSchema(countryName: any, orgName: any) {
 
-      const SchemaName = "uk";
-      const org = 'greenvallyhospital';
+        const SchemaName = "uk";
+        const org = 'greenvallyhospital';
 
-      const hoshpital =   await this.migrations.getHoshpitalMigrations();
-      const countriesMigration = hoshpital.find((item:any)=>Object.keys(item).includes(SchemaName));
-      const commanMigration = await this.migrations.commanMigration();
-      const tenantSchema =Object.values(countriesMigration)[0] as {name:string}[];
-      const table = [...tenantSchema,...commanMigration];
-      const tenantfolderPath = path.join(process.cwd(),'src','db','migrations','tenant',SchemaName.toLowerCase(),'hoshpital');
-      const commonFolderPath = path.join(process.cwd(),'src','db','migrations','common');
-      const tenantfiles = await fs.readdir(tenantfolderPath);
-      const commanfiles = await fs.readdir(commonFolderPath);
+        const hoshpital = await this.migrations.getHoshpitalMigrations();
+        const countriesMigration = hoshpital.find((item: any) => Object.keys(item).includes(SchemaName));
+        const commanMigration = await this.migrations.commanMigration();
+        const tenantSchema = Object.values(countriesMigration)[0] as { name: string }[];
+        const table = [...tenantSchema, ...commanMigration];
+        const tenantfolderPath = path.join(process.cwd(), 'src', 'db', 'migrations', 'tenant', SchemaName.toLowerCase(), 'hoshpital');
+        const commonFolderPath = path.join(process.cwd(), 'src', 'db', 'migrations', 'common');
+        const tenantfiles = await fs.readdir(tenantfolderPath);
+        const commanfiles = await fs.readdir(commonFolderPath);
 
-      this.switchToCountryDB(countryName);
+        this.switchToCountryDB(countryName);
 
-      
 
-      for( const file of tenantSchema){
-        const filePath = path.join(tenantfolderPath,`${file.name}.ts`);
-        const module = await import(pathToFileURL(filePath).href);
 
-        console.log("filePath",filePath)
+        for (const file of tenantSchema) {
+            const filePath = path.join(tenantfolderPath, `${file.name}.ts`);
+            const module = await import(pathToFileURL(filePath).href);
 
-           if(typeof module.up === 'function'){
-             const table = await module.up(orgName);
+            console.log("filePath", filePath)
 
-            try {
-                
-                const countryClient =  await this.countryClient.query(table);
-                console.log('countryClient',countryClient);
-                console.log(`${file.name} migration successfull`);
+            if (typeof module.up === 'function') {
+                const table = await module.up(orgName);
 
-             } catch (error) {
-                 console.log(`${file.name} migration failed` ,error);
-                
+                try {
+
+                    const countryClient = await this.countryClient.query(table);
+                    console.log('countryClient', countryClient);
+                    console.log(`${file.name} migration successfull`);
+
+                } catch (error) {
+                    console.log(`${file.name} migration failed`, error);
+
+                }
             }
-         }
-        
-      }
+
+        }
 
 
 
 
-      for(const file of  commanMigration){
-         const filePath = path.join(commonFolderPath,`${file.name}.ts`);
-         const module = await import(pathToFileURL(filePath).href);
-         console.log("modulename",module)
-         if(typeof module.up === 'function'){
-               const table = await module.up(orgName);
-               try {
+        for (const file of commanMigration) {
+            const filePath = path.join(commonFolderPath, `${file.name}.ts`);
+            const module = await import(pathToFileURL(filePath).href);
+            console.log("modulename", module)
+            if (typeof module.up === 'function') {
+                const table = await module.up(orgName);
+                try {
 
-               const countryClient =  await this.countryClient.query(table);
+                    const countryClient = await this.countryClient.query(table);
 
-                console.log('countryClient',countryClient);
-                console.log(`${file.name} migration successfull`);
+                    console.log('countryClient', countryClient);
+                    console.log(`${file.name} migration successfull`);
 
-                
-               } catch (error) {
 
-                 console.log(`${file.name} common migration failed` ,error);
+                } catch (error) {
 
-                
-               }
-         }
-      }
+                    console.log(`${file.name} common migration failed`, error);
+
+
+                }
+            }
+        }
 
     }
 
@@ -176,8 +176,8 @@ export class Database {
         this.adminClient.end();
     }
 
-    async isCountryDatabaseExists(dbName:string) {
-        console.log('isdbName',dbName);
+    async isCountryDatabaseExists(dbName: string) {
+        console.log('isdbName', dbName);
         this.adminClient.connect();
         const result = await this.adminClient.query(`SELECT 1 FROM pg_database  WHERE datname = $1`, [dbName]);
         console.log('result');
@@ -185,21 +185,21 @@ export class Database {
         console.log('result');
         console.log('result');
         console.log('result');
-        console.log('result',result);
+        console.log('result', result);
 
-        
+
         return (result.rowCount ?? 0) > 0;
 
     }
 
 
-    async createCountryDatabase(dbName:string) {
+    async createCountryDatabase(dbName: string) {
         const db = await this.adminClient.query(`CREATE DATABASE ${dbName}`);
         return dbName;
 
     }
 
-    async isScheamaExists(countryName:string,schemaName:string) {   
+    async isScheamaExists(countryName: string, schemaName: string) {
         this.adminClient.end();
 
         const result = await this.countryClient.query(
@@ -207,8 +207,19 @@ export class Database {
             [schemaName]
         );
 
-      return (result.rowCount ?? 0) > 0;
+        return (result.rowCount ?? 0) > 0;
 
+    }
+
+    async switchToOrgSchema(countryName: String, SchemaName: String) {
+        this.adminClient.end();
+        this.countryClient = new Client({
+            connectionString: `postgres://manish:secret@localhost:5432/${countryName}?options=-c search_path=${SchemaName}`
+        });
+
+        this.countryClient.connect();
+
+        return true;
     }
 
 }

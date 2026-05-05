@@ -1,6 +1,6 @@
 // import { Roles } from "../entities/Roles";
 
-import { Permission } from "../db/models/tenant/org/hoshpital/Permission.js";
+import { Permission } from "../db/models/Permission.js";
 export class PemissionRepository {
 
 
