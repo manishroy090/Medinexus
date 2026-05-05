@@ -1,6 +1,6 @@
 import Database from "../../Services/Database.js";
 import { Client } from 'pg';
-import { Pool  } from 'pg';
+import { Pool } from 'pg';
 import { table_prefix } from "../../Constants/App.js";
 import { check } from "zod";
 
@@ -12,9 +12,11 @@ export const pool = new Pool({
 });
 export abstract class Model {
 
-    private readonly tableName: String;
-
     private readonly tablePrefix: String = table_prefix;
+    private readonly tableName: String;
+    private conditions: string[] = [];
+    private values: any[] = [];
+
 
     constructor() {
 
@@ -30,12 +32,12 @@ export abstract class Model {
     }
 
 
-    
+
 
 
     async all() {
         const { rows } = await pool.query(`SELECT * FROM ${this.tableName}`);
-        
+
         return rows;
 
     }
@@ -47,7 +49,7 @@ export abstract class Model {
         let values: any = undefined;
 
         values = Object.values(item)
-            .map(val => typeof val === 'string' || val === null   ? `'${val}'` :  val)
+            .map(val => typeof val === 'string' || val === null ? `'${val}'` : val)
             .join(', ');
 
 
@@ -83,7 +85,7 @@ export abstract class Model {
 
                         //  Handle timestamp string
                         if (typeof val === 'string' && !isNaN(Date.parse(val))) {
-                        
+
                             // const formatted = new Date(val).toISOString().replace("T", " ").slice(0, 19);
                             // return `'${formatted}'`;
 
@@ -102,15 +104,15 @@ export abstract class Model {
 
 
 
-             query = `INSERT INTO ${this.tableName} (${keys.join(', ')}) VALUES ${values} RETURNING *`;
+            query = `INSERT INTO ${this.tableName} (${keys.join(', ')}) VALUES ${values} RETURNING *`;
         }
 
-        else{
-
-          
+        else {
 
 
-           query = `INSERT INTO ${this.tableName} (${keys.join(', ')}) VALUES (${values}) RETURNING *`;
+
+
+            query = `INSERT INTO ${this.tableName} (${keys.join(', ')}) VALUES (${values}) RETURNING *`;
 
 
         }
@@ -118,7 +120,7 @@ export abstract class Model {
 
         try {
 
-    
+
             const result = await pool.query(query);
             return result.rows[0]
 
@@ -210,6 +212,38 @@ export abstract class Model {
 
         }
 
+    }
+
+
+    newWhere(column: string, value: any) {
+        this.conditions.push(`${column} =$${this.values.length + 1}`);
+        this.values.push(value);
+        return this;
+    }
+
+
+    async first() {
+
+        let query = `SELECT * FROM ${this.tableName}`;
+        if (this.conditions.length) {
+            query += ` WHERE ` + this.conditions.join(" AND ");
+        }
+
+        query += ` LIMIT 1`;
+
+        const { rows } = await pool.query(query, this.values);
+        return rows;
+    }
+
+     async get() {
+        let query = `SELECT * FROM ${this.tableName}`;
+
+        if (this.conditions.length) {
+            query += ` WHERE ` + this.conditions.join(" AND ");
+        }
+
+        const { rows } = await pool.query(query, this.values);
+        return rows;
     }
 
 

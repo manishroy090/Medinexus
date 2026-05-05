@@ -1,6 +1,6 @@
 // import { Roles } from "../entities/Roles";
 
-import { Permission } from "../db/models/tenant/org/hoshpital/Permission.js";
+import { Permission } from "../db/models/Permission.js";
 export class PemissionRepository {
 
 
@@ -36,5 +36,12 @@ export class PemissionRepository {
 
     async deletePermission(id:String){
       return  await this.Permission.delete(id);
+    }
+
+
+    async getPermissionRoleWise(RoleId:String){
+
+        const result = await this.Permission.newWhere('role_id',RoleId).get();
+         return result;        
     }
 }

@@ -37,4 +37,13 @@ export class RolesRepository {
     async deleteRole(id: String) {
         return await this.role.delete(id);
     }
+
+    async getRoleByName(name:String){
+
+      const result =  this.role.where("title",name)
+
+      return result;
+        
+
+    }
 }
