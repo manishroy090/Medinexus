@@ -16,7 +16,7 @@ export class Database {
     // orgClient: Client
 
     public mainDBName: any;
-    private countryClient: any;
+    public countryClient: any;
     private migrations: any;
     private ScriptLogs: any
 
@@ -219,8 +219,10 @@ export class Database {
 
         this.countryClient.connect();
 
-        return true;
+        return this.countryClient;
     }
+
+   
 
 }
 

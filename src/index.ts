@@ -22,6 +22,7 @@ import repositoriesPlugin from './plugins/repositories.js';
 import cors from '@fastify/cors';
 import type { FastifyCookieOptions } from '@fastify/cookie';
 import cookie from '@fastify/cookie';
+import { RequestContext } from './context/RequestContext.js';
 
 
 
@@ -42,7 +43,11 @@ await fastify.register(cors, {
   methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
 })
 
-
+fastify.addHook('onRequest', (req, reply, done) => {
+    RequestContext.run(req, () => {
+        done();
+    });
+});
 
 
 

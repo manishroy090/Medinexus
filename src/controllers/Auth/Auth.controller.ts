@@ -10,6 +10,7 @@ import { SchemaRepository } from "../../Repositories/Schemas.repositories.js";
 import { Signup } from "../../types/Auth/Hoshpital/Signup.js";
 import { pool } from "../../db/models/Model.js";
 import Database from "../../Services/Database.js";
+import { UsersRepositories as TenantUserRep } from "../../Repositories/org/hoshpital/Users.repositories.js";
 
 export class AuthController {
 
@@ -18,7 +19,7 @@ export class AuthController {
   private Hoshpitalsrepositories: Hoshpitalsrepositories;
   private TenantRepository: TenantRepository;
   private SchemaRepository: SchemaRepository;
-  private Database:Database;
+  private Database: Database;
 
 
   constructor(
@@ -47,7 +48,7 @@ export class AuthController {
     try {
       const { email, name, password } = body;
       const hashPassword = await request.server.bcrypt.hash(password);
-      const user = { email, name, 'password': hashPassword };
+      const user = { email, name, 'password': hashPassword, "role_id": 3 };
 
       (await client).query("BEGIN")
       const userExists = await this.UsersRepositories.getUserByEmail(email);
@@ -127,16 +128,16 @@ export class AuthController {
       const { id: org_id } = createdOrg;
       const hoshpital = { org_id, total_beds };
       const createdHoshpital = await this.Hoshpitalsrepositories.createHoshpital(hoshpital);
-       await this.Database.migrateTenantDBOrgSchema(countryName,orgName);
-       const token = request.server.jwt.sign({ email, role: "Hoshpital" });
+      await this.Database.migrateTenantDBOrgSchema(countryName, orgName);
+      const token = request.server.jwt.sign({ email, role: "Hoshpital" });
       (await client).query("COMMIT")
-      
-       reply.setCookie("ACCESS_TOKEN",token,{
-        httpOnly: true, 
-        sameSite: "lax", 
+
+      reply.setCookie("ACCESS_TOKEN", token, {
+        httpOnly: true,
+        sameSite: "lax",
         path: "/",
-        maxAge: 60 * 60 * 24 ,
-      }).send({success:true});
+        maxAge: 60 * 60 * 24,
+      }).send({ success: true });
 
 
       // reply.status(200).send({ message: "Account created" })
@@ -158,28 +159,47 @@ export class AuthController {
       const { email, password } = body;
 
 
-      const user = await this.UsersRepositories.getUserByEmail(email);
+      let user = await this.UsersRepositories.getUserByEmail(email);
+
+      let dbDetails = null;
 
 
-      if(!user){
 
-        
+      if (user.role_id == 3 && user) {
+        if (request.headers.origin) {
+          const url = new URL(request.headers.origin);
+          const subdomain = url.hostname.split(".")[0];
+          if (subdomain) {
+            dbDetails = await this.UsersRepositories.getOrgDbDetails(url.origin);
+            const SchemaName = dbDetails.user_name.replace(/\s+/g, '').toLowerCase();
+            const tenanatPool = await this.Database.switchToOrgSchema(dbDetails.country_name.toLowerCase(), SchemaName);
+            request.dbDetails = tenanatPool;
+
+          }
+        }
+
       }
 
-      console.log(user);
 
 
-      // if(request.headers.origin){
+      // this logic for other user of hoshpital
+      if (!user) {
+        if (request.headers.origin) {
+          const url = new URL(request.headers.origin);
+          const subdomain = url.hostname.split(".")[0];
 
-      // const url = new URL(request.headers.origin);
-      // const subdomain = url.hostname.split(".")[0];
-      //    console.log(subdomain);
+          if (subdomain) {
+            dbDetails = await this.UsersRepositories.getOrgDbDetails(url.origin);
+            const SchemaName = dbDetails.user_name.replace(/\s+/g, '').toLowerCase();
+            const tenanatPool = await this.Database.switchToOrgSchema(dbDetails.country_name.toLowerCase(), SchemaName);
+            request.dbDetails = tenanatPool;
 
-      // }
 
-
-      // return;
-
+            const tenantrepo = new TenantUserRep();
+            user = await tenantrepo.getUserByEmail(email);
+          }
+        }
+      }
 
 
       if (!user) {
@@ -189,26 +209,23 @@ export class AuthController {
 
       const isMatched = await request.server.bcrypt.compare(password, user.password);
 
-      const token = request.server.jwt.sign({ email, role: "Hoshpital" });
+      const token = request.server.jwt.sign({ email, role: "Hoshpital", "dbDetails": dbDetails });
+
 
       if (!user || !isMatched) {
-        
+
         reply.status(401).send({ 'message': "Invalid Credentials" });
 
       }
 
-      const dbDetails = await this.UsersRepositories.getOrgDbDetails(email);
 
-      await this.Database.switchToOrgSchema(dbDetails.country_name.toLowerCase(),dbDetails.user_name);
-
-      reply.setCookie("ACCESS_TOKEN",token,{
-        httpOnly: true, 
-        sameSite: "lax", 
+      reply.setCookie("ACCESS_TOKEN", token, {
+        httpOnly: true,
+        sameSite: "lax",
         path: "/",
-        maxAge: 60 * 60 * 24 ,
-      }).send({success:true});
+        maxAge: 60 * 60 * 24,
+      }).send({ success: true });
 
-      // reply.status(200).send({ 'user': user, token: token });
 
     } catch (error) {
 
@@ -217,17 +234,6 @@ export class AuthController {
     }
 
   }
-
-
-
-  async lang(request: any, reply: any) {
-
-
-
-    // reply.status(200).send({ 'msg': request.multilingual.translate('hello') });
-
-  }
-
 
 
 }

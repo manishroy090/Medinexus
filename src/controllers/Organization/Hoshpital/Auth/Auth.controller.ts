@@ -18,17 +18,12 @@ export class AuthController {
   ) {
 
     this.UsersRepositories = UsersRepositories;
-
     this.roleRepository = new RolesRepository();
-
-
-
   }
 
   async signup(request: any, reply: any) {
 
     const { body } = request;
-
     const { role_id, name, email, password, is_active } = body;
     const hashPassword = await request.server.bcrypt.hash(password);
 
@@ -40,9 +35,9 @@ export class AuthController {
       "is_active": is_active
     }
 
-    this.UsersRepositories.createHoshpitalUser(user);
-    const roleDetails = await this.roleRepository.getRole(role_id);
-    const token = request.server.jwt.sign({ email, role: roleDetails[0].title });
+    const createdUser = await this.UsersRepositories.createHoshpitalUser(user);
+     const roleDetails = await this.roleRepository.getRole(role_id);
+     const token = request.server.jwt.sign({ email, role: roleDetails[0].title });
     reply.setCookie("ACCESS_TOKEN", token, {
       httpOnly: true,
       sameSite: "lax",
@@ -51,23 +46,5 @@ export class AuthController {
     }).send({ success: true });
 
   }
-
-
-  async login(request: any, reply: any) {
-
-
-  }
-
-
-
-  async lang(request: any, reply: any) {
-
-
-
-    // reply.status(200).send({ 'msg': request.multilingual.translate('hello') });
-
-  }
-
-
 
 }

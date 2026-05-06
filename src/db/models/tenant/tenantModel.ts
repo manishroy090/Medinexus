@@ -2,23 +2,40 @@ import Database from "../../../Services/Database.js";
 import { Client } from 'pg';
 import { Pool } from 'pg';
 import { table_prefix } from "../../../Constants/App.js";
-import { check } from "zod";
+import { RequestContext } from "../../../context/RequestContext.js";
+// import { check } from "zod";
 
 
 const mainDBName = "nepal";
 
-export const pool = new Pool({
-    connectionString: `postgres://manish:secret@localhost:5432/${mainDBName}`
-});
+
+
+
+
+
+
 export abstract class Model {
 
     private readonly tableName: String;
 
     private readonly tablePrefix: String = table_prefix;
 
-    private SchemaName = 'greenvalleyhospital';
+
+
+      protected get pool(): Pool {
+        const db = RequestContext.get()?.dbDetails;
+
+        if (!db) {
+            throw new Error("DB pool not initialized in RequestContext");
+        }
+
+        return db;
+    }
 
     constructor() {
+
+   
+       console.log("this is what i want",);
 
         if (this.constructor.name == "Country") {
             this.tableName = `${this.tablePrefix}_${"countr".toLowerCase()}ies`;
@@ -29,9 +46,14 @@ export abstract class Model {
 
     }
 
+    // protected pool():Pool{
+
+    //     return RequestContext.get()?.dbDetails;
+
+    // }
 
     async all() {
-        const { rows } = await pool.query(`SELECT * FROM ${this.SchemaName}.${this.tableName}`);
+        const { rows } = await this.pool.query(`SELECT * FROM {this.tableName}`);
         return rows;
 
     }
@@ -45,7 +67,6 @@ export abstract class Model {
         values = Object.values(item)
             .map(val => typeof val === 'string' ? `'${val}'` : val)
             .join(', ');
-
 
         if (item.length > 0) {
 
@@ -90,12 +111,12 @@ export abstract class Model {
 
 
 
-             query = `INSERT INTO ${this.SchemaName}.${this.tableName} (${keys.join(', ')}) VALUES ${values} RETURNING *`;
+            query = `INSERT INTO ${this.tableName} (${keys.join(', ')}) VALUES ${values} RETURNING *`;
         }
 
-        else{
+        else {
 
-           query = `INSERT INTO ${this.SchemaName}.${this.tableName} (${keys.join(', ')}) VALUES (${values}) RETURNING *`;
+            query = `INSERT INTO ${this.tableName} (${keys.join(', ')}) VALUES (${values}) RETURNING *`;
 
 
         }
@@ -103,9 +124,9 @@ export abstract class Model {
 
         try {
 
-    
-            const result = await pool.query(query);
-            return result.rows[0]
+
+            const {rows} = await this.pool.query(query);
+            return rows[0]
 
         } catch (error) {
 
@@ -119,7 +140,7 @@ export abstract class Model {
 
     async findById(id: string) {
         try {
-            const { rows } = await pool.query(`SELECT * FROM ${this.SchemaName}.${this.tableName}  WHERE id=${id}`);
+            const { rows } = await this.pool.query(`SELECT * FROM ${this.tableName}  WHERE id=${id}`);
 
             return rows;
 
@@ -134,7 +155,9 @@ export abstract class Model {
     async findUserByEmail(email: string) {
 
         try {
-            const { rows } = await pool.query(`SELECT * FROM "${this.SchemaName}.${this.tableName}"  WHERE email=$1`, [email]);
+            const { rows } = await this.pool.query(`SELECT * FROM "${this.tableName}"  WHERE email=$1`, [email]);
+
+
             return rows;
 
         } catch (error) {
@@ -146,7 +169,7 @@ export abstract class Model {
 
 
     async delete(id: string) {
-        const result = await pool.query(`DELETE FROM ${this.SchemaName}.${this.tableName} WHERE id=${id} RETURNING *`);
+        const result = await this.pool.query(`DELETE FROM ${this.tableName} WHERE id=${id} RETURNING *`);
         return result.rows[0];
     }
 
@@ -162,8 +185,8 @@ export abstract class Model {
         });
         const check = Colmn.join();
 
-   
-        const result = await pool.query(`UPDATE ${this.SchemaName}.${this.tableName} SET ${check} WHERE id=${id} RETURNING *`);
+
+        const result = await this.pool.query(`UPDATE ${this.tableName} SET ${check} WHERE id=${id} RETURNING *`);
         return result.rows[0]
     }
 
@@ -188,7 +211,7 @@ export abstract class Model {
         }
 
         try {
-            const { rows } = await pool.query(`SELECT  * FROM ${this.SchemaName}.${this.tableName}  WHERE ${conditionQuery} LIMIT 1`);
+            const { rows } = await this.pool.query(`SELECT  * FROM ${this.tableName}  WHERE ${conditionQuery} LIMIT 1`);
             return rows[0];
 
         } catch (error) {

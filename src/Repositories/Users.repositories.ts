@@ -37,7 +37,7 @@ export class UsersRepositories {
     }
 
 
-    async getOrgDbDetails(email: String) {
+    async getOrgDbDetails(origin: String) {
 
        const query =  `SELECT
         public.medinexus_users.name AS user_name,
@@ -47,10 +47,10 @@ export class UsersRepositories {
         ON public.medinexus_users.id = public.medinexus_organizations.user_id
         LEFT JOIN public.medinexus_countries
         ON public.medinexus_countries.id = public.medinexus_organizations.country_id
-        WHERE public.medinexus_users.email = $1`
+        WHERE public.medinexus_organizations.website = $1`
 
 
-       const {rows} = await pool.query(query,[email]);
+       const {rows} = await pool.query(query,[origin]);
 
        return rows[0];
 

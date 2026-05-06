@@ -17,12 +17,18 @@ export class UsersRepositories{
     }
 
     async createHoshpitalUser(country:any){
-        return this.user.create(country);
+        return await this.user.create(country);
     }
 
     async getHoshpitalUser(id:string){
       const result = await this.user.findById(id);
       return result[0];
+    }
+
+     async getUserByEmail(email: any) {
+
+         const resutl = await this.user.findUserByEmail(email);
+         return resutl[0];
     }
     
 }

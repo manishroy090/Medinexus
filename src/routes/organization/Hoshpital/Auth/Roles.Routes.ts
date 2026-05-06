@@ -4,6 +4,7 @@ import { RoleController } from "../../../../controllers/Organization/Hoshpital/A
 import { RolesRepository } from "../../../../Repositories/org/hoshpital/Roles.repositories.js";
 import { RoleSchema } from "../../../../validation/Roles-validation.js";
 import { RequiredPermission } from "../../../../middleware/RequiredPermission.middleware.js";
+import { Authentication } from "../../../../middleware/Authentication.middleware.js";
 
 
 
@@ -15,7 +16,7 @@ export async function RolesRoutes(fastify: FastifyInstance) {
 
      fastify.get('/',{preHandler:[RequiredPermission("role.index")]}, controller.index.bind(controller));
 
-     fastify.post('/create', { schema: { body: RoleSchema },preHandler:[RequiredPermission("role.create")] }, controller.create.bind(controller));
+     fastify.post('/create', { schema: { body: RoleSchema },preHandler:[Authentication,RequiredPermission("roles.create")] }, controller.create.bind(controller));
 
 
      fastify.get('/edit/:id',{preHandler:[RequiredPermission("role.edit")] }, controller.edit.bind(controller));

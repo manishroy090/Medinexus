@@ -17,7 +17,12 @@ export const RequiredPermission = (permission: String) => {
 
     const UsersPermissions = await permissionRep.getAuthUserPermission(user.email);
 
+    
     const PermissionArray = UsersPermissions.map((item) => item.title);
+   
+    console.log("PermissionArray",PermissionArray);
+
+    console.log("permission",permission)
 
     if (!PermissionArray.includes(permission)) {
 
