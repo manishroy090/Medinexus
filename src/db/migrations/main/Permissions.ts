@@ -3,7 +3,7 @@ import Config from "../../../Constants/Config.js"
 export async function up() {
     return `CREATE TABLE ${Config().TABLE_PREFIX}_permissions(
               id SERIAL PRIMARY KEY,
-              title VARCHAR(255) UNIQUE,
+              title VARCHAR(255) ,
               role_id BIGINT,
               is_active BOOLEAN DEFAULT TRUE,
               created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,

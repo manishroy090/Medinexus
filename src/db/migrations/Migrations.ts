@@ -31,6 +31,7 @@ export class Migrations {
             { name: "Roles" },
             { name: "Permissions" },
             { name: "Users" },
+            { name: "Users_permissions" },
             { name: "OrgStatus" },
             { name: "Organizations" },
             { name: "Tenants" },

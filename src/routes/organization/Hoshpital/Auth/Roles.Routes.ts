@@ -3,25 +3,26 @@ import { request } from "https";
 import { RoleController } from "../../../../controllers/Organization/Hoshpital/Auth/Role.controller.js";
 import { RolesRepository } from "../../../../Repositories/org/hoshpital/Roles.repositories.js";
 import { RoleSchema } from "../../../../validation/Roles-validation.js";
+import { RequiredPermission } from "../../../../middleware/RequiredPermission.middleware.js";
 
 
 
 export async function RolesRoutes(fastify: FastifyInstance) {
 
-     const rolesRepo:RolesRepository = new RolesRepository();
+     const rolesRepo: RolesRepository = new RolesRepository();
 
      const controller = new RoleController(rolesRepo);
 
-    fastify.get('/', controller.index.bind(controller));
+     fastify.get('/',{preHandler:[RequiredPermission("role.index")]}, controller.index.bind(controller));
 
-    fastify.post('/create',{schema:{body:RoleSchema}}, controller.create.bind(controller));
-
-
-    fastify.get('/edit/:id', controller.edit.bind(controller));
+     fastify.post('/create', { schema: { body: RoleSchema },preHandler:[RequiredPermission("role.create")] }, controller.create.bind(controller));
 
 
-    fastify.put('/update/:id',{schema:{body:RoleSchema}}, controller.update.bind(controller));
+     fastify.get('/edit/:id',{preHandler:[RequiredPermission("role.edit")] }, controller.edit.bind(controller));
 
-     fastify.delete('/delete/:id',controller.delete.bind(controller));
+
+     fastify.put('/update/:id', { schema: { body: RoleSchema } ,preHandler:[RequiredPermission("role.update")] }, controller.update.bind(controller));
+
+     fastify.delete('/delete/:id',{preHandler:[RequiredPermission("role.update")] }, controller.delete.bind(controller));
 
 }

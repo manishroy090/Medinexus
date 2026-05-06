@@ -11,7 +11,7 @@ import { PermissionRoutes } from './routes/Auth/Permission.Routes.js';
 import { RolesRoutes } from './routes/Auth/Roles.Routes.js';
 
 //Hoshpital Routes file 
-import { HoshpitalRoutes } from './routes/organization/Hoshpital/Hoshpital.Routes.js';
+ import { HoshpitalRoutes } from './routes/organization/Hoshpital.Routes.js';
 import Config from './Constants/Config.js';
 import jwt from '@fastify/jwt'
 
@@ -37,7 +37,7 @@ fastify.register(cookie,{
 
 
 await fastify.register(cors, {
-  origin: 'http://localhost:3000',
+  origin: ['http://localhost:3000','http://greenvally.localhost','silveroakhospital.localhost'],
   credentials: true,
   methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
 })

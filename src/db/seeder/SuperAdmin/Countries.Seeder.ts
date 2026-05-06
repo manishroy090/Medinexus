@@ -14,10 +14,6 @@ export class CountrySeeder  {
        const data=  await country.create(countries);
        console.log('seeded',data);
        
-
-
-
-
     }
 
 

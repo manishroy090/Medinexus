@@ -5,7 +5,7 @@ import { table_prefix } from "../../../Constants/App.js";
 import { check } from "zod";
 
 
-const mainDBName = "bahrain";
+const mainDBName = "nepal";
 
 export const pool = new Pool({
     connectionString: `postgres://manish:secret@localhost:5432/${mainDBName}`
@@ -16,7 +16,7 @@ export abstract class Model {
 
     private readonly tablePrefix: String = table_prefix;
 
-    private SchemaName = 'manishtest';
+    private SchemaName = 'greenvalleyhospital';
 
     constructor() {
 

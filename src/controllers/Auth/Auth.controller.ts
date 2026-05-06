@@ -128,7 +128,7 @@ export class AuthController {
       const hoshpital = { org_id, total_beds };
       const createdHoshpital = await this.Hoshpitalsrepositories.createHoshpital(hoshpital);
        await this.Database.migrateTenantDBOrgSchema(countryName,orgName);
-      const token = request.server.jwt.sign({ email, role: "Hoshpital" });
+       const token = request.server.jwt.sign({ email, role: "Hoshpital" });
       (await client).query("COMMIT")
       
        reply.setCookie("ACCESS_TOKEN",token,{
@@ -159,6 +159,26 @@ export class AuthController {
 
 
       const user = await this.UsersRepositories.getUserByEmail(email);
+
+
+      if(!user){
+
+        
+      }
+
+      console.log(user);
+
+
+      // if(request.headers.origin){
+
+      // const url = new URL(request.headers.origin);
+      // const subdomain = url.hostname.split(".")[0];
+      //    console.log(subdomain);
+
+      // }
+
+
+      // return;
 
 
 

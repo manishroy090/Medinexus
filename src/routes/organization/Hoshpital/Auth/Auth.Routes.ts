@@ -1,9 +1,7 @@
 import {type FastifyInstance } from "fastify";
 import { AuthController } from "../../../../controllers/Organization/Hoshpital/Auth/Auth.controller.js";
 import { request } from "https";
-
-import { UsersRepositories } from "../../../../Repositories/org/hoshpital/Users.repositories";
-
+import { UsersRepositories } from "../../../../Repositories/org/hoshpital/Users.repositories.js";
 import { LoginSchema } from "../../../../validation/Hoshpital_validation/Login-validation.js";
 
 

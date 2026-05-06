@@ -2,6 +2,8 @@ import { CountrySeeder } from "./SuperAdmin/Countries.Seeder.js";
 import { HoshpitalSeeder } from "./SuperAdmin/Hoshpital.Seeder.js";
 import { OrgStatusSeeder } from "./SuperAdmin/OrgStatus.Seeder.js";
 import { PermissionSeeder } from "./SuperAdmin/Permission.Seeder.js";
+import { User_Permission } from "./SuperAdmin/User_Permission.Seeder.js";
+import { RoleSeeder } from "./org/hoshpital/Role.Seeder.js";
 
 
 export class Seeder {
@@ -11,14 +13,18 @@ export class Seeder {
         'CountrySeeder'
         ,'HoshpitalSeeder',
         'OrgStatusSeeder',
-        'PermissionSeeder'
+        'PermissionSeeder',
+        'User_Permission',
+        'RoleSeeder'
     ];
 
     private readonly seederMap: any = {
         CountrySeeder: CountrySeeder,
         HoshpitalSeeder: HoshpitalSeeder,
         OrgStatusSeeder: OrgStatusSeeder,
-        PermissionSeeder: PermissionSeeder
+        PermissionSeeder: PermissionSeeder,
+        User_Permission:User_Permission,
+        RoleSeeder:RoleSeeder
     };
 
 

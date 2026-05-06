@@ -3,6 +3,7 @@ import { request } from "https";
 import { PermissionController } from "../../../../controllers/Organization/Hoshpital/Auth/Permission.controller.js";
 import { PemissionRepository } from "../../../../Repositories/org/hoshpital/Permissions.repositories.js";
 
+import { RequiredPermission } from "../../../../middleware/RequiredPermission.middleware.js";
 
 
 export async function PermissionRoutes(fastify: FastifyInstance) {
