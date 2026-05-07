@@ -23,11 +23,11 @@ export class AuthController {
   private Hoshpitalsrepositories: Hoshpitalsrepositories;
   private TenantRepository: TenantRepository;
   private SchemaRepository: SchemaRepository;
-  private roleRepository : RolesRepository;
-  private tenantRoleRepository : TenantRoleRep;
-  private pemissionRepository:PemissionRepository
-  private OrgPermissionRep:OrgPermissionRep;
-  
+  private roleRepository: RolesRepository;
+  private tenantRoleRepository: TenantRoleRep;
+  private pemissionRepository: PemissionRepository
+  private OrgPermissionRep: OrgPermissionRep;
+
   private Database: Database;
 
 
@@ -49,7 +49,7 @@ export class AuthController {
     this.roleRepository = new RolesRepository();
     this.tenantRoleRepository = new TenantRoleRep();
     this.pemissionRepository = new PemissionRepository();
-    this.OrgPermissionRep = new  OrgPermissionRep();
+    this.OrgPermissionRep = new OrgPermissionRep();
 
   }
 
@@ -58,7 +58,7 @@ export class AuthController {
     const { body } = request;
     const client = pool.connect();
 
-    console.log("body",body);
+    console.log("body", body);
 
     try {
       const { email, name, password } = body;
@@ -191,14 +191,14 @@ export class AuthController {
           const url = new URL(request.headers.origin);
           const subdomain = url.hostname.split(".")[0];
           if (subdomain) {
-            console.log("url_origin",url.origin);
+            console.log("url_origin", url.origin);
             dbDetails = await this.UsersRepositories.getOrgDbDetails(url.origin);
             const SchemaName = dbDetails.user_name.replace(/\s+/g, '').toLowerCase();
             const tenanatPool = await this.Database.switchToOrgSchema(dbDetails.country_name.toLowerCase(), SchemaName);
             request.dbDetails = tenanatPool;
-              roleName = await this.tenantRoleRepository.getRole(user.role_id);
-              permissions = await this.pemissionRepository.getAuthUserPermission(user.email)
-      
+            roleName = await this.tenantRoleRepository.getRole(user.role_id);
+            permissions = await this.pemissionRepository.getAuthUserPermission(user.email)
+
 
           }
         }
@@ -207,10 +207,10 @@ export class AuthController {
 
 
 
-       if(user){
-         roleName = await this.roleRepository.getRole(user.role_id);              
-         permissions = await this.pemissionRepository.getAuthUserPermission(user.email)
-       }
+      if (user) {
+        roleName = await this.roleRepository.getRole(user.role_id);
+        permissions = await this.pemissionRepository.getAuthUserPermission(user.email)
+      }
 
 
 
@@ -236,8 +236,8 @@ export class AuthController {
         }
       }
 
-      console.log("roleName",roleName);
-      console.log("permission",permissions)
+      console.log("roleName", roleName);
+      console.log("permission", permissions)
 
 
       if (!user) {
@@ -248,7 +248,7 @@ export class AuthController {
       const isMatched = await request.server.bcrypt.compare(password, user.password);
 
 
-      const token = request.server.jwt.sign({ email, role: roleName.title, "dbDetails": dbDetails ,"permission":permissions});
+      const token = request.server.jwt.sign({ email, role: roleName.title, "dbDetails": dbDetails, "permission": permissions });
 
 
       if (!user || !isMatched) {
@@ -263,7 +263,7 @@ export class AuthController {
         sameSite: "lax",
         path: "/",
         maxAge: 60 * 60 * 24,
-         secure: false,
+        secure: false,
       }).send({ success: true });
 
 
@@ -276,9 +276,22 @@ export class AuthController {
   }
 
 
-  async me(request:any , reply:any){
+  async me(request: any, reply: any) {
 
-    reply.send({user:request.user})
+    const token = request.cookies.ACCESS_TOKEN;
+
+    if (!token) {
+      return reply.status(401).send({
+        message: "Unauthorized",
+      });
+    }
+
+    const decoded = request.server.jwt.verify(token);
+
+    return {
+      user: decoded,
+    };
+
 
   }
 
