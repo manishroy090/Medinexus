@@ -64,6 +64,7 @@ export class Database {
                 const table = await module.up();
 
                 try {
+                    
                     await this.adminClient.query(table);
                     console.log(`${file.name} migration successfull`);
 
@@ -86,7 +87,6 @@ export class Database {
     async migrateTenantDBOrgSchema(countryName: any, orgName: any) {
 
         const SchemaName = "uk";
-        const org = 'greenvallyhospital';
 
         const hoshpital = await this.migrations.getHoshpitalMigrations();
         const countriesMigration = hoshpital.find((item: any) => Object.keys(item).includes(SchemaName));
@@ -124,6 +124,7 @@ export class Database {
             }
 
         }
+
 
 
 

@@ -48,7 +48,7 @@ export class PemissionRepository {
 
     async getAuthUserPermission(email: String) {
 
-        const query = `SELECT medinexus_users.name,medinexus_permissions.title FROM public.medinexus_users
+        const query = `SELECT medinexus_permissions.title FROM public.medinexus_users
                         LEFT JOIN public.medinexus_users_permissions
                         ON public.medinexus_users.id = public.medinexus_users_permissions.user_id
                         LEFT JOIN public.medinexus_permissions

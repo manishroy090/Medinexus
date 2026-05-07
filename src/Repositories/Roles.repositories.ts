@@ -1,5 +1,5 @@
 // import { Roles } from "../entities/Roles";
-import { Role } from "../db/models/tenant/org/hoshpital/Role.model.js";
+import { Role } from "../db/models/Role.model.js";
 
 export class RolesRepository {
 
@@ -25,7 +25,7 @@ export class RolesRepository {
 
     async getRole(id: string) {
         const result = await this.role.findById(id);
-        return result
+        return result[0]
     }
 
     async updateRole(id: string, body: any) {

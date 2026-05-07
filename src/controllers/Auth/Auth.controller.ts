@@ -11,6 +11,10 @@ import { Signup } from "../../types/Auth/Hoshpital/Signup.js";
 import { pool } from "../../db/models/Model.js";
 import Database from "../../Services/Database.js";
 import { UsersRepositories as TenantUserRep } from "../../Repositories/org/hoshpital/Users.repositories.js";
+import { RolesRepository } from "../../Repositories/Roles.repositories.js";
+import { RolesRepository as TenantRoleRep } from "../../Repositories/org/hoshpital/Roles.repositories.js";
+import { PemissionRepository } from "../../Repositories/Permissions.repositories.js";
+import { PemissionRepository as OrgPermissionRep } from "../../Repositories/org/hoshpital/Permissions.repositories.js";
 
 export class AuthController {
 
@@ -19,6 +23,11 @@ export class AuthController {
   private Hoshpitalsrepositories: Hoshpitalsrepositories;
   private TenantRepository: TenantRepository;
   private SchemaRepository: SchemaRepository;
+  private roleRepository : RolesRepository;
+  private tenantRoleRepository : TenantRoleRep;
+  private pemissionRepository:PemissionRepository
+  private OrgPermissionRep:OrgPermissionRep;
+  
   private Database: Database;
 
 
@@ -37,6 +46,10 @@ export class AuthController {
     this.TenantRepository = TenantRepository;
     this.SchemaRepository = SchemaRepository;
     this.Database = new Database();
+    this.roleRepository = new RolesRepository();
+    this.tenantRoleRepository = new TenantRoleRep();
+    this.pemissionRepository = new PemissionRepository();
+    this.OrgPermissionRep = new  OrgPermissionRep();
 
   }
 
@@ -44,6 +57,8 @@ export class AuthController {
 
     const { body } = request;
     const client = pool.connect();
+
+    console.log("body",body);
 
     try {
       const { email, name, password } = body;
@@ -137,6 +152,7 @@ export class AuthController {
         sameSite: "lax",
         path: "/",
         maxAge: 60 * 60 * 24,
+        secure: false,
       }).send({ success: true });
 
 
@@ -163,22 +179,39 @@ export class AuthController {
 
       let dbDetails = null;
 
+      let roleName = null;
+
+      let permissions = null;
 
 
-      if (user.role_id == 3 && user) {
-        if (request.headers.origin) {
+
+
+      if (user) {
+        if (request.headers.origin && user.role_id == 3) {
           const url = new URL(request.headers.origin);
           const subdomain = url.hostname.split(".")[0];
           if (subdomain) {
+            console.log("url_origin",url.origin);
             dbDetails = await this.UsersRepositories.getOrgDbDetails(url.origin);
             const SchemaName = dbDetails.user_name.replace(/\s+/g, '').toLowerCase();
             const tenanatPool = await this.Database.switchToOrgSchema(dbDetails.country_name.toLowerCase(), SchemaName);
             request.dbDetails = tenanatPool;
+              roleName = await this.tenantRoleRepository.getRole(user.role_id);
+              permissions = await this.pemissionRepository.getAuthUserPermission(user.email)
+      
 
           }
         }
 
       }
+
+
+
+       if(user){
+         roleName = await this.roleRepository.getRole(user.role_id);              
+         permissions = await this.pemissionRepository.getAuthUserPermission(user.email)
+       }
+
 
 
 
@@ -197,9 +230,14 @@ export class AuthController {
 
             const tenantrepo = new TenantUserRep();
             user = await tenantrepo.getUserByEmail(email);
+            roleName = await this.tenantRoleRepository.getRole(user.role_id);
+            permissions = await this.OrgPermissionRep.getAuthUserPermission(user.email);
           }
         }
       }
+
+      console.log("roleName",roleName);
+      console.log("permission",permissions)
 
 
       if (!user) {
@@ -209,7 +247,8 @@ export class AuthController {
 
       const isMatched = await request.server.bcrypt.compare(password, user.password);
 
-      const token = request.server.jwt.sign({ email, role: "Hoshpital", "dbDetails": dbDetails });
+
+      const token = request.server.jwt.sign({ email, role: roleName.title, "dbDetails": dbDetails ,"permission":permissions});
 
 
       if (!user || !isMatched) {
@@ -224,6 +263,7 @@ export class AuthController {
         sameSite: "lax",
         path: "/",
         maxAge: 60 * 60 * 24,
+         secure: false,
       }).send({ success: true });
 
 
@@ -232,6 +272,13 @@ export class AuthController {
       console.log('error', error);
 
     }
+
+  }
+
+
+  async me(request:any , reply:any){
+
+    reply.send({user:request.user})
 
   }
 
