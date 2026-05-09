@@ -14,9 +14,6 @@ class App {
         const command = process.argv[2];
         const params = process.argv[3];
 
-  
-        
-
 
         // npm run migrate tenantName schemaname;
 
@@ -50,7 +47,7 @@ class App {
                 else if (params == 'rollback') {
 
                     //This Script will rollback all the table from adminDatabase
-                    database.rollbackAdminDb();
+                    // database.rollbackAdminDb();
                 }
                 else if(tenantName && schemaName ){
 

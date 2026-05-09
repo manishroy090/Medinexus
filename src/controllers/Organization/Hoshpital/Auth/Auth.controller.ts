@@ -21,6 +21,15 @@ export class AuthController {
     this.roleRepository = new RolesRepository();
   }
 
+  async index(request:any , reply:any){
+
+
+    console.log("auth user called");
+    const users = await  this.UsersRepositories.getTenantUser();
+     reply.status(200).send({"users":users})
+
+  }
+
   async signup(request: any, reply: any) {
 
     const { body } = request;

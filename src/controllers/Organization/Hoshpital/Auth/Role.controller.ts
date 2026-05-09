@@ -16,7 +16,7 @@ export class RoleController {
 
         try {
 
-            const roles = await this.RolesRepository.getAllRoles();
+            const roles = await this.RolesRepository.getAllRoleWithPermission();
             reply.status(200).send({ 'roles': roles });
 
         } catch (error) {

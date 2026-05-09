@@ -15,6 +15,11 @@ import { RolesRepository } from "../../Repositories/Roles.repositories.js";
 import { RolesRepository as TenantRoleRep } from "../../Repositories/org/hoshpital/Roles.repositories.js";
 import { PemissionRepository } from "../../Repositories/Permissions.repositories.js";
 import { PemissionRepository as OrgPermissionRep } from "../../Repositories/org/hoshpital/Permissions.repositories.js";
+import { ModulesRepository } from "../../Repositories/Modules.repositories.js";
+import { SubmodulesRepository } from "../../Repositories/Submodules.repositories.js";
+import { ModulesRepository as TenantModuleRep } from "../../Repositories/org/hoshpital/Modules.repositories.js";
+import { SubmodulesRepository as TenantSubModuleRep } from "../../Repositories/org/hoshpital/Submodules.repositories.js";
+
 
 export class AuthController {
 
@@ -27,6 +32,10 @@ export class AuthController {
   private tenantRoleRepository: TenantRoleRep;
   private pemissionRepository: PemissionRepository
   private OrgPermissionRep: OrgPermissionRep;
+  private moduleRepo:ModulesRepository;
+  private subModuleRep:SubmodulesRepository;
+  private tenantModuleRep:TenantModuleRep;
+  private tenantsubmodulesRepository:TenantSubModuleRep
 
   private Database: Database;
 
@@ -50,8 +59,15 @@ export class AuthController {
     this.tenantRoleRepository = new TenantRoleRep();
     this.pemissionRepository = new PemissionRepository();
     this.OrgPermissionRep = new OrgPermissionRep();
+    this.moduleRepo = new ModulesRepository();
+    this.subModuleRep = new SubmodulesRepository();
+    this.tenantModuleRep = new TenantModuleRep();
+    this.tenantsubmodulesRepository = new TenantSubModuleRep();
 
   }
+
+
+  
 
   async signup(request: any, reply: any) {
 
@@ -143,10 +159,20 @@ export class AuthController {
       const { id: org_id } = createdOrg;
       const hoshpital = { org_id, total_beds };
       const createdHoshpital = await this.Hoshpitalsrepositories.createHoshpital(hoshpital);
-      await this.Database.migrateTenantDBOrgSchema(countryName, orgName);
+      await this.pemissionRepository.getHospitalPermissionToAssignAsUser(org.user_id);
+      const pool = await this.Database.migrateTenantDBOrgSchema(
+           countryName,
+           orgName,
+      );
+       request.dbDetails = pool;
+      const hoshpitalModule = await this.moduleRepo.getHoshpitalModule();
+      const hoshpitalSubModuel = await this.subModuleRep.getHospitalSubmodule();
+      const hoshpitalPermissions = await this.pemissionRepository.getPermissionRoleWise('3');
+      await this.tenantModuleRep.createHospitalModule(hoshpitalModule);
+      await this.tenantsubmodulesRepository.createHospitalSubmodule(hoshpitalSubModuel);
+      await this.OrgPermissionRep.createPermission(hoshpitalPermissions);
       const token = request.server.jwt.sign({ email, role: "Hoshpital" });
       (await client).query("COMMIT")
-
       reply.setCookie("ACCESS_TOKEN", token, {
         httpOnly: true,
         sameSite: "lax",
@@ -154,7 +180,6 @@ export class AuthController {
         maxAge: 60 * 60 * 24,
         secure: false,
       }).send({ success: true });
-
 
       // reply.status(200).send({ message: "Account created" })
     } catch (error) {

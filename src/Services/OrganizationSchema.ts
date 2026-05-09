@@ -1,4 +1,4 @@
-import { Client } from 'pg';
+import { Client ,Pool} from 'pg';
 import fs from 'fs/promises';
 import path from 'path';
 import { pathToFileURL } from 'url';
@@ -10,13 +10,13 @@ import { Config } from '../Constants/App.js';
 
  class OrganizationSchema {
 
-       countryClient: Client;
+       countryClient: Pool;
 
     
 
     constructor(countryName:string) {
 
-        this.countryClient = new Client({
+        this.countryClient = new Pool({
             connectionString: `postgres://manish:secret@localhost:5432/${countryName}`
         });
 

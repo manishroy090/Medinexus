@@ -1,13 +1,13 @@
 import { type FastifyInstance } from "fastify";
 import { request } from "https";
 import { RoleController } from "../../controllers/Auth/Role.controller.js";
-import { RolesRepository } from "../../Repositories/Roles.repositories.js";
+import { RolesRepository as NontenRoleRep } from "../../Repositories/Roles.repositories.js";
 import { RoleSchema } from "../../validation/Roles-validation.js";
 
 
 export async function RolesRoutes(fastify: FastifyInstance) {
 
-     const rolesRepo:RolesRepository = new RolesRepository();
+     const rolesRepo:NontenRoleRep = new NontenRoleRep();
 
      const controller = new RoleController(rolesRepo);
 

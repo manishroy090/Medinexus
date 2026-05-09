@@ -13,11 +13,9 @@ export async function AuthRoutes(fastify: FastifyInstance){
   
  
   const UsersRep:UsersRepositories = new UsersRepositories();
-
-
   const controller  = new AuthController(UsersRep);
+  fastify.post('/signup',{preHandler:[Authentication,RequiredPermission("user.create")]},controller.signup.bind(controller));
+  fastify.get('/users',{preHandler:[Authentication]},controller.index.bind(controller))
 
-
-  fastify.post('/signup',{preHandler:[Authentication,RequiredPermission("user.create")]},controller.signup.bind(controller))
 
 }

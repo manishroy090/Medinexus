@@ -4,7 +4,7 @@ import { Model } from "../db/models/tenant/tenantModel.js";
 
 export async function Authentication(req: any, reply: any) {
 
-    const token = req.headers['authorization']
+    const token = req.cookies.ACCESS_TOKEN;
 
 
     if (!token) {

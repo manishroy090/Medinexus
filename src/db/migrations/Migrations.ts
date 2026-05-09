@@ -15,8 +15,10 @@ export class Migrations {
         return [
             { name: "Roles" },
             { name: "Permissions" },
+            { name: "Modules" },
+            { name: "Submodules"},
             { name: "Users" },
-            {name:"Users_permissions"}
+            { name: "Users_permissions" }
         ]
 
     }
@@ -29,6 +31,8 @@ export class Migrations {
 
         return [
             { name: "Countries" },
+            { name: "Modules" },
+            { name: "Submodules" },
             { name: "Roles" },
             { name: "Permissions" },
             { name: "Users" },
@@ -38,7 +42,7 @@ export class Migrations {
             { name: "Tenants" },
             { name: "Schemas" },
             { name: "Hoshpitals" },
-            // {name:"Bloodbanks"},
+           
 
         ]
 
@@ -47,7 +51,7 @@ export class Migrations {
 
     async getHoshpitalMigrations() {
 
-      return  [
+        return [
 
             {
                 uk: [

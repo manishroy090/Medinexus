@@ -39,11 +39,11 @@ export class RolesRepository {
     }
 
     async getRoleByName(name:String){
-
       const result =  this.role.where("title",name)
-
       return result;
-        
+    }
 
+    async getAllRoleWithPermission (){
+        
     }
 }

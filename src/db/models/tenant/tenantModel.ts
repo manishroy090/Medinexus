@@ -1,24 +1,13 @@
-import Database from "../../../Services/Database.js";
-import { Client } from 'pg';
 import { Pool } from 'pg';
 import { table_prefix } from "../../../Constants/App.js";
 import { RequestContext } from "../../../context/RequestContext.js";
-// import { check } from "zod";
-
-
-const mainDBName = "nepal";
-
-
-
-
-
 
 
 export abstract class Model {
 
     private readonly tableName: String;
 
-    private readonly tablePrefix: String = table_prefix;
+    private readonly tablePrefix: String = table_prefix ;
 
 
 
@@ -29,13 +18,14 @@ export abstract class Model {
             throw new Error("DB pool not initialized in RequestContext");
         }
 
+    
         return db;
     }
 
     constructor() {
 
+        
    
-       console.log("this is what i want",);
 
         if (this.constructor.name == "Country") {
             this.tableName = `${this.tablePrefix}_${"countr".toLowerCase()}ies`;
@@ -46,14 +36,10 @@ export abstract class Model {
 
     }
 
-    // protected pool():Pool{
-
-    //     return RequestContext.get()?.dbDetails;
-
-    // }
+   
 
     async all() {
-        const { rows } = await this.pool.query(`SELECT * FROM {this.tableName}`);
+        const { rows } = await this.pool.query(`SELECT * FROM ${this.tableName}`);
         return rows;
 
     }
@@ -95,13 +81,13 @@ export abstract class Model {
 
                         //  Handle timestamp string
                         if (typeof val === 'string' && !isNaN(Date.parse(val))) {
-                            const formatted = new Date(val).toISOString().replace("T", " ").slice(0, 19);
-                            return `'${formatted}'`;
+                            // const formatted = new Date(val).toISOString().replace("T", " ").slice(0, 19);
+                            // return `'${formatted}'`;
+                            return val;
                         }
 
                         if (typeof val === 'boolean') return val;
                         if (typeof val === 'number') return val;
-
                         return `'${val}'`;
                     })
                     .join(', ');

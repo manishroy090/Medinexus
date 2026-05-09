@@ -13,7 +13,8 @@ export class UsersRepositories{
 
 
     async getHoshpitalUsers(){
-        return this.user.all();
+
+         return await this.user.all();
     }
 
     async createHoshpitalUser(country:any){
@@ -29,6 +30,21 @@ export class UsersRepositories{
 
          const resutl = await this.user.findUserByEmail(email);
          return resutl[0];
+    }
+
+    async getTenantUser(){
+      const query =  `SELECT silveroakhospital.medinexus_users.name,
+        silveroakhospital.medinexus_roles.title,
+        silveroakhospital.medinexus_users.email ,
+        silveroakhospital.medinexus_users.is_active,
+        silveroakhospital.medinexus_users.email_verified_at
+        FROM silveroakhospital.medinexus_users
+        LEFT JOIN silveroakhospital.medinexus_roles
+        ON silveroakhospital.medinexus_users.role_id = silveroakhospital.medinexus_roles.id`
+
+        const {rows} = await this.user.pool.query(query);
+
+        return rows;
     }
     
 }

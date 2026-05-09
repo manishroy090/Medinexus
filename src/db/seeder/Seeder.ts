@@ -4,6 +4,9 @@ import { OrgStatusSeeder } from "./SuperAdmin/OrgStatus.Seeder.js";
 import { PermissionSeeder } from "./SuperAdmin/Permission.Seeder.js";
 import { User_Permission } from "./SuperAdmin/User_Permission.Seeder.js";
 import { RoleSeeder } from "./SuperAdmin/roles.Seeder.js";
+import {ModuleSeeder} from "../../db/seeder/SuperAdmin/Module.Seeder.js"
+import { SubModuleSeeder } from "./SuperAdmin/SubModule.Seeder.js";
+
 
 
 export class Seeder {
@@ -15,7 +18,10 @@ export class Seeder {
         'OrgStatusSeeder',
         'PermissionSeeder',
         'User_Permission',
-        'RoleSeeder'
+        'RoleSeeder',
+        'ModuleSeeder',
+        'SubModuleSeeder'
+        
     ];
 
     private readonly seederMap: any = {
@@ -24,7 +30,10 @@ export class Seeder {
         OrgStatusSeeder: OrgStatusSeeder,
         PermissionSeeder: PermissionSeeder,
         User_Permission:User_Permission,
-         RoleSeeder:RoleSeeder
+        RoleSeeder:RoleSeeder,
+        ModuleSeeder:ModuleSeeder,
+        SubModuleSeeder:SubModuleSeeder
+
     };
 
 

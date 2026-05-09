@@ -6,6 +6,8 @@ export async function up(schemaName:string) {
               id SERIAL PRIMARY KEY,
               title VARCHAR(255),
               role_id BIGINT,
+              module_id BIGINT,
+              sub_module_id BIGINT,
               is_active BOOLEAN,
               created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
               updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,

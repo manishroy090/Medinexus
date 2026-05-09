@@ -52,22 +52,10 @@ export abstract class Model {
             .map(val => typeof val === 'string' || val === null ? `'${val}'` : val)
             .join(', ');
 
-
-
-
-
-
-
         if (item.length > 0) {
 
             const items = item;
-
-            //   checkkeys = {}; 
-
-
             keys = Object.keys(item[0]);
-
-
             values = [];
             items.map((item: any) => {
                 const value = Object.values(item)
@@ -105,21 +93,17 @@ export abstract class Model {
 
 
             query = `INSERT INTO ${this.tableName} (${keys.join(', ')}) VALUES ${values} RETURNING *`;
+
+         
         }
 
         else {
-
-
-
-
             query = `INSERT INTO ${this.tableName} (${keys.join(', ')}) VALUES (${values}) RETURNING *`;
-
-
         }
-        console.log('query', query);
-
         try {
 
+
+            console.log("query",query);
 
             const result = await pool.query(query);
             return result.rows[0]

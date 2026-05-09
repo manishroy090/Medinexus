@@ -93,7 +93,7 @@ fastify.register(ConfigRoutes,{prefix:'/api/v1/config'});
 
 //Super Admin Authorization Routes
 fastify.register(PermissionRoutes,{prefix:'/api/v1/permissions'});
-fastify.register(RolesRoutes,{prefix:'/api/v1/roles'});
+// fastify.register(RolesRoutes,{prefix:'/api/v1/roles'});
 
 
 //Hoshpital Routes
