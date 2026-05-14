@@ -14,6 +14,7 @@ export abstract class Model {
       protected get pool(): Pool {
         const db = RequestContext.get()?.dbDetails;
 
+
         if (!db) {
             throw new Error("DB pool not initialized in RequestContext");
         }
@@ -81,9 +82,9 @@ export abstract class Model {
 
                         //  Handle timestamp string
                         if (typeof val === 'string' && !isNaN(Date.parse(val))) {
-                            // const formatted = new Date(val).toISOString().replace("T", " ").slice(0, 19);
-                            // return `'${formatted}'`;
-                            return val;
+                            const formatted = new Date(val).toISOString().replace("T", " ").slice(0, 19);
+                            return `'${formatted}'`;
+                            // return val;
                         }
 
                         if (typeof val === 'boolean') return val;

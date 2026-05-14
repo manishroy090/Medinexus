@@ -144,6 +144,7 @@ export class Database {
             'common'
         );
 
+        console.log("tenantSchema",tenantSchema);
         // tenant migrations
         for (const file of tenantSchema) {
 
@@ -164,25 +165,27 @@ export class Database {
             }
         }
 
-        // common migrations
-        for (const file of commonMigration) {
+        console.log("code is out of loop");
 
-            const filePath = path.join(commonFolderPath, `${file.name}.ts`);
-            const module = await import(pathToFileURL(filePath).href);
+        // // common migrations
+        // for (const file of commonMigration) {
 
-            if (typeof module.up === 'function') {
+        //     const filePath = path.join(commonFolderPath, `${file.name}.ts`);
+        //     const module = await import(pathToFileURL(filePath).href);
 
-                try {
-                    const query = await module.up(orgName);
-                    await pool.query(query);
+        //     if (typeof module.up === 'function') {
 
-                    console.log(`${file.name} success`);
+        //         try {
+        //             const query = await module.up(orgName);
+        //             await pool.query(query);
 
-                } catch (err) {
-                    console.log(`${file.name} failed`, err);
-                }
-            }
-        }
+        //             console.log(`${file.name} success`);
+
+        //         } catch (err) {
+        //             console.log(`${file.name} failed`, err);
+        //         }
+        //     }
+        // }
 
         return pool;
     }

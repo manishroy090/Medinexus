@@ -42,26 +42,41 @@ export class RolesRepository {
     }
 
 
-    async getAllRoleWithPermission(){
+    async getAllRoleWithPermission() {
+ 
 
-         const allRoleWithPermission = `
-         SELECT silveroakhospital.medinexus_roles.title,
-         STRING_AGG(silveroakhospital.medinexus_permissions.title, ', ') AS permissions
-         FROM silveroakhospital.medinexus_permissions 
-         LEFT JOIN silveroakhospital.medinexus_roles 
-         ON silveroakhospital.medinexus_permissions.role_id = silveroakhospital.medinexus_roles.id
-         GROUP BY silveroakhospital.medinexus_roles.id, silveroakhospital.medinexus_roles.title;`
-         const {rows} = await this.role.pool.query(allRoleWithPermission);
+        try {
 
-      
-         return rows;
+          const allRoleWithPermission = `
+                              SELECT 
+                              medinexus_roles.id,
+                              medinexus_roles.title,
+                              null AS permissions
+                              FROM medinexus_roles
+                             `;
+
+
+            const { rows } = await this.role.pool.query(allRoleWithPermission);
+
+        
+
+
+            return rows;
+
+        } catch (error) {
+
+            throw error;
+
+        }
+
+
 
     }
 
-   
 
-  
-  
 
-  
+
+
+
+
 }

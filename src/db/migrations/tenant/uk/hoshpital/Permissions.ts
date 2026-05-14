@@ -1,5 +1,5 @@
 
-import Config from "../../../Constants/Config.js"
+import Config from "../../../../../Constants/Config.js"
 
 export async function up(schemaName:string) {
     return `CREATE TABLE ${schemaName}.${Config().TABLE_PREFIX}_permissions(

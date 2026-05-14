@@ -14,6 +14,7 @@ export class RoleController {
 
     async index(request: FastifyRequest, reply: FastifyReply) {
 
+   
         try {
 
             const roles = await this.RolesRepository.getAllRoleWithPermission();

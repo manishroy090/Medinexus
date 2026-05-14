@@ -19,6 +19,10 @@ import { ModulesRepository } from "../../Repositories/Modules.repositories.js";
 import { SubmodulesRepository } from "../../Repositories/Submodules.repositories.js";
 import { ModulesRepository as TenantModuleRep } from "../../Repositories/org/hoshpital/Modules.repositories.js";
 import { SubmodulesRepository as TenantSubModuleRep } from "../../Repositories/org/hoshpital/Submodules.repositories.js";
+import { Departmentrepositories } from "../../Repositories/org/hoshpital/Department.repositories.js";
+import { Countriesrepositories } from "../../Repositories/org/hoshpital/Countries.repositories.js";
+import { doctor_departments } from "../../data/org/hoshpital/doctordepartment.js";
+import { countries } from "../../data/superadmin/countries.js";
 
 
 export class AuthController {
@@ -36,6 +40,10 @@ export class AuthController {
   private subModuleRep:SubmodulesRepository;
   private tenantModuleRep:TenantModuleRep;
   private tenantsubmodulesRepository:TenantSubModuleRep
+  private departmentRepository:Departmentrepositories
+  private tenantCountriesRepository:Countriesrepositories
+  private departments:any;
+
 
   private Database: Database;
 
@@ -63,6 +71,9 @@ export class AuthController {
     this.subModuleRep = new SubmodulesRepository();
     this.tenantModuleRep = new TenantModuleRep();
     this.tenantsubmodulesRepository = new TenantSubModuleRep();
+    this.departmentRepository = new Departmentrepositories();
+    this.tenantCountriesRepository = new Countriesrepositories();
+    this.departments =  doctor_departments;
 
   }
 
@@ -171,6 +182,8 @@ export class AuthController {
       await this.tenantModuleRep.createHospitalModule(hoshpitalModule);
       await this.tenantsubmodulesRepository.createHospitalSubmodule(hoshpitalSubModuel);
       await this.OrgPermissionRep.createPermission(hoshpitalPermissions);
+      await this.departmentRepository.createDepartment(this.departments);
+      await this.tenantCountriesRepository.createCountry(countries);
       const token = request.server.jwt.sign({ email, role: "Hoshpital" });
       (await client).query("COMMIT")
       reply.setCookie("ACCESS_TOKEN", token, {
@@ -317,6 +330,16 @@ export class AuthController {
       user: decoded,
     };
 
+
+  }
+
+
+  async logout(request: any, reply: any){
+
+
+  reply.clearCookie("ACCESS_TOKEN");
+
+  return { success: true };
 
   }
 

@@ -97,7 +97,7 @@ fastify.register(PermissionRoutes,{prefix:'/api/v1/permissions'});
 
 
 //Hoshpital Routes
-fastify.register(HoshpitalRoutes, {prefix:'api/v1/hoshpital'})
+fastify.register(HoshpitalRoutes, {prefix:'api/v1/hospital'})
 
 
 //Blood Donation Routes

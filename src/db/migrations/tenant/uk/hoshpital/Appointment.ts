@@ -3,10 +3,13 @@ import Config from "../../../../../Constants/Config.js"
 export async function up(schemaName:String) {
     return `CREATE TABLE  ${schemaName}.${Config().TABLE_PREFIX}_appointment(
               patient_id SERIAL PRIMARY KEY,
-              doctor  VARCHAR(255),
-              appointment_date VARCHAR(255),
+              doctor_id  VARCHAR(255),
+              appointment_type VARCHAR(255),
+              accept_booking VARCHAR(255),
+              appointment_duration VARCHAR(255),
+              consulting_charge VARCHAR(255),
+              max_booking_perslot  VARCHAR(255),
               status BOOLEAN,
-              notes VARCHAR(255),
               created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
               updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
               deleted_at TIMESTAMP NULL

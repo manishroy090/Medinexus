@@ -21,6 +21,9 @@ export async function PermissionRoutes(fastify: FastifyInstance) {
 
     fastify.put('/update/:id',{preHandler:[Authentication,RequiredPermission("permission.update")] }, controller.update.bind(controller));
 
-    fastify.delete('/delete/:id',{preHandler:[Authentication,RequiredPermission("permission.delete")] }, controller.delete.bind(controller))
+    fastify.delete('/delete/:id',{preHandler:[Authentication,RequiredPermission("permission.delete")] }, controller.delete.bind(controller));
+    
+    fastify.get('/getallpermission/:id',{preHandler:[Authentication,RequiredPermission("permission.delete")]},controller.getPermissionRoleWise.bind(controller))
+
 
 }

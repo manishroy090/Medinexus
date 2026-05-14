@@ -18,7 +18,9 @@ export class Migrations {
             { name: "Modules" },
             { name: "Submodules"},
             { name: "Users" },
-            { name: "Users_permissions" }
+            { name: "Role_permission" },
+            { name: "Users_permissions" },
+            { name: "Countries" }
         ]
 
     }
@@ -55,14 +57,24 @@ export class Migrations {
 
             {
                 uk: [
+                    { name: "Roles" },
+                    { name: "Permissions" },
+                    { name: "Modules" },
+                    { name: "Submodules"},
+                    { name: "Users" },
+                    { name: "Role_permission" },
+                    { name: "Users_permissions" },
+                    { name: "Countries" },
+                    { name: "Department"},
                     { name: "Doctors" },
+                    { name: "DoctorSession"},
+                    { name: "DoctorWorkHistory"},
+                    { name: "DoctorEductionCertification"},
                     { name: "Patients" },
+                    { name: "VerificationCompliance"},
                     { name: "Admission" },
                     { name: "Appointment" },
-                    { name: "Bills" },
-                    { name: "DoctorDepartments" },
-                    { name: "MedicalRecords" },
-                    { name: "Medicines" },
+                    { name: "Bills" }
                 ]
             }
             ,

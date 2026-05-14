@@ -11,7 +11,17 @@ export async function up(schemaName:String) {
               notes VARCHAR(255),
               created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
               updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-              deleted_at TIMESTAMP NULL
+              deleted_at TIMESTAMP NULL,
+              CONSTRAINT fk_medicalrecords_patient 
+                 FOREIGN KEY (patient_id) 
+                 REFERENCES ${Config().TABLE_PREFIX}_patients((id)
+                 ON DELETE CASCADE
+                 ON UPDATE CASCADE
+              CONSTRAINT fk_medicalrecords_doctor 
+                  FOREIGN KEY (doctor_id) 
+                  REFERENCES ${Config().TABLE_PREFIX}_doctors((id)
+                  ON DELETE CASCADE
+                  ON UPDATE CASCADE
           )`
 
 

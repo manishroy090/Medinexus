@@ -107,6 +107,21 @@ export class PermissionController {
       reply.status(500).send({ 'server_error': error })
 
     }
+  }
+
+  async getPermissionRoleWise(request:any ,reply:any){
+
+        const { id } = request.params;
+        try {
+
+          const permission = await this.PemissionRepository.getPermissionsRoleWise(id);
+          reply.status(200).send({'permissions':permission,'message':"Permission Fetched successfully"})
+          
+        } catch (error) {
+
+          reply.status(500).send({'server_error':error})
+          
+        }
 
   }
 

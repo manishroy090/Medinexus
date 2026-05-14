@@ -21,4 +21,5 @@ export async function PermissionRoutes(fastify: FastifyInstance) {
 
     fastify.delete('/delete/:id', controller.delete.bind(controller))
 
+
 }

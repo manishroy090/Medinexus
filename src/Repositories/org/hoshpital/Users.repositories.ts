@@ -33,14 +33,14 @@ export class UsersRepositories{
     }
 
     async getTenantUser(){
-      const query =  `SELECT silveroakhospital.medinexus_users.name,
-        silveroakhospital.medinexus_roles.title,
-        silveroakhospital.medinexus_users.email ,
-        silveroakhospital.medinexus_users.is_active,
-        silveroakhospital.medinexus_users.email_verified_at
-        FROM silveroakhospital.medinexus_users
-        LEFT JOIN silveroakhospital.medinexus_roles
-        ON silveroakhospital.medinexus_users.role_id = silveroakhospital.medinexus_roles.id`
+      const query =  `SELECT medinexus_users.name,
+        medinexus_roles.title,
+        medinexus_users.email ,
+        medinexus_users.is_active,
+        medinexus_users.email_verified_at
+        FROM medinexus_users
+        LEFT JOIN medinexus_roles
+        ON medinexus_users.role_id = medinexus_roles.id`
 
         const {rows} = await this.user.pool.query(query);
 
