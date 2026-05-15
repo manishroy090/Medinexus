@@ -1,8 +1,8 @@
 
 import Config from "../../../../../Constants/Config.js"
 
-export async function up(schemaName:string) {
-    return `CREATE TABLE ${schemaName}.${Config().TABLE_PREFIX}_permissions(
+export async function up() {
+    return `CREATE TABLE ${Config().TABLE_PREFIX}_permissions(
               id SERIAL PRIMARY KEY,
               title VARCHAR(255),
               role_id BIGINT,

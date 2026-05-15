@@ -1,10 +1,11 @@
 import Config from "../../../../../Constants/Config.js"
 
-export async function up(schemaName:string) {
-    return `CREATE TABLE ${schemaName}.${Config().TABLE_PREFIX}_users(
+export async function up() {
+    return `CREATE TABLE ${Config().TABLE_PREFIX}_users(
               id SERIAL PRIMARY KEY,
               role_id BIGINT,
-              name VARCHAR(255),
+              firstname VARCHAR(255),
+              lastname VARCHAR(255),
               email VARCHAR(255),
               password  VARCHAR(255),
               is_active BOOLEAN,

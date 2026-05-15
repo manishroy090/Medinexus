@@ -16,11 +16,11 @@ export class Seeder {
         'CountrySeeder'
         ,'HoshpitalSeeder',
         'OrgStatusSeeder',
+        'ModuleSeeder',
+        'SubModuleSeeder',
         'PermissionSeeder',
         'User_Permission',
         'RoleSeeder',
-        'ModuleSeeder',
-        'SubModuleSeeder'
         
     ];
 
@@ -28,11 +28,11 @@ export class Seeder {
         CountrySeeder: CountrySeeder,
         HoshpitalSeeder: HoshpitalSeeder,
         OrgStatusSeeder: OrgStatusSeeder,
+        ModuleSeeder:ModuleSeeder,
+        RoleSeeder:RoleSeeder,
+        SubModuleSeeder:SubModuleSeeder,
         PermissionSeeder: PermissionSeeder,
         User_Permission:User_Permission,
-        RoleSeeder:RoleSeeder,
-        ModuleSeeder:ModuleSeeder,
-        SubModuleSeeder:SubModuleSeeder
 
     };
 

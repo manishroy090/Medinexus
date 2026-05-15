@@ -3,9 +3,11 @@ import Config from "../../../../../Constants/Config.js"
 export async function up() {
 
 
-    return `CREATE TABLE  ${Config().TABLE_PREFIX}_departments(
+    return `CREATE TABLE  ${Config().TABLE_PREFIX}_bloodgroups(
               id SERIAL PRIMARY KEY,
-              title  VARCHAR(255), 
+              title  VARCHAR(255),
+              rh_factor VARCHAR(255),
+              abo_type VARCHAR(255),
               is_active BOOLEAN,
               created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
               updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
@@ -18,5 +20,5 @@ export async function up() {
 
 
 export async function down() {
-      return `DROP TABLE ${Config().TABLE_PREFIX}_hoshpital`
+      return `DROP TABLE ${Config().TABLE_PREFIX}_bloodgroup`
 }

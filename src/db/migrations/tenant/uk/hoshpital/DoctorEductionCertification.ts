@@ -1,8 +1,8 @@
 import Config from "../../../../../Constants/Config.js"
 
-export async function up(schemaName: string) {
+export async function up() {
 
-    return `CREATE TABLE ${schemaName}.${Config().TABLE_PREFIX}_doctor_education_certification(
+    return `CREATE TABLE ${Config().TABLE_PREFIX}_doctor_education_certifications(
               id SERIAL PRIMARY KEY,
               medical_degree VARCHAR(255),
               doctor_id BIGINT,
@@ -15,12 +15,12 @@ export async function up(schemaName: string) {
               deleted_at TIMESTAMP NULL,
               CONSTRAINT fk_doctor_education_doctor
                  FOREIGN KEY (doctor_id)
-                 REFERENCES ${schemaName}.${Config().TABLE_PREFIX}_doctors(id)
+                 REFERENCES ${Config().TABLE_PREFIX}_doctors(id)
                  ON DELETE CASCADE
                  ON UPDATE CASCADE
           )`
 }
 
-export async function down(schemaName: string) {
-    return `DROP TABLE ${schemaName}.${Config().TABLE_PREFIX}_doctor_education_certification`
+export async function down() {
+    return `DROP TABLE ${Config().TABLE_PREFIX}_doctor_education_certification`
 }

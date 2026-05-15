@@ -1,7 +1,7 @@
 
 import Config from "../../../../../Constants/Config.js"
-export async function up(schemaName:String) {
-    return `CREATE TABLE  ${schemaName}.${Config().TABLE_PREFIX}_appointment(
+export async function up() {
+    return `CREATE TABLE  ${Config().TABLE_PREFIX}_appointment(
               patient_id SERIAL PRIMARY KEY,
               doctor_id  VARCHAR(255),
               appointment_type VARCHAR(255),

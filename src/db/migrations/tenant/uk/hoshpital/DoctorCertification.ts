@@ -2,19 +2,17 @@ import Config from "../../../../../Constants/Config.js"
 
 export async function up() {
 
-    return `CREATE TABLE ${Config().TABLE_PREFIX}_doctor_sessions(
+    return `CREATE TABLE ${Config().TABLE_PREFIX}_doctor_certifications(
               id SERIAL PRIMARY KEY,
-              day_name VARCHAR(255),
+              title VARCHAR(255),
               doctor_id BIGINT,
-              start_time VARCHAR(255),
-              no_patient BIGINT,
-              end_time VARCHAR(255),
+              certification_from VARCHAR(255),
               status BOOLEAN,
               created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
               updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
               deleted_at TIMESTAMP NULL,
-              CONSTRAINT fk_doctor_session_doctor 
-                 FOREIGN KEY (doctor_id) 
+              CONSTRAINT fk_doctor_education_doctor
+                 FOREIGN KEY (doctor_id)
                  REFERENCES ${Config().TABLE_PREFIX}_doctors(id)
                  ON DELETE CASCADE
                  ON UPDATE CASCADE
@@ -22,5 +20,5 @@ export async function up() {
 }
 
 export async function down() {
-    return `DROP TABLE ${Config().TABLE_PREFIX}_doctor_session`
+    return `DROP TABLE ${Config().TABLE_PREFIX}_doctor_education_certification`
 }

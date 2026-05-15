@@ -43,78 +43,44 @@ export abstract class Model {
     }
 
     async create(item: any) {
-        let keys: any = null;
-        keys = Object.keys(item);
         let query = '';
-        let values: any = undefined;
 
-        values = Object.values(item)
-            .map(val => typeof val === 'string' || val === null ? `'${val}'` : val)
-            .join(', ');
+        // Safely escape a single value for SQL
+        const escape = (val: any): string => {
+            if (val === null || val === undefined) return 'NULL';
+            if (typeof val === 'boolean') return val.toString();
+            if (typeof val === 'number') return val.toString();
+            if (val instanceof Date) {
+                return `'${val.toISOString().replace('T', ' ').slice(0, 19)}'`;
+            }
+            // Everything else (strings, postal codes, etc.) → quoted, escape internal single quotes
+            return `'${String(val).replace(/'/g, "''")}'`;
+        };
 
-        if (item.length > 0) {
+        const isArray = Array.isArray(item);
 
-            const items = item;
-            keys = Object.keys(item[0]);
-            values = [];
-            items.map((item: any) => {
-                const value = Object.values(item)
-                    .map(val => {
-                        // Handle null/undefined → NULL
-                        if (val === null || val === undefined) {
-                            return 'NULL';
-                        }
-
-                        // Handle Date object
-                        if (val instanceof Date) {
-                            const formatted = val.toISOString().replace("T", " ").slice(0, 19);
-                            return `'${formatted}'`;
-                        }
-
-                        //  Handle timestamp string
-                        if (typeof val === 'string' && !isNaN(Date.parse(val))) {
-
-                            // const formatted = new Date(val).toISOString().replace("T", " ").slice(0, 19);
-                            // return `'${formatted}'`;
-
-                            return val;
-                        }
-
-                        if (typeof val === 'boolean') return val;
-                        if (typeof val === 'number') return val;
-
-                        return `'${val}'`;
-                    })
-                    .join(', ');
-
-                values.push(`(${value})`);
+        if (isArray && item.length > 0) {
+            const keys = Object.keys(item[0]);
+            const values = item.map((row: any) => {
+                const rowValues = Object.values(row).map(escape).join(', ');
+                return `(${rowValues})`;
             });
-
-
-
-            query = `INSERT INTO ${this.tableName} (${keys.join(', ')}) VALUES ${values} RETURNING *`;
-
-         
-        }
-
-        else {
+            query = `INSERT INTO ${this.tableName} (${keys.join(', ')}) VALUES ${values.join(', ')} RETURNING *`;
+        } else if (!isArray) {
+            const keys = Object.keys(item);
+            const values = Object.values(item).map(escape).join(', ');
             query = `INSERT INTO ${this.tableName} (${keys.join(', ')}) VALUES (${values}) RETURNING *`;
+        } else {
+            throw new Error('create() called with an empty array');
         }
+
         try {
-
-
-            console.log("query",query);
-
+            console.log('query', query);
             const result = await pool.query(query);
-            return result.rows[0]
-
+            return isArray ? result.rows : result.rows[0];
         } catch (error) {
-
             console.log('database_error', error);
-
         }
-
-
     }
 
 
@@ -219,7 +185,7 @@ export abstract class Model {
         return rows;
     }
 
-     async get() {
+    async get() {
         let query = `SELECT * FROM ${this.tableName}`;
 
         if (this.conditions.length) {

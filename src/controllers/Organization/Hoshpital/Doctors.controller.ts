@@ -2,12 +2,21 @@ import { type FastifyRequest, type FastifyReply } from "fastify";
 import { isatty } from "node:tty";
 import { UsersRepositories } from "../../../Repositories/org/hoshpital/Users.repositories.js";
 import { Doctorrepositories } from "../../../Repositories/org/hoshpital/Doctor.repositories.js";
+import { DoctorSessionrepositories } from "../../../Repositories/org/hoshpital/DoctorSession.repositories.js";
+import { DoctorEductionCertification } from "../../../Repositories/org/hoshpital/DoctorEductionCertification.repositories.js";
+import { Awardrepositories } from "../../../Repositories/org/hoshpital/Award.repositories.js";
+import { Certificationrepositories } from "../../../Repositories/org/hoshpital/Certification.repositories.js";
+
 import Config from '../../../Constants/Config.js';
 
 export class DoctorsController {
 
     private UsersRepositories: UsersRepositories;
     private DoctorRepositories: Doctorrepositories;
+    private DoctorSessionRep:DoctorSessionrepositories;
+    private doctorEducationCertificatinRep:DoctorEductionCertification;
+    private awardrepositories:Awardrepositories;
+    private certificationrepositories:Certificationrepositories;
 
 
 
@@ -15,6 +24,10 @@ export class DoctorsController {
 
         this.UsersRepositories = UsersRepositories;
         this.DoctorRepositories = Doctorrepositories;
+        this.DoctorSessionRep = new DoctorSessionrepositories();
+        this.doctorEducationCertificatinRep = new DoctorEductionCertification();
+        this.awardrepositories = new Awardrepositories();
+        this.certificationrepositories = new Certificationrepositories();
 
     }
 
@@ -49,8 +62,9 @@ export class DoctorsController {
 
         const { body } = request;
 
+     
+
         const {
-            user_id,
             phonenumber,
             email,
             dob,
@@ -69,7 +83,10 @@ export class DoctorsController {
             city,
             state,
             pin_code,
-            is_active,
+            sessions,
+            educations,
+            awards,
+            certifications,
             firstname,
             lastname
         } = body;
@@ -84,10 +101,9 @@ export class DoctorsController {
              const userDetails = {
             role_id: 2,
             "email": email,
-            name: "",
             password:await request.server.bcrypt.hash(await this.generateRandomPassword()),
-            // "firstname":firstname,
-            // "lastname":lastname
+            "firstname":firstname,
+            "lastname":lastname
             }
 
             const createdUser = await this.UsersRepositories.createHoshpitalUser(userDetails);
@@ -106,57 +122,31 @@ export class DoctorsController {
                 "gender":gender,
                 "bio":bio,
                 "feature_on_website":'null',
-                "address":'null',
-                "address_2":'null',
-                "country_id":1,
-                "city":'null',
-                "state":'null',
-                "pin_code":'null',
+                "address":address,
+                "address_2":address_2,
+                "country_id":country_id,
+                "city":city,
+                "state":state,
+                "pin_code":pin_code,
             }
 
 
-         
-
-
-
-
-
-
-             const createdDoctor = this.DoctorRepositories.createDoctor(doctor);
-
-             console.log("createdDoctor",createdDoctor)
-
-
+           const createdDoctor = await this.DoctorRepositories.createDoctor(doctor);
+           const doctorSession = sessions.map((session: any) => ({doctor_id:createdDoctor?.id,no_patient: session.patients,start_time: session.start_time,end_time: session.end_time,day_name: session.day}));
+           const doctortSesseion = await this.DoctorSessionRep.createDoctorSession(doctorSession);
+           const doctorEductaion = educations.map((eduation:any)=>({medical_degree:eduation.degree,doctor_id:createdDoctor.id,university_collage_name:eduation.university,from_year:eduation.from ,end_year:eduation.to}));
+           const doctorEducations = await this.doctorEducationCertificatinRep.createDoctorEducationCertification(doctorEductaion);
+           const doctorAwards = awards.map((item:any)=>({"title":item?.name,"doctor_id":createdDoctor?.id,"award_from":item?.from}));
+           await this.awardrepositories.createAward(doctorAwards);
+           const doctorCertification = certifications.map((item:any)=>({"title":item.name, doctor_id:createdDoctor.id,certification_from:createdDoctor.from}));
+           this.certificationrepositories.createCertification(doctorCertification);
+           reply.status(201).send({"message":"Doctor Onboarded successfully",doctordetails:body})
 
         } catch (error) {
 
-            console.log("error", error);
+           reply.status(500).send({"message":"Something went wrong"})
 
         }
-
-      
-
-
-   
-
-        // const doctor = {
-        //     user_id: createdUser.id,
-        //     first_name,
-        //     last_name,
-        //     specialization,
-        //     phone,
-        //     email,
-        //     sub_specialization,
-        //     consultation_fee,
-        //     medical_license_number
-        // };
-
-
-
-        // reply.status(201).send({
-        //     message: "Doctor is created",
-        //     createdDoctor: createdDoctor,
-        // });
 
     }
 

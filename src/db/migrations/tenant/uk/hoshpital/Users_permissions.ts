@@ -1,7 +1,7 @@
 import Config from "../../../../../Constants/Config.js"
 
-export async function up(schemaName:string) {
-    return `CREATE TABLE ${schemaName}.${Config().TABLE_PREFIX}_users_permissions(
+export async function up() {
+    return `CREATE TABLE ${Config().TABLE_PREFIX}_users_permissions(
         id SERIAL PRIMARY KEY,
         user_id BIGINT NOT NULL,
         permission_id BIGINT NOT NULL,
@@ -12,13 +12,13 @@ export async function up(schemaName:string) {
 
         CONSTRAINT fk_userpermission_user_id 
             FOREIGN KEY (user_id) 
-            REFERENCES ${schemaName}.${Config().TABLE_PREFIX}_users(id)
+            REFERENCES ${Config().TABLE_PREFIX}_users(id)
             ON DELETE CASCADE
             ON UPDATE CASCADE,
 
         CONSTRAINT fk_userpermission_permission_id 
             FOREIGN KEY (permission_id) 
-            REFERENCES ${schemaName}.${Config().TABLE_PREFIX}_permissions(id)
+            REFERENCES ${Config().TABLE_PREFIX}_permissions(id)
             ON DELETE CASCADE
             ON UPDATE CASCADE
     )`

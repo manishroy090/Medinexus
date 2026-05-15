@@ -23,6 +23,8 @@ import { Departmentrepositories } from "../../Repositories/org/hoshpital/Departm
 import { Countriesrepositories } from "../../Repositories/org/hoshpital/Countries.repositories.js";
 import { doctor_departments } from "../../data/org/hoshpital/doctordepartment.js";
 import { countries } from "../../data/superadmin/countries.js";
+import { Bloodgrouprepositories } from "../../Repositories/org/hoshpital/Bloodgroup.repositories.js";
+import { bloodGroup } from "../../data/org/hoshpital/bloodGroup.js";
 
 
 export class AuthController {
@@ -43,6 +45,7 @@ export class AuthController {
   private departmentRepository:Departmentrepositories
   private tenantCountriesRepository:Countriesrepositories
   private departments:any;
+  private bloodgroupRep:Bloodgrouprepositories
 
 
   private Database: Database;
@@ -73,6 +76,7 @@ export class AuthController {
     this.tenantsubmodulesRepository = new TenantSubModuleRep();
     this.departmentRepository = new Departmentrepositories();
     this.tenantCountriesRepository = new Countriesrepositories();
+    this.bloodgroupRep = new Bloodgrouprepositories();
     this.departments =  doctor_departments;
 
   }
@@ -184,6 +188,7 @@ export class AuthController {
       await this.OrgPermissionRep.createPermission(hoshpitalPermissions);
       await this.departmentRepository.createDepartment(this.departments);
       await this.tenantCountriesRepository.createCountry(countries);
+      await this.bloodgroupRep.createBloodGroup(bloodGroup);
       const token = request.server.jwt.sign({ email, role: "Hoshpital" });
       (await client).query("COMMIT")
       reply.setCookie("ACCESS_TOKEN", token, {

@@ -115,7 +115,7 @@ export class Database {
     async migrateTenantDBOrgSchema(countryName: string, orgName: string) {
         let schemaName = "uk"
 
-        const pool = this.getTenantPool(countryName, orgName);
+        const pool = await this.getTenantPool(countryName, orgName);
 
         const tenantMigrations = await this.migrations.getHoshpitalMigrations();
         const commonMigration = await this.migrations.commanMigration();
@@ -154,7 +154,7 @@ export class Database {
             if (typeof module.up === 'function') {
 
                 try {
-                    const query = await module.up(orgName);
+                    const query = await module.up();
                     await pool.query(query);
 
                     console.log(`${file.name} success`);

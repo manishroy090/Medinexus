@@ -1,8 +1,8 @@
 
 
 import Config from "../../../../../Constants/Config.js"
-export async function up(schemaName:string) {
-    return `CREATE TABLE   ${schemaName}.${Config().TABLE_PREFIX}_submodules(
+export async function up() {
+    return `CREATE TABLE   ${Config().TABLE_PREFIX}_submodules(
               id SERIAL PRIMARY KEY,
               module_id  BIGINT, 
               title VARCHAR(255) UNIQUE, 
@@ -11,7 +11,7 @@ export async function up(schemaName:string) {
               created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
               updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
               deleted_at TIMESTAMP NULL,
-              CONSTRAINT fk_submodules_modules FOREIGN KEY (module_id) REFERENCES ${schemaName}.${Config().TABLE_PREFIX}_modules(id)
+              CONSTRAINT fk_submodules_modules FOREIGN KEY (module_id) REFERENCES ${Config().TABLE_PREFIX}_modules(id)
           )`
 
 

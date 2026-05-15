@@ -17,7 +17,8 @@ export class Departmentrepositories{
     }
 
     async createDepartment(department:any){
-        return this.department.create(department);
+        const result =  this.department.create(department);
+        console.log('departmentrep' ,result);
     }
 
     async getDepartment(id:string){

@@ -7,9 +7,9 @@ export const Permissions = [
 
     {
         'title': "country.index",
-        'role_id': "1",
-        'module_id': "1",
-        'sub_module_id': "1",
+        'role_id': 1,
+        'module_id': 1,
+        'sub_module_id': 1,
         'is_active': true,
         'created_at': new Date(),
         'updated_at': new Date(),
@@ -17,9 +17,9 @@ export const Permissions = [
     },
     {
         'title': "country.create",
-        'role_id': "1",
-        'module_id': "1",
-        'sub_module_id': "1",
+        'role_id': 1,
+        'module_id': 1,
+        'sub_module_id': 1,
         'is_active': true,
         'created_at': new Date(),
         'updated_at': new Date(),
@@ -27,9 +27,9 @@ export const Permissions = [
     },
     {
         'title': "country.edit",
-        'role_id': "1",
-        'module_id': "1",
-        'sub_module_id': "1",
+        'role_id': 1,
+        'module_id': 1,
+        'sub_module_id': 1,
         'is_active': true,
         'created_at': new Date(),
         'updated_at': new Date(),
@@ -37,9 +37,9 @@ export const Permissions = [
     },
     {
         'title': "country.update",
-        'role_id': "1",
-        'module_id': "1",
-        'sub_module_id': "1",
+        'role_id': 1,
+        'module_id': 1,
+        'sub_module_id':1,
         'is_active': true,
         'created_at': new Date(),
         'updated_at': new Date(),
@@ -47,9 +47,9 @@ export const Permissions = [
     },
     {
         'title': "country.delete",
-        'role_id': "1",
-        'module_id': "1",
-        'sub_module_id': "1",
+        'role_id':1,
+        'module_id':1,
+        'sub_module_id':1,
         'is_active': true,
         'created_at': new Date(),
         'updated_at': new Date(),
@@ -64,9 +64,9 @@ export const Permissions = [
     // user module permission
     {
         'title': "user.index",
-        'role_id': "1",
-        'module_id': "2",
-        'sub_module_id': "4",
+        'role_id':1,
+        'module_id':2,
+        'sub_module_id':4,
         'is_active': true,
         'created_at': new Date(),
         'updated_at': new Date(),
@@ -77,9 +77,9 @@ export const Permissions = [
 
     {
         'title': "user.create",
-        'role_id': "1",
-        'module_id': "2",
-        'sub_module_id': "4",
+        'role_id':1,
+        'module_id':2,
+        'sub_module_id':4,
         'is_active': true,
         'created_at': new Date(),
         'updated_at': new Date(),
@@ -88,9 +88,9 @@ export const Permissions = [
 
     {
         'title': "user.edit",
-        'role_id': "1",
-        'module_id': "2",
-        'sub_module_id': "4",
+        'role_id':1,
+        'module_id':2,
+        'sub_module_id':4,
         'is_active': true,
         'created_at': new Date(),
         'updated_at': new Date(),
@@ -99,9 +99,9 @@ export const Permissions = [
 
     {
         'title': "user.update",
-        'role_id': "1",
-        'module_id': "2",
-        'sub_module_id': "4",
+        'role_id':1,
+        'module_id':2,
+        'sub_module_id':4,
         'is_active': true,
         'created_at': new Date(),
         'updated_at': new Date(),
@@ -111,9 +111,9 @@ export const Permissions = [
 
     {
         'title': "user.delete",
-        'role_id': "1",
-        'module_id': "2",
-        'sub_module_id': "4",
+        'role_id':1,
+        'module_id':2,
+        'sub_module_id':4,
         'is_active': true,
         'created_at': new Date(),
         'updated_at': new Date(),
