@@ -3,18 +3,21 @@ import { send } from "node:process";
 import { Countriesrepositories } from "../../../Repositories/org/hoshpital/Countries.repositories.js";
 import { Departmentrepositories } from "../../../Repositories/org/hoshpital/Department.repositories.js";
 import { Bloodgrouprepositories } from "../../../Repositories/org/hoshpital/Bloodgroup.repositories.js";
+import { PatientStatusrepositories } from "../../../Repositories/org/hoshpital/PatientStatus.repositories.js";
 
 export class ConfigController {
 
 
     private  Countriesrepositories:Countriesrepositories;
     private departmentrepositories:Departmentrepositories;
-    private bloodGrouprepositories:Bloodgrouprepositories
+    private bloodGrouprepositories:Bloodgrouprepositories;
+    private patientStatusRep:PatientStatusrepositories;
 
     constructor(){
         this.Countriesrepositories = new Countriesrepositories();
         this.departmentrepositories = new Departmentrepositories();
         this.bloodGrouprepositories = new Bloodgrouprepositories();
+        this.patientStatusRep = new PatientStatusrepositories();
     }
 
 
@@ -58,6 +61,23 @@ export class ConfigController {
             console.log("error",error);
             
         }
+
+    }
+
+
+    async getAllPatientStatus (request:any , reply:any){
+
+        try {
+           const patientstatus = await this.patientStatusRep.getAllPatientStatus();
+
+           reply.status(200).send({"patientStatus":patientstatus})
+            
+        } catch (error) {
+
+            console.log("error",error)
+            
+        }
+
 
     }
 

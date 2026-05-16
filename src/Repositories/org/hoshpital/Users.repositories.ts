@@ -33,7 +33,8 @@ export class UsersRepositories{
     }
 
     async getTenantUser(){
-      const query =  `SELECT medinexus_users.name,
+      const query =  `SELECT medinexus_users.firstname,
+        medinexus_users.lastname,
         medinexus_roles.title,
         medinexus_users.email ,
         medinexus_users.is_active,

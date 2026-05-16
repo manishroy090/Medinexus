@@ -12,9 +12,6 @@ export async function ConfigRoutes(fastify: FastifyInstance) {
     fastify.get('/getallcountries',{preHandler:[Authentication]},controller.getAllCountry.bind(controller));
     fastify.get('/getalldepartments',{preHandler:[Authentication]}, controller.getAllHoshpitalDepartment.bind(controller));
     fastify.get('/getallbloodgroup',{preHandler:[Authentication]}, controller.getAllBloodGroup.bind(controller));
-
-
-
-
+    fastify.get('/patientstatus',{preHandler:[Authentication]}, controller.getAllPatientStatus.bind(controller));
 
 }

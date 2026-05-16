@@ -24,9 +24,18 @@ export class AuthController {
   async index(request:any , reply:any){
 
 
-    console.log("auth user called");
-    const users = await  this.UsersRepositories.getTenantUser();
-     reply.status(200).send({"users":users})
+    
+    try {
+
+      const users = await  this.UsersRepositories.getTenantUser();
+      
+      reply.status(200).send({"users":users})
+    } catch (error) {
+
+      reply.status(500).send({"errors":error})
+
+      
+    }
 
   }
 

@@ -1,7 +1,7 @@
 import { type FastifyInstance } from "fastify";
 import { request } from "https";
-
 import { PatientController } from "../../../controllers/Organization/Hoshpital/Patient.controller.js";
+import { Authentication } from "../../../middleware/Authentication.middleware.js";
 
 
 export async function PatientRoutes(fastify: FastifyInstance) {
@@ -10,7 +10,7 @@ export async function PatientRoutes(fastify: FastifyInstance) {
 
     fastify.get('/', controller.index.bind(controller))
 
-    fastify.post('/create',controller.create.bind(controller));
+    fastify.post('/create',{preHandler:[Authentication]},controller.create.bind(controller));
 
     fastify.get('/edit/:id', controller.edit.bind(controller));
 

@@ -43,7 +43,7 @@ export class DoctorsController {
                 doctors: doctors
             })
 
-        } catch (error) {
+        } catch (error) {   
 
             reply.status(500).send({
                 message: "Something went wrong"

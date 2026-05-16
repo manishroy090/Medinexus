@@ -26,10 +26,12 @@ export abstract class Model {
     constructor() {
 
         
-   
 
         if (this.constructor.name == "Country") {
             this.tableName = `${this.tablePrefix}_${"countr".toLowerCase()}ies`;
+        }
+        else if (this.constructor.name == "Patient_Status"){
+            this.tableName = `${this.tablePrefix}_${"patient_status".toLowerCase()}es`
         }
         else {
             this.tableName = `${this.tablePrefix}_${this.constructor.name.toLowerCase()}s`;
@@ -41,6 +43,7 @@ export abstract class Model {
 
     async all() {
         const { rows } = await this.pool.query(`SELECT * FROM ${this.tableName}`);
+
         return rows;
 
     }

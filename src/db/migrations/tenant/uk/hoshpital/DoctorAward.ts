@@ -11,7 +11,7 @@ export async function up() {
               created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
               updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
               deleted_at TIMESTAMP NULL,
-              CONSTRAINT fk_doctor_education_doctor
+              CONSTRAINT fk_doctor_awards_doctor
                  FOREIGN KEY (doctor_id)
                  REFERENCES ${Config().TABLE_PREFIX}_doctors(id)
                  ON DELETE CASCADE
@@ -20,5 +20,5 @@ export async function up() {
 }
 
 export async function down() {
-    return `DROP TABLE ${Config().TABLE_PREFIX}_doctor_education_certification`
+    return `DROP TABLE ${Config().TABLE_PREFIX}_doctor_awards`
 }

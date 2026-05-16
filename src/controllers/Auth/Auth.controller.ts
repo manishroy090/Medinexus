@@ -25,6 +25,11 @@ import { doctor_departments } from "../../data/org/hoshpital/doctordepartment.js
 import { countries } from "../../data/superadmin/countries.js";
 import { Bloodgrouprepositories } from "../../Repositories/org/hoshpital/Bloodgroup.repositories.js";
 import { bloodGroup } from "../../data/org/hoshpital/bloodGroup.js";
+import { PatientStatusrepositories } from "../../Repositories/org/hoshpital/PatientStatus.repositories.js";
+import { AvailableTestrepositories } from "../../Repositories/org/hoshpital/AvailableTest.repositories.js";
+import {availableTests} from "../../data/org/hoshpital/AvailableTests.js"
+import {patientStatuses} from "../../data/org/hoshpital/patientStatuses.js";
+import { hospital_roles } from "../../data/org/hoshpital/roles.js";
 
 
 export class AuthController {
@@ -46,6 +51,8 @@ export class AuthController {
   private tenantCountriesRepository:Countriesrepositories
   private departments:any;
   private bloodgroupRep:Bloodgrouprepositories
+  private patientstatusRep:PatientStatusrepositories
+  private availabletestRep:AvailableTestrepositories
 
 
   private Database: Database;
@@ -77,6 +84,8 @@ export class AuthController {
     this.departmentRepository = new Departmentrepositories();
     this.tenantCountriesRepository = new Countriesrepositories();
     this.bloodgroupRep = new Bloodgrouprepositories();
+    this.patientstatusRep = new PatientStatusrepositories();
+    this.availabletestRep = new AvailableTestrepositories();
     this.departments =  doctor_departments;
 
   }
@@ -189,6 +198,9 @@ export class AuthController {
       await this.departmentRepository.createDepartment(this.departments);
       await this.tenantCountriesRepository.createCountry(countries);
       await this.bloodgroupRep.createBloodGroup(bloodGroup);
+      await this.patientstatusRep.createPatientStatus(patientStatuses);
+      await this.availabletestRep.createAvailableTest(availableTests);
+      await this.tenantRoleRepository.createRole(hospital_roles);
       const token = request.server.jwt.sign({ email, role: "Hoshpital" });
       (await client).query("COMMIT")
       reply.setCookie("ACCESS_TOKEN", token, {
